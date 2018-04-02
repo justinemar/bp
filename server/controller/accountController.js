@@ -1,0 +1,67 @@
+const Account = require("../models/Account");
+const accountWares = require("../middlewares/accountWares");
+var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+
+module.exports = {
+    
+    register: (req, res) => {
+        const member = new Account({
+            user_email: req.body.email,
+            password: req.body.password,
+            registration: Date.now(),
+        })
+        member.save(function(err, data) {
+            if(err) {
+                console.log(err)
+                res.status(500).json({message: 'Internal Server Error', type: 'error'})
+            };
+            
+            if(data){
+                res.json({
+                    message: 'Account successfully created.',
+                    type: 'success'
+                })
+            } 
+        })
+
+    },
+    
+    login: (req, res) => {
+        Account.findOne({user_email: req.body.email}, function(err, user){
+            if(err) throw err;
+            
+            if(user){
+                var payload = {
+                    email: user.user_email,
+                }
+                user.comparePassword(req.body.password, function(err, match) {
+                    if(err) throw err;
+                    
+                    if(match){
+                        var token = jwt.sign(payload, process.env.KEY1, {
+                          expiresIn: 1440 // expires in 24 hours
+                        });
+                        
+                        res.json({
+                            message: 'Login successfully',
+                            type: 'success',
+                            token: token
+                        })
+                    } else {
+                        res.json({
+                            message: 'Invalid email or password',
+                            type: 'error'
+                        })
+                    }
+                })
+            
+            } else {
+                res.json({
+                    message: "We can't find an account associated with this email",
+                    type: 'error'
+                })
+            }
+        })
+    }
+    
+}

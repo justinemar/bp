@@ -1,0 +1,102 @@
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+html, body, #app, #app>div {
+  height: 100%
+}
+
+form > h2{
+    color: #828282;
+    font-family: sans-serif;
+    font-weight: 100;
+    text-decoration: underline;
+    font-size: 12px;
+    cursor: pointer;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.root-wrapper{
+    height: 100%;
+    background: #3F95FF;
+    color: #ffffff;
+}
+
+.root-text-wrapper{
+    max-width: 300px;
+}
+
+.root-text-wrapper h1{
+    font-size: 45px;
+}
+
+.root-content-container{
+    position: absolute;
+    margin-top: 85px;
+    width: 100%;
+}
+
+.root-main-content{
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    width: 100%;
+    padding: 10px;
+}
+
+.root-form-header{
+    color: #828282;
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.root-form-header h2{
+    color: #656565;
+    font-family: 'Segoe UI';
+    text-align: center;
+    margin: 10px;
+    padding: 20px;
+}
+
+
+.root-form-wrapper{
+    max-width: 330px;
+    width: 100%;
+    background: #F9F9F9;
+}
+
+.root-form-actions{
+    width: 100%;
+}
+
+.root-form-inputs {
+    padding: 16px;
+}
+.root-form-actions input{
+    outline: 0;
+    width: 100%;
+    padding: 10px;
+    border: 0px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    border-top: 1px solid rgba(128, 128, 128, 0.12);
+}
+.root-form-wrapper form{
+    padding: 5px;
+    box-shadow: -1px 3px 10px 0px rgba(0, 0, 0, 0.37);
+}
+.root-form-wrapper button{
+    width: 100%;
+    border: 0;
+    padding: 10px;
+    background: #3f95ff;
+    color: #ffffff;
+    font-size: 18px;
+}
+
+

@@ -1,0 +1,60 @@
+* {
+    padding: 0;
+    margin:0;
+}
+
+
+h1{
+    font-family: 'Segoe UI';
+}
+
+.header-wrapper{
+    background: #293740;
+    max-width: 100%;
+    width: 100%;
+    max-height: 300px;
+    height: 300px;
+    position: absolute;
+}
+.header-wrapper h1{
+    text-align: center;
+    color: #ffffff;
+    font-family: monospace;
+    height: 50px;
+    margin: 70px;
+}
+
+.clear-both{
+    clear: both;
+}
+
+.right{
+    float: right;
+}
+
+.left{
+    float: left;
+    margin-bottom: 30px;
+}
+
+.error{
+    background: red;
+    width: 100%;
+    padding: 5px;
+    display: block;
+    text-shadow: 1px 1px 4px black;
+    font-family: 'Segoe UI';
+}
+
+.success{
+    background: #58c13f;
+    width: 100%;
+    padding: 5px;
+    display: block;
+    text-shadow: 1px 1px 4px black;
+    font-family: 'Segoe UI';
+}
+
+.input-error{
+    box-shadow: 0px 1px 1px 0px red;
+}
