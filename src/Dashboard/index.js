@@ -4,7 +4,7 @@ import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
-// const Auth = new AuthService();
+const Auth = new AuthService();
 // const socket = openSocket('/');
 
 
