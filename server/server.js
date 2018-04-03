@@ -41,5 +41,20 @@ server.use(function(err, req, res, next) {
   res.send(err.message || "We think you're lost.." );
 });
 
-server.listen(process.env.PORT || 8080);
 
+var io = require('socket.io').listen(server.listen(process.env.PORT || 8080));
+
+
+
+io.on('connection', (socket) => {
+  console.log('A new user is connected');
+  
+  socket.on('page_load', () => {
+    console.log('a page is loaded');
+  })
+})
+
+
+io.on("disconnect",function(socket){
+
+});

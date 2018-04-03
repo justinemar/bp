@@ -1,6 +1,6 @@
-const Account = require("../models/Account");
-const accountWares = require("../middlewares/accountWares");
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const Account       = require("../models/Account");
+const accountWares  = require("../middlewares/accountWares");
+const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 module.exports = {
     
