@@ -4,8 +4,8 @@ import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
-const Auth = new AuthService();
-const socket = openSocket('/');
+// const Auth = new AuthService();
+// const socket = openSocket('/');
 
 
 class DashBoard extends React.Component{
@@ -53,7 +53,7 @@ class DashBoard extends React.Component{
     }
     
     componentDidMount(){
-        socket.emit('page_load');    
+        // socket.emit('page_load');    
     }
     
     render(){

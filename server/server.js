@@ -42,19 +42,20 @@ server.use(function(err, req, res, next) {
 });
 
 
-var io = require('socket.io').listen(server.listen(process.env.PORT || 8080));
+// var io = require('socket.io').listen(
+server.listen(process.env.PORT || 8080);
 
 
 
-io.on('connection', (socket) => {
-  console.log('A new user is connected');
+// io.on('connection', (socket) => {
+//   console.log('A new user is connected');
   
-  socket.on('page_load', () => {
-    console.log('a page is loaded');
-  })
-})
+//   socket.on('page_load', () => {
+//     console.log('a page is loaded');
+//   })
+// })
 
 
-io.on("disconnect",function(socket){
+// io.on("disconnect",function(socket){
 
-});
+// });
