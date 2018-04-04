@@ -12,13 +12,8 @@ cloudinary.config({
 });
 
 
-
 module.exports = {
-    root: function(req, res) {
-        res.render('index.html')
-    },
-
-    newPost: function(req, res) {
+    new: function(req, res) {
         const uri = new DataUri();
         uri.format('.png', req.file.buffer)
         cloudinary.uploader.upload(uri.content, function(result) {
