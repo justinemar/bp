@@ -5,7 +5,7 @@ const account = require("../controller/accountController");
 const comment = require("../controller/commentController");
 const post = require("../controller/postController");
 const accountWares = require("../middlewares/accountWares");
-
+const verifyToken = require("../middlewares/verifyWare");
 
 
 router.get('/', root.index);
@@ -16,6 +16,6 @@ router.post('/login', account.login);
 
 router.post('/post', post.new);
 
-router.post('/comment', comment.new);
+router.post('/comment', verifyToken, comment.new);
 
 module.exports = router;

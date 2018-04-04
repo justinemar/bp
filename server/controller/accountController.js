@@ -1,6 +1,7 @@
 const Account       = require("../models/Account");
 const accountWares  = require("../middlewares/accountWares");
 const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
+require('dotenv').config()
 
 module.exports = {
     

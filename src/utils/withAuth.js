@@ -9,7 +9,7 @@ import AuthService from './authService';
 
 export default function withAuth(AuthComponent) {
 
-    const Auth = new AuthService('http://localhost:8080');
+    const Auth = new AuthService();
     return class AuthWrapped extends Component {
         constructor() {
             super();

@@ -15,6 +15,7 @@ class DashBoard extends React.Component{
         this.state = {
             commentVal: null
         };
+        this.Auth = new AuthService();
     }
     
     
@@ -39,10 +40,19 @@ class DashBoard extends React.Component{
           },0);
       } else if(e.keyCode === 13){
         e.preventDefault()
-        
-        fetch('/comment', {
-            credentials: 'same-origin'
+        this.Auth.fetch('/comment', {
+            method: 'POST',
+            credentials: 'same-origin',
+            body: JSON.stringify({comment: this.state.commentVal})
         })
+          .then(res => {
+            if(res.message['message'] === 'invalid token'){
+                this.Auth.logout();
+                this.props.history.replace('/')
+            } else {
+                console.log('success')
+            }
+        }).catch(err => console.log(err))
       }
       
       // For word breakpoint

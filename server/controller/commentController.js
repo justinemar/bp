@@ -6,6 +6,7 @@
 
 module.exports = {
     new: (req, res) => {
-        console.log('new comment')
+        console.log(req.body.comment);
+        res.end()
     } 
 }
