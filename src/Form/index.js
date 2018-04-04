@@ -14,7 +14,7 @@ export default class Form extends Component{
     }
 
     
-    componentWillMount(){
+    componentDidMount(){
     if(this.Auth.loggedIn())
         console.log(this.props.history.push('/dashboard'))
     }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { StrictMode } from 'react';
 import './root.css';
 import Form from '../Form/index';
 

@@ -13,7 +13,7 @@ class DashBoard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            commentVal: null
+            commentVal: ''
         };
         this.Auth = new AuthService();
     }
