@@ -1,8 +1,13 @@
 import React from 'react';
+import fontawesome from '@fortawesome/fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import brands from '@fortawesome/fontawesome-free-brands'
+import ellipsis from '@fortawesome/fontawesome-free-solid/faEllipsisH'
+import newspaper from '@fortawesome/fontawesome-free-solid/faNewspaper'
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import { Route, withRouter } from 'react-router-dom';
-
+fontawesome.library.add(brands, ellipsis, newspaper)
 class App extends React.Component{
     render(){
         return (

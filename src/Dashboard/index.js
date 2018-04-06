@@ -3,6 +3,7 @@ import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 const Auth = new AuthService();
 // const socket = openSocket('/');
@@ -68,6 +69,7 @@ class DashBoard extends React.Component{
     
     render(){
         const { commentVal } = this.state;
+        const { user } = this.props;
         return(
             <div className="dashboard-wrapper">
                 <header className="dashboard-header">
@@ -83,37 +85,95 @@ class DashBoard extends React.Component{
                         </div>
                     </div>
                 </header>
-                <div className="dashboard-content-tags">
-                </div>
                 <div className="dashboard-main-content">
-                    <div className="dashboard-content-post">
-                        <div className="dashboard-post">
-                            <div className="post-details">
-                                <div className="post-image-wrapper">
-                                    <div className="post-image" style={{backgroundImage: `url(https://i.ytimg.com/vi/piNyc1cJM_s/maxresdefault.jpg)`}}></div>
-                                </div>
-                                <div className="post-status-wrapper">
-                                    <p> much pentakill very wow </p>
-                                </div>
-                                <div className="post-reactions-wrapper">
-                                    <div className="reactions-head">
-                                        <span id="post-tag"> League </span>
-                                        <span className="right" id="post-init-react"> React </span>
-                                    </div>
-                                    <div className="reactions-list">
-                                        <div className="a-reaction"></div>
-                                        <div className="a-reaction"></div>
-                                    </div>
-                                </div>
-                                <div className="post-commentBox-wrapper">
-                                    <div className="post-comment-box">
-                                        <div className="user-image">
+                    <div className="dashboard-menu">
+                        <div className="dashboard-controls">
+                            <div className="dashboard-tab">
+                                <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
+                                <span className="dashboard-tab-name">
+                                    Settings
+                                </span>
+                            </div>
+                            <div className="dashboard-tab dashboard-active-tab">
+                                <FontAwesomeIcon className="dashboard-icon" icon="newspaper"/> 
+                                <span className="dashboard-tab-name">
+                                    Feed
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="dashboard-notification">
+                        <div className="dashboard-notification-main">
+                        
+                        </div>
+                    </div>
+                    <div className="dashboard-post-container">
+                        <div className="dashboard-post-status-main">
+                            <textarea id="post-status" placeholder={`You know what this is for, ${user.email}`}>
+                            
+                            </textarea>
+                            <div className="dashboard-post-status-opt">
+                            
+                            </div>
+                            <div className="dashboard-content-post">
+                                <div className="dashboard-post">
+                                    <div className="post-details">
+                                        <div className="post-image-wrapper">
+                                            <div className="post-image" style={{backgroundImage: `url(https://i.ytimg.com/vi/piNyc1cJM_s/maxresdefault.jpg)`}}></div>
                                         </div>
-                                        <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
-                                            className="main-comment-box" type="text" placeholder="Say something about this human..."
-                                                value={commentVal}/>
+                                        <div className="post-status-wrapper">
+                                            <p> much pentakill very wow </p>
+                                        </div>
+                                        <div className="post-reactions-wrapper">
+                                            <div className="reactions-head">
+                                                <span id="post-tag"> League </span>
+                                                <span className="right" id="post-init-react"> React </span>
+                                            </div>
+                                            <div className="reactions-list">
+                                                <div className="a-reaction"></div>
+                                                <div className="a-reaction"></div>
+                                            </div>
+                                        </div>
+                                        <div className="post-commentBox-wrapper">
+                                            <div className="post-comment-box">
+                                                <div className="user-image">
+                                                </div>
+                                                <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
+                                                    className="main-comment-box" type="text" placeholder="Say something about this human..."
+                                                        value={commentVal}/>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="dashboard-post">
+                                    <div className="post-details">
+                                        <div className="post-image-wrapper">
+                                            <div className="post-image" style={{backgroundImage: `url(https://i.ytimg.com/vi/piNyc1cJM_s/maxresdefault.jpg)`}}></div>
+                                        </div>
+                                        <div className="post-status-wrapper">
+                                            <p> much pentakill very wow </p>
+                                        </div>
+                                        <div className="post-reactions-wrapper">
+                                            <div className="reactions-head">
+                                                <span id="post-tag"> League </span>
+                                                <span className="right" id="post-init-react"> React </span>
+                                            </div>
+                                            <div className="reactions-list">
+                                                <div className="a-reaction"></div>
+                                                <div className="a-reaction"></div>
+                                            </div>
+                                        </div>
+                                        <div className="post-commentBox-wrapper">
+                                            <div className="post-comment-box">
+                                                <div className="user-image">
+                                                </div>
+                                                <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
+                                                    className="main-comment-box" type="text" placeholder="Say something about this human..."
+                                                        value={commentVal}/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>
