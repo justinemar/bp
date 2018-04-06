@@ -111,7 +111,7 @@
     outline: 0;
     resize: none;
     display: block;
-    padding: 10px;
+    padding: 20px;
     background: #3f95ff;
     border-top: 1px solid rgba(43, 48, 59, 0.25);
     border-right: 0;
@@ -217,11 +217,15 @@ color: #fff;
 }
 
 .dashboard-icon{
-    color: #ffffff;
+    color: #d7dde8;
     font-size: 30px;
     display: inline-block;
     margin-right: 15px;
     margin-left: 15px;
+}
+
+.dashboard-opt-icon:hover{
+    color:#ffffff;
 }
 
 .dashboard-active-tab{
@@ -242,4 +246,22 @@ color: #fff;
     padding: 12px;
     width: 100%;
     cursor:pointer;
+}
+
+.dashboard-opt{
+    padding: 10px;
+    color: white;
+    display: inline-block;
+}
+
+.image-upload-cta{
+    display: inline-block;
+    cursor: pointer;  
+}
+
+.image-upload{
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
 }

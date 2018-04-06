@@ -113,7 +113,18 @@ class DashBoard extends React.Component{
                             
                             </textarea>
                             <div className="dashboard-post-status-opt">
-                            
+                                <div className="dashboard-opt">
+                                    <label htmlFor="image-upload" className="image-upload-cta">
+                                    <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon="image"/>
+                                    </label>
+                                    <input id="image-upload" type="file"/>
+                                </div>
+                                <div className="dashboard-opt">
+                                    <label htmlFor="gif-upload" className="gif-upload-cta">
+                                    <div className="dashboard-icon dashboard-opt-icon"></div>
+                                    </label>
+                                    <span id="gif-upload"></span>
+                                </div>
                             </div>
                             <div className="dashboard-content-post">
                                 <div className="dashboard-post">
