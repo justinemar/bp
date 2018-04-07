@@ -224,6 +224,26 @@ color: #fff;
     margin-left: 15px;
 }
 
+#opt-share{
+    background: #3f95ff;
+    padding: 5px;
+    bottom: 5px;
+    font-size: 15px;
+    position: relative;
+    font-family: 'Segoe UI';    
+}
+
+.opt-none{
+    display: none;
+}
+.dashboard-opt-left{
+    float: left;
+}
+
+.dashboard-opt-right{
+    float: right;
+}
+
 .dashboard-opt-icon:hover{
     color:#ffffff;
 }
@@ -254,14 +274,49 @@ color: #fff;
     display: inline-block;
 }
 
-.image-upload-cta{
+.opt-cta{
     display: inline-block;
     cursor: pointer;  
 }
 
-.image-upload{
+.opt-image-upload{
     border: 1px solid #ccc;
     display: inline-block;
     padding: 6px 12px;
     cursor: pointer;
 }
+
+
+.file-preview{
+    background: rgba(43, 48, 59, 0.99);
+    height: 100px;
+    position: relative;
+    overflow-y: scroll;
+}
+
+.file-preview .image-preview{
+    width: 120px;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.file-preview ul{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.file-preview-hover{
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.file-preview ul li{
+    display: inline-block;
+    padding-left: 10px;
+    padding-top: 10px;
+    position: relative;
+    height: 100%;
+    padding-right: 10px;
+}
+

@@ -14,7 +14,8 @@ class DashBoard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            commentVal: ''
+            commentVal: '',
+            previewImages: []
         };
         this.Auth = new AuthService();
     }
@@ -63,13 +64,56 @@ class DashBoard extends React.Component{
       },0);
     }
     
+    
+    
+    submitPost = () => {
+        alert('1')
+    }
+    
+    previewFile = (input) => {
+        const output = this.filePreview;
+        const image = URL.createObjectURL(this.imageUpload.files[0]);
+        const div = <div className="image-preview" style={{backgroundImage: `url(${image})`}}></div>;
+        const copy = this.state.previewImages;
+        this.setState({
+            previewImages: copy.concat(div)
+        })
+            
+    }
+    
+    removePreview = (index) => {
+       const copy = this.state.previewImages;
+       const newState = copy.splice(index, 1);
+       this.setState({
+           previewImages: copy
+       })
+    }
+    
+    
+    effectPreview = (e) => {
+        if(e.type === 'mouseover') {
+            e.currentTarget.classList = 'file-preview-hover'
+        } else {
+            e.currentTarget.classList = '';
+        }
+    }
+    
     componentDidMount(){
-        // socket.emit('page_load');    
+        // socket.emit('page_load');
+        console.log(this.state.previewImages && this.state.previewImages.length === 0)
     }
     
     render(){
-        const { commentVal } = this.state;
+        const { commentVal, previewImages } = this.state;
         const { user } = this.props;
+        const imageListPreview = previewImages && previewImages.length !== 0 ? previewImages : null;
+        const renderList = imageListPreview ? imageListPreview.map((i, index) => {
+            return (
+                    <li onMouseLeave={this.effectPreview} onMouseOver={this.effectPreview} onClick={() => this.removePreview(index)} key={index}>
+                       {i}
+                    </li>
+                )
+        }) : null;
         return(
             <div className="dashboard-wrapper">
                 <header className="dashboard-header">
@@ -112,18 +156,40 @@ class DashBoard extends React.Component{
                             <textarea id="post-status" placeholder={`You know what this is for, ${user.email}`}>
                             
                             </textarea>
+                            { renderList ? 
+                            <div ref={(div) => this.filePreview = div} className="file-preview">
+                                <ul>
+                                    {renderList}
+                                </ul>
+                            </div> : null }
                             <div className="dashboard-post-status-opt">
-                                <div className="dashboard-opt">
-                                    <label htmlFor="image-upload" className="image-upload-cta">
-                                    <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon="image"/>
-                                    </label>
-                                    <input id="image-upload" type="file"/>
+                                <div className="dashboard-opt-left">
+                                    <div className="dashboard-opt">
+                                        <label htmlFor="opt-image-upload" className="opt-cta">
+                                        <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon="image"/>
+                                        </label>
+                                        <input ref={(input) => this.imageUpload = input} onChange={this.previewFile} className="opt-none" id="opt-image-upload" type="file"/>
+                                    </div>
+                                    <div className="dashboard-opt">
+                                        <label htmlFor="opt-gif-upload" className="opt-cta">
+                                        <div className="dashboard-icon dashboard-opt-icon"></div>
+                                        </label>
+                                        <span className="opt-none" id="opt-gif-upload"></span>
+                                    </div>
                                 </div>
-                                <div className="dashboard-opt">
-                                    <label htmlFor="gif-upload" className="gif-upload-cta">
-                                    <div className="dashboard-icon dashboard-opt-icon"></div>
-                                    </label>
-                                    <span id="gif-upload"></span>
+                                <div className="dashboard-opt-right">
+                                    <div className="dashboard-opt">
+                                        <label htmlFor="opt-twitter" className="opt-cta">
+                                          <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon={["fab", "twitter"]}/>
+                                        </label>
+                                        <input className="opt-none" id="opt-twitter" type="button"/>
+                                    </div>
+                                    <div className="dashboard-opt">
+                                        <label htmlFor="opt-submit" className="opt-cta">
+                                          <div id="opt-share" className="dashboard-icon dashboard-opt-icon">Share</div>
+                                        </label>
+                                        <input onClick={this.submitPost} className="opt-none" id="opt-submit" type="button"/>
+                                    </div>
                                 </div>
                             </div>
                             <div className="dashboard-content-post">
