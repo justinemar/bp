@@ -168,7 +168,7 @@ class DashBoard extends React.Component{
                                         <label htmlFor="opt-image-upload" className="opt-cta">
                                         <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon="image"/>
                                         </label>
-                                        <input ref={(input) => this.imageUpload = input} onChange={this.previewFile} className="opt-none" id="opt-image-upload" type="file"/>
+                                        <input onClick={(event)=> { event.target.value = null }}  accept="image/*" ref={(input) => this.imageUpload = input} onChange={this.previewFile} className="opt-none" id="opt-image-upload" type="file"/>
                                     </div>
                                     <div className="dashboard-opt">
                                         <label htmlFor="opt-gif-upload" className="opt-cta">
