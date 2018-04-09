@@ -48,6 +48,7 @@
     "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
     "cloudinary": "^1.11.0",
+    "connect-multiparty": "^2.1.0",
     "datauri": "^1.1.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",

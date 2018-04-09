@@ -11,7 +11,7 @@ const UserPostSchema = new Schema({
         unique: true
     },
     post_img: {
-        type: String,
+        type: Array,
         required: true
     },
     post_description: {

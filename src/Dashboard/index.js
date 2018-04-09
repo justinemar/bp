@@ -15,7 +15,8 @@ class DashBoard extends React.Component{
         super(props);
         this.state = {
             commentVal: '',
-            previewImages: []
+            previewImages: [],
+            previewImagesData: []
         };
         this.Auth = new AuthService();
     }
@@ -58,7 +59,7 @@ class DashBoard extends React.Component{
       }
       
       // For word breakpoint
-      setTimeout(function(){
+      this.setTimeout(function(){
         el.style.cssText = 'height:auto; padding:0';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
       },0);
@@ -66,19 +67,46 @@ class DashBoard extends React.Component{
     
     
     
-    submitPost = () => {
-        alert('1')
+    submitPost = (e) => {
+        e.preventDefault();
+        const imageData = this.state.previewImagesData;
+        const formData = new FormData();
+        formData.append("description", this.status.value);
+        imageData.forEach(i => {
+            formData.append("image", i)
+        })
+        fetch('/status', {
+          method: 'POST',
+          credentials: 'same-origin',
+          body: formData,
+        }).then(res => {
+            if(res.type == 'success'){
+                this.setState({
+                    message: res.message,
+                    type: res.type
+                })
+            }
+        }).catch(err => console.log(err))
     }
     
     previewFile = (input) => {
         const output = this.filePreview;
-        const image = URL.createObjectURL(this.imageUpload.files[0]);
-        const div = <div className="image-preview" style={{backgroundImage: `url(${image})`}}></div>;
-        const copy = this.state.previewImages;
+        let divcopy = this.state.previewImages;
+        let imagecopy = this.state.previewImagesData;
+        let div = undefined;
+        let divStore = [];
+        let dataStore = [];
+        for (var i = 0, f; f = this.imageUpload.files[i]; i++) {
+            const image = URL.createObjectURL(this.imageUpload.files[i]);
+            div = <div className="image-preview" style={{backgroundImage: `url(${image})`}}></div>;
+            divStore.push(div);
+            dataStore.push(f);
+        }
+        
         this.setState({
-            previewImages: copy.concat(div)
+            previewImages: divcopy.concat(divStore),
+            previewImagesData:  imagecopy.concat(dataStore) 
         })
-            
     }
     
     removePreview = (index) => {
@@ -102,6 +130,12 @@ class DashBoard extends React.Component{
         // socket.emit('page_load');
         console.log(this.state.previewImages && this.state.previewImages.length === 0)
     }
+    
+    
+    settingTab = () => {
+        alert(2)
+    }
+    
     
     render(){
         const { commentVal, previewImages } = this.state;
@@ -133,10 +167,13 @@ class DashBoard extends React.Component{
                     <div className="dashboard-menu">
                         <div className="dashboard-controls">
                             <div className="dashboard-tab">
-                                <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
-                                <span className="dashboard-tab-name">
-                                    Settings
-                                </span>
+                                <label htmlFor="setting-tab">
+                                    <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
+                                    <span className="dashboard-tab-name">
+                                        Settings
+                                    </span>
+                                </label>
+                                <input type="button" onClick={this.settingTab} id="setting-tab" className="opt-none"/>
                             </div>
                             <div className="dashboard-tab dashboard-active-tab">
                                 <FontAwesomeIcon className="dashboard-icon" icon="newspaper"/> 
@@ -153,7 +190,8 @@ class DashBoard extends React.Component{
                     </div>
                     <div className="dashboard-post-container">
                         <div className="dashboard-post-status-main">
-                            <textarea id="post-status" placeholder={`You know what this is for, ${user.email}`}>
+                        <form onSubmit={this.submitPost} method="post">
+                            <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.email}`}>
                             
                             </textarea>
                             { renderList ? 
@@ -168,13 +206,16 @@ class DashBoard extends React.Component{
                                         <label htmlFor="opt-image-upload" className="opt-cta">
                                         <FontAwesomeIcon className="dashboard-icon dashboard-opt-icon" icon="image"/>
                                         </label>
-                                        <input onClick={(event)=> { event.target.value = null }}  accept="image/*" ref={(input) => this.imageUpload = input} onChange={this.previewFile} className="opt-none" id="opt-image-upload" type="file"/>
+                                        <input name="image" onClick={(event)=> { event.target.value = null }}  
+                                            accept="image/*" ref={(input) => this.imageUpload = input} 
+                                                onChange={this.previewFile} className="opt-none" id="opt-image-upload" 
+                                                    type="file" multiple/>
                                     </div>
                                     <div className="dashboard-opt">
-                                        <label htmlFor="opt-gif-upload" className="opt-cta">
-                                        <div className="dashboard-icon dashboard-opt-icon"></div>
+                                        <label id="gif-upload" htmlFor="opt-gif-upload" className="opt-cta">
+                                        <div className="dashboard-icon dashboard-opt-icon">GIF</div>
                                         </label>
-                                        <span className="opt-none" id="opt-gif-upload"></span>
+                                        <input type="button" className="opt-none" id="opt-gif-upload"/>
                                     </div>
                                 </div>
                                 <div className="dashboard-opt-right">
@@ -188,9 +229,11 @@ class DashBoard extends React.Component{
                                         <label htmlFor="opt-submit" className="opt-cta">
                                           <div id="opt-share" className="dashboard-icon dashboard-opt-icon">Share</div>
                                         </label>
-                                        <input onClick={this.submitPost} className="opt-none" id="opt-submit" type="button"/>
+                                        <input className="opt-none" id="opt-submit" type="submit"/>
                                     </div>
                                 </div>
+                            </div>
+                            </form>
                             </div>
                             <div className="dashboard-content-post">
                                 <div className="dashboard-post">
@@ -252,7 +295,6 @@ class DashBoard extends React.Component{
                                     </div>
                                 </div>                                
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
