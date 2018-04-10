@@ -1,20 +1,8 @@
-
 .dashboard-main-content{
     overflow: hidden;
     box-sizing: border-box;
     height: 100%;
     width: 100%;
-}
-
-.dashboard-notification-main{
-    background: #2f3541;
-    min-width: 270px;
-    max-width: 270px;
-    height: 100%;
-    color: #d7dde8;
-    font-size: .9375rem;
-    line-height: 1.6;
-    position: relative;
 }
 
 .dashboard-menu{
@@ -27,11 +15,6 @@
     background: #2b303b;
 }
 
-.dashboard-notification{
-    float: right;
-    box-sizing: border-box;
-    height: 100%;
-}
 
 .dashboard-wrapper{
     height:100%;
@@ -253,6 +236,27 @@ color: #fff;
 
 .dashboard-opt-icon:hover{
     color:#ffffff;
+}
+
+.dashboard-timeout{
+    position: absolute;
+    background: rgba(0, 0, 0, 0.68);
+    color: white;
+    height: 100%;
+    z-index: 12;
+}
+
+.dashboard-timeout-content{
+    margin: 130px;
+}
+
+.dashboard-timeout-content button{
+    padding: 10px;
+    margin-top: 10px;
+    border: 0;
+    color: white;
+    background: #3F95FF;
+    border-radius: 5px;
 }
 
 .dashboard-active-tab{

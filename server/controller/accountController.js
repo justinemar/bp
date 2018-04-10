@@ -30,17 +30,17 @@ module.exports = {
     login: (req, res) => {
         Account.findOne({user_email: req.body.email}, function(err, user){
             if(err) throw err;
-            
+
             if(user){
                 var payload = {
-                    email: user.user_email,
+                    info: user.user_email || user.displayName,
                 }
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;
                     
                     if(match){
                         var token = jwt.sign(payload, process.env.KEY1, {
-                          expiresIn: 1440 // expires in 24 hours
+                          expiresIn: 1800 // expires in 30 minutes
                         });
                         
                         res.json({

@@ -2,11 +2,12 @@ import React from 'react';
 import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
+import DashBoardNotificaiton from './DashBoardNotification.jsx';
+import DashBoardStatus from './DashBoardStatus.jsx';
 import './dashboard.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
-const Auth = new AuthService();
-// const socket = openSocket('/');
+const socket = openSocket('/');
 
 
 class DashBoard extends React.Component{
@@ -14,9 +15,16 @@ class DashBoard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            validation: {
+                message: null,
+                type: null,
+                code: null
+            },
             commentVal: '',
             previewImages: [],
-            previewImagesData: []
+            previewImagesData: [],
+            status: [],
+            recentUpdates: []
         };
         this.Auth = new AuthService();
     }
@@ -28,16 +36,11 @@ class DashBoard extends React.Component{
         })    
     }
     
-    handleLogout = () => {
-        Auth.logout();
-        this.props.history.replace('/');
-     }
-     
-    handKeyDown = (e) => {
+     handKeyDown = (e) => {
       const el = e.target;
       if(e.shiftKey && e.keyCode === 13){
           // For Shift + Enter
-          setTimeout(function(){
+          setTimeout( () => {
             el.style.cssText = 'height:auto; padding:0';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
           },0);
@@ -50,8 +53,7 @@ class DashBoard extends React.Component{
         })
           .then(res => {
             if(res.message['message'] === 'invalid token'){
-                this.Auth.logout();
-                this.props.history.replace('/')
+                this.initLogout();
             } else {
                 console.log('success')
             }
@@ -59,34 +61,47 @@ class DashBoard extends React.Component{
       }
       
       // For word breakpoint
-      this.setTimeout(function(){
+      setTimeout( () => {
         el.style.cssText = 'height:auto; padding:0';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
       },0);
     }
     
-    
+    initLogout = () => {
+           socket.emit('userLogout')
+         this.Auth.logout();
+         this.props.history.replace('/')
+    }
     
     submitPost = (e) => {
         e.preventDefault();
         const imageData = this.state.previewImagesData;
         const formData = new FormData();
         formData.append("description", this.status.value);
+        console.log(this.props.user.info)
+        formData.append("user", this.props.user.info)
         imageData.forEach(i => {
             formData.append("image", i)
         })
-        fetch('/status', {
+        this.Auth.fetch('/status', {
           method: 'POST',
           credentials: 'same-origin',
           body: formData,
         }).then(res => {
-            if(res.type == 'success'){
+            if(res.code === 401){
                 this.setState({
-                    message: res.message,
-                    type: res.type
+                    validation: {
+                        message: res.message,
+                        type: res.type,
+                        code: res.code
+                    }
                 })
+            } else if(res.code === 200){
+                socket.emit('statusInit', res.data)
             }
-        }).catch(err => console.log(err))
+            
+            
+        }).catch(err => console.log(err));
     }
     
     previewFile = (input) => {
@@ -127,8 +142,14 @@ class DashBoard extends React.Component{
     }
     
     componentDidMount(){
-        // socket.emit('page_load');
-        console.log(this.state.previewImages && this.state.previewImages.length === 0)
+        socket.emit('page_load');
+        socket.on('statusInit', (data) => {
+          this.setState({
+              status: this.state.status.concat(data),
+              recentUpdates: this.state.recentUpdates.concat(data)
+          })
+        });
+        
     }
     
     
@@ -138,7 +159,7 @@ class DashBoard extends React.Component{
     
     
     render(){
-        const { commentVal, previewImages } = this.state;
+        const { commentVal, previewImages, validation, status, recentUpdates } = this.state;
         const { user } = this.props;
         const imageListPreview = previewImages && previewImages.length !== 0 ? previewImages : null;
         const renderList = imageListPreview ? imageListPreview.map((i, index) => {
@@ -150,6 +171,13 @@ class DashBoard extends React.Component{
         }) : null;
         return(
             <div className="dashboard-wrapper">
+            { validation.code === 401 ? 
+                <div className="dashboard-timeout">
+                    <div className="dashboard-timeout-content">
+                            <h1> Your session has expired, please login to continue where you left off </h1>
+                            <button onClick={this.initLogout}> Login to continue </button>
+                    </div>
+                </div> : null }
                 <header className="dashboard-header">
                     <div className="dashboard-h-items">
                         <div className="dashboard-h-text-wrapper">
@@ -158,7 +186,7 @@ class DashBoard extends React.Component{
                         </div>
                         <div className="dashboard-h-controls">
                             <div className="dashboard-h-btn-wrapper">
-                                <button onClick={this.handleLogout}>Logout</button>
+                                <button onClick={this.initLogout}>Logout</button>
                             </div>
                         </div>
                     </div>
@@ -183,15 +211,11 @@ class DashBoard extends React.Component{
                             </div>
                         </div>
                     </div>
-                    <div className="dashboard-notification">
-                        <div className="dashboard-notification-main">
-                        
-                        </div>
-                    </div>
+                    <DashBoardNotificaiton recentUpdates={recentUpdates}/>
                     <div className="dashboard-post-container">
                         <div className="dashboard-post-status-main">
                         <form onSubmit={this.submitPost} method="post">
-                            <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.email}`}>
+                            <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.info}`}>
                             
                             </textarea>
                             { renderList ? 
@@ -208,8 +232,10 @@ class DashBoard extends React.Component{
                                         </label>
                                         <input name="image" onClick={(event)=> { event.target.value = null }}  
                                             accept="image/*" ref={(input) => this.imageUpload = input} 
-                                                onChange={this.previewFile} className="opt-none" id="opt-image-upload" 
-                                                    type="file" multiple/>
+                                            onChange={this.previewFile} className="opt-none" id="opt-image-upload" 
+                                            type="file" 
+                                            multiple
+                                        />
                                     </div>
                                     <div className="dashboard-opt">
                                         <label id="gif-upload" htmlFor="opt-gif-upload" className="opt-cta">
@@ -236,68 +262,15 @@ class DashBoard extends React.Component{
                             </form>
                             </div>
                             <div className="dashboard-content-post">
-                                <div className="dashboard-post">
-                                    <div className="post-details">
-                                        <div className="post-image-wrapper">
-                                            <div className="post-image" style={{backgroundImage: `url(https://i.ytimg.com/vi/piNyc1cJM_s/maxresdefault.jpg)`}}></div>
-                                        </div>
-                                        <div className="post-status-wrapper">
-                                            <p> much pentakill very wow </p>
-                                        </div>
-                                        <div className="post-reactions-wrapper">
-                                            <div className="reactions-head">
-                                                <span id="post-tag"> League </span>
-                                                <span className="right" id="post-init-react"> React </span>
-                                            </div>
-                                            <div className="reactions-list">
-                                                <div className="a-reaction"></div>
-                                                <div className="a-reaction"></div>
-                                            </div>
-                                        </div>
-                                        <div className="post-commentBox-wrapper">
-                                            <div className="post-comment-box">
-                                                <div className="user-image">
-                                                </div>
-                                                <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
-                                                    className="main-comment-box" type="text" placeholder="Say something about this human..."
-                                                        value={commentVal}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="dashboard-post">
-                                    <div className="post-details">
-                                        <div className="post-image-wrapper">
-                                            <div className="post-image" style={{backgroundImage: `url(https://i.ytimg.com/vi/piNyc1cJM_s/maxresdefault.jpg)`}}></div>
-                                        </div>
-                                        <div className="post-status-wrapper">
-                                            <p> much pentakill very wow </p>
-                                        </div>
-                                        <div className="post-reactions-wrapper">
-                                            <div className="reactions-head">
-                                                <span id="post-tag"> League </span>
-                                                <span className="right" id="post-init-react"> React </span>
-                                            </div>
-                                            <div className="reactions-list">
-                                                <div className="a-reaction"></div>
-                                                <div className="a-reaction"></div>
-                                            </div>
-                                        </div>
-                                        <div className="post-commentBox-wrapper">
-                                            <div className="post-comment-box">
-                                                <div className="user-image">
-                                                </div>
-                                                <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
-                                                    className="main-comment-box" type="text" placeholder="Say something about this human..."
-                                                        value={commentVal}/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>                                
+                                <DashBoardStatus 
+                                    handKeyDown={this.handKeyDown} 
+                                    handleOnChange={this.handleOnChange}
+                                    comment={text => this.commentVal = text}
+                                />
                             </div>
+                        </div>
                     </div>
                 </div>
-            </div>
         )
     }
     

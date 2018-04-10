@@ -7,6 +7,10 @@
 module.exports = {
     new: (req, res) => {
         console.log(req.body.comment);
-        res.end()
+        res.json({
+            message: 'comment posted',
+            type: 'success',
+            code: 200
+        })
     } 
 }

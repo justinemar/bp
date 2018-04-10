@@ -1,0 +1,43 @@
+.dashboard-notification{
+    float: right;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.dashboard-notification-main{
+    background: #2f3541;
+    min-width: 270px;
+    max-width: 270px;
+    height: 100%;
+    color: #d7dde8;
+    font-size: .9375rem;
+    line-height: 1.6;
+    position: relative;
+}
+
+#bell{
+ margin: 5px;
+}
+
+.a-notification{
+    border-bottom: 1px solid grey;
+    background-size: cover;
+}
+
+.notification-detail{
+    padding: 15px;
+    background: rgba(19, 19, 17, 0.3);
+}
+
+.notification-detail p{
+    font-family: 'Segoe UI';    
+}
+
+.dashboard-notification-title{
+    color: #3f95ff;
+    padding: 15px;
+    display: block;
+    font-size: 15px;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+}

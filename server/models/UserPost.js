@@ -16,6 +16,10 @@ const UserPostSchema = new Schema({
     },
     post_description: {
         type: String,
+    },
+    post_by: {
+        type: String,
+        required: true
     }
 });
 

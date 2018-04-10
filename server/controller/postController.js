@@ -51,13 +51,14 @@ module.exports = {
                 const post = new Post({
                      post_id: new mongoose.Types.ObjectId(),
                      post_img: images,
-                     post_description: req.body.description
+                     post_description: req.body.description,
+                     post_by: req.body.user,
                  });
                 post.save(function(err) {
                      if(err) {
                         res.send(err);
                      } else {
-                        res.json({message: 'Success', type: 'success'})
+                        res.json({message: 'Success', type: 'success', code: 200, data: post})
                      }
                  });
           }).catch(err => {

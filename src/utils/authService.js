@@ -10,6 +10,7 @@ export default class AuthService {
     login(email, password) {
         return this.fetch('/login', {
             method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 email, 
                 password
@@ -70,14 +71,12 @@ export default class AuthService {
         // performs api calls sending the required authentication headers
         const headers = {
             'Accept': 'application/json',
-            'Content-Type': 'application/json'
         }
 
         // Setting Authorization header
         // Authorization: Bearer xxxxxxx.xxxxxxxx.xxxxxx
-        if (this.loggedIn()) {
-            headers['Authorization'] = 'Bearer ' + this.getToken()
-        }
+        headers['Authorization'] = 'Bearer ' + this.getToken()
+        
 
         return fetch(url, {
             headers,
@@ -96,4 +95,5 @@ export default class AuthService {
             throw error
         }
     }
+    
 }

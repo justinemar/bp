@@ -13,7 +13,7 @@ router.post('/register', accountWares.checkUser, account.register);
 
 router.post('/login', account.login);
 
-router.post('/status', post.new);
+router.post('/status', verifyToken, post.new);
 
 router.post('/comment', verifyToken, comment.new);
 

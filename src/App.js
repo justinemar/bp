@@ -5,10 +5,11 @@ import brands from '@fortawesome/fontawesome-free-brands'
 import ellipsis from '@fortawesome/fontawesome-free-solid/faEllipsisH'
 import newspaper from '@fortawesome/fontawesome-free-solid/faNewspaper'
 import image from '@fortawesome/fontawesome-free-solid/faImage'
+import bell from '@fortawesome/fontawesome-free-solid/faBell'
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import { Route, withRouter } from 'react-router-dom';
-fontawesome.library.add(brands, ellipsis, newspaper, image)
+fontawesome.library.add(brands, ellipsis, newspaper, image, bell)
 class App extends React.Component{
     render(){
         return (
