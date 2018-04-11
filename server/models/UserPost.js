@@ -5,10 +5,9 @@ const Schema = mongoose.Schema;
 
 
 const UserPostSchema = new Schema({
-    post_id: {
-        type: Schema.Types.ObjectId,
+    user_id: {
+        type: String,
         required: true,
-        unique: true
     },
     post_img: {
         type: Array,

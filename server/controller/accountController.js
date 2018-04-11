@@ -34,6 +34,7 @@ module.exports = {
             if(user){
                 var payload = {
                     info: user.user_email || user.displayName,
+                    id: user._id
                 }
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;

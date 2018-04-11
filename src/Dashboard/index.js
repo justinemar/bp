@@ -89,6 +89,7 @@ class DashBoard extends React.Component{
         formData.append("description", this.status.value);
         console.log(this.props.user.info)
         formData.append("user", this.props.user.info)
+        formData.append("id", this.props.user.id)
         imageData.forEach(i => {
             formData.append("image", i)
         })
@@ -96,7 +97,8 @@ class DashBoard extends React.Component{
           method: 'POST',
           credentials: 'same-origin',
           body: formData,
-        }).then(res => {
+        })
+        .then(res => {
             if(res.code === 401){
                 this.setState({
                     validation: {
@@ -238,6 +240,7 @@ class DashBoard extends React.Component{
                             </div>
                             <div className="dashboard-content-post">
                                 <DashBoardStatus
+                                    util={this.Auth}
                                     status={status}
                                     handKeyDown={this.handKeyDown} 
                                     handleOnChange={this.handleOnChange}

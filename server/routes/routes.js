@@ -10,6 +10,7 @@ const verifyToken = require("../middlewares/verifyWare");
 router.get('/', root.index);
 
 router.route('/status')
+  .all(verifyToken)
   .get(status.get)
   .post(status.new);
   

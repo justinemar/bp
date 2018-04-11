@@ -47,10 +47,11 @@ module.exports = {
               .then(results => {
                   // Init post model
                     const post = new Post({
-                         post_id: new mongoose.Types.ObjectId(),
+                         user_id: req.body.id,
                          post_img: images,
                          post_description: req.body.description,
                          post_by: req.body.user,
+                         
                      });
                   // Save data
                     post.save(function(err) {
@@ -71,9 +72,9 @@ module.exports = {
               if(err) throw err;
               
               if(posts){
-                  res.send(posts)
+                  res.send(posts);
               } 
-          })
+          });
         }
 };
 

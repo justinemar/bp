@@ -5,7 +5,8 @@ import DashBoardPostLayout from './DashBoardPostLayout.jsx';
 class DashBoardStatus extends React.Component{
     
     state = {
-        getStatus: []
+        getStatus: [],
+        error: null
     }
     
     static getDerivedFromStateProps(nextProps, prevProps){
@@ -13,14 +14,20 @@ class DashBoardStatus extends React.Component{
     }
     
     componentDidMount(){
-      fetch('status', { method: 'GET', credentials: 'same-origin'})
-        .then(res => res.json())
-        .then(res => {
-            console.log(res)
-            this.setState({
-               getStatus: res
-            })
-        }).catch(err => err);
+      fetch('status', { 
+         method: 'GET', 
+         credentials: 'same-origin',
+         headers: {
+             "Authorization": 'Bearer ' + this.props.util.getToken()
+         }
+      })
+    .then(res => res.json())
+    .then(res => {
+        console.log(res)
+        this.setState({
+           getStatus: res
+        })
+    }).catch(err => err);
     }
 
     render(){
