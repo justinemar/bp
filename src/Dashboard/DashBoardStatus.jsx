@@ -30,6 +30,18 @@ class DashBoardStatus extends React.Component{
             getStatus.map((cStatus, index) => {
                 return (
                 <div className="dashboard-post">
+                    <div className="post-from-detail">
+                        <div className="post-from-profile-con left">
+                            <div id="post-from-image">
+                            
+                            </div>
+                        </div>
+                        <div className="post-info right">
+                            <span id="post-from">{cStatus.post_by}</span>
+                            <span id="post-age">30 minutes</span>
+                        </div>
+                    </div>
+                    <div className="clear-both"></div>
                     <div className="post-details">
                         <div className="post-image-wrapper">
                         { cStatus.post_img.length === 1 ?

@@ -1,9 +1,12 @@
 import React from 'react';
+import DashBoardStatus from './DashBoardStatus.jsx';
+import DashBoardNotificaiton from './Notification';
+import DashBoardMenu from './Menu';
+import MenuGroups from './Menu/MenuGroups.jsx';
+import MenuSetting from './Menu/MenuSetting.jsx';
 import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
-import DashBoardNotificaiton from './DashBoardNotification.jsx';
-import DashBoardStatus from './DashBoardStatus.jsx';
 import './dashboard.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
@@ -24,7 +27,8 @@ class DashBoard extends React.Component{
             previewImages: [],
             previewImagesData: [],
             status: [],
-            recentUpdates: []
+            recentUpdates: [],
+            tabToRender: null
         };
         this.Auth = new AuthService();
     }
@@ -155,12 +159,11 @@ class DashBoard extends React.Component{
         });
     }
     
-    
-    settingTab = () => {
-        alert(2);
+    renderTab = (tabName) => {
+        this.setState({
+            tabToRender: tabName
+        })
     }
-    
-    
     render(){
         const { commentVal, previewImages, validation, status, recentUpdates } = this.state;
         const { user } = this.props;
@@ -182,25 +185,7 @@ class DashBoard extends React.Component{
                     </div>
                 </div> : null }
                 <div className="dashboard-main-content">
-                    <div className="dashboard-menu">
-                        <div className="dashboard-controls">
-                            <div className="dashboard-tab">
-                                <label htmlFor="setting-tab">
-                                    <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
-                                    <span className="dashboard-tab-name">
-                                        Settings
-                                    </span>
-                                </label>
-                                <input type="button" onClick={this.settingTab} id="setting-tab" className="opt-none"/>
-                            </div>
-                            <div className="dashboard-tab dashboard-active-tab">
-                                <FontAwesomeIcon className="dashboard-icon" icon="newspaper"/> 
-                                <span className="dashboard-tab-name">
-                                    Feed
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+                    <DashBoardMenu tabRender={this.renderTab}/>
                     <DashBoardNotificaiton recentUpdates={recentUpdates}/>
                     <div className="dashboard-post-container">
                         <div className="dashboard-post-status-main">
