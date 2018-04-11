@@ -38,6 +38,7 @@ class DashBoard extends React.Component{
     
      handKeyDown = (e) => {
       const el = e.target;
+      
       if(e.shiftKey && e.keyCode === 13){
           // For Shift + Enter
           setTimeout( () => {
@@ -46,18 +47,22 @@ class DashBoard extends React.Component{
           },0);
       } else if(e.keyCode === 13){
         e.preventDefault()
-        this.Auth.fetch('/comment', {
-            method: 'POST',
-            credentials: 'same-origin',
-            body: JSON.stringify({comment: this.state.commentVal})
-        })
-          .then(res => {
-            if(res.message['message'] === 'invalid token'){
-                this.initLogout();
-            } else {
-                console.log('success')
-            }
-        }).catch(err => console.log(err))
+          if(this.state.commentVal.length <= 0 || this.state.commentVal.match(/^\s*$/g)){
+              return;
+          }
+            this.Auth.fetch('/comment', {
+                method: 'POST',
+                credentials: 'same-origin',
+                body: JSON.stringify({comment: this.state.commentVal})
+            })
+            .then(res => {
+                if(res.message['message'] === 'invalid token'){
+                    this.initLogout();
+                } else {
+                    console.log('success')
+                }
+            })
+            .catch(err => console.log(err))
       }
       
       // For word breakpoint
@@ -129,32 +134,30 @@ class DashBoard extends React.Component{
        const newState = copy.splice(index, 1);
        this.setState({
            previewImages: copy
-       })
+       });
     }
     
     
     effectPreview = (e) => {
         if(e.type === 'mouseover') {
-            e.currentTarget.classList = 'file-preview-hover'
+            e.currentTarget.classList = 'file-preview-hover';
         } else {
             e.currentTarget.classList = '';
         }
     }
     
     componentDidMount(){
-        socket.emit('page_load');
         socket.on('statusInit', (data) => {
           this.setState({
               status: this.state.status.concat(data),
               recentUpdates: this.state.recentUpdates.concat(data)
-          })
+          });
         });
-        
     }
     
     
     settingTab = () => {
-        alert(2)
+        alert(2);
     }
     
     
@@ -178,19 +181,6 @@ class DashBoard extends React.Component{
                             <button onClick={this.initLogout}> Login to continue </button>
                     </div>
                 </div> : null }
-                <header className="dashboard-header">
-                    <div className="dashboard-h-items">
-                        <div className="dashboard-h-text-wrapper">
-                            <h1> PLACEHOLDER </h1>
-                            <span> Lorem ipsum </span>
-                        </div>
-                        <div className="dashboard-h-controls">
-                            <div className="dashboard-h-btn-wrapper">
-                                <button onClick={this.initLogout}>Logout</button>
-                            </div>
-                        </div>
-                    </div>
-                </header>
                 <div className="dashboard-main-content">
                     <div className="dashboard-menu">
                         <div className="dashboard-controls">
@@ -262,7 +252,8 @@ class DashBoard extends React.Component{
                             </form>
                             </div>
                             <div className="dashboard-content-post">
-                                <DashBoardStatus 
+                                <DashBoardStatus
+                                    status={status}
                                     handKeyDown={this.handKeyDown} 
                                     handleOnChange={this.handleOnChange}
                                     comment={text => this.commentVal = text}

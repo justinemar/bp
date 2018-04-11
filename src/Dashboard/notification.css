@@ -22,6 +22,8 @@
 .a-notification{
     border-bottom: 1px solid grey;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .notification-detail{

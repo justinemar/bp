@@ -40,16 +40,40 @@
 
 .post-image-wrapper{
     width: 100%;
-    height: 218px;
+    height: 100%;
+    outline: 1px solid rgba(128, 128, 128, 0.08);
+    text-align: center;
 }
 
 .post-image{
     background-repeat: no-repeat;
     background-size: contain;
     width: 100%;
-    height: 100%;
+    height: 230px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+}
+
+.post-image-more{
+    display: inline-block;
+    max-width: 150px;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    background: rgb(47, 53, 65);
+}
+
+.post-image-more h4{
+    text-align: center;
+    vertical-align: middle;
+    line-height: 120px;
+    display: table;
+    margin: 0 auto;
+    color: #3f95ff;
+    font-family: 'Segoe UI';
+    font-weight: 400;
+    text-decoration: underline;
+    cursor:pointer;
 }
 
 .post-reactions-wrapper .reactions-head{
@@ -70,6 +94,7 @@
     margin-top: 10px;
     padding: 10px;
     background: white;
+    border: 1px solid rgba(128, 128, 128, 0.1);
 }
 
 .dashboard-post-container{
@@ -80,9 +105,6 @@
 }
 
 
-.dashboard-post-status-main{
-    margin-bottom: 130px;
-}
 
 .dashboard-post-status-main #post-status{
     caret-color: #ffffff;
@@ -156,6 +178,25 @@ color: #fff;
     padding-bottom: 20px;
 }
 
+.post-image-small {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: contain;
+    max-width: 150px;
+    height: 120px;
+    width: 100%;
+    position: relative;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-position: center;
+    outline: 1px solid rgba(128, 128, 128, 0.06);
+}
+
+.post-image-small:hover{
+    opacity: 0.5;
+    cursor:pointer;
+}
+
 .user-image{
     width: 50px;
     height: 40px;
@@ -190,7 +231,10 @@ color: #fff;
 
 .post-status-wrapper p{
     width: 100%;
+    font-size: 14px;
     word-wrap: break-word;
+    font-family: sans-serif;
+    color: rgba(0, 0, 0, 0.85);
 }
 
 .dashboard-controls{
@@ -317,6 +361,7 @@ color: #fff;
     height: 100%;
     background-repeat: no-repeat;
     background-size: contain;
+    background-position: center;
 }
 
 .file-preview ul{

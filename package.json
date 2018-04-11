@@ -7,7 +7,8 @@
     "nodemon": "nodemon server/server.js",
     "start": "node server/server.js",
     "dev": "webpack --watch --config webpack.config.js --mode development",
-    "build": "webpack --config webpack.config.js --mode production"
+    "build": "webpack --config webpack.config.js --mode production",
+    "postinstall": "npm build"
   },
   "keywords": [],
   "engines": {

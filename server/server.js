@@ -8,6 +8,7 @@ const storage = multer.memoryStorage();
 const server = express();
 const mongoose = require("mongoose");
 const database = process.env.DB_URL;
+const verifyToken = require("./middlewares/verifyWare");
 mongoose.connect(database);
 const db = mongoose.connection;
 
@@ -25,7 +26,7 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(multer({storage}).array('image', 12));
 server.use('/', router);
-
+server.use(verifyToken)
 
 server.get('*', function(req, res, next) {
   var err = new Error();
