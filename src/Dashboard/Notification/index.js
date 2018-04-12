@@ -6,7 +6,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 
 
-class DashBoardNotificaiton extends React.Component {
+class DashBoardNotification extends React.Component {
     render(){
         const { recentUpdates } = this.props;
         let dataToRender = recentUpdates  ? recentUpdates.map(i => {
@@ -32,4 +32,4 @@ class DashBoardNotificaiton extends React.Component {
 }
 
 
-export default DashBoardNotificaiton;
+export default DashBoardNotification;

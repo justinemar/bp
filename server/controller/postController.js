@@ -50,8 +50,7 @@ module.exports = {
                          user_id: req.body.id,
                          post_img: images,
                          post_description: req.body.description,
-                         post_by: req.body.user,
-                         
+                         post_by: req.body.user
                      });
                   // Save data
                     post.save(function(err) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import DashBoardPostLayout from './DashBoardPostLayout.jsx';
-
+import moment from 'moment';
 
 class DashBoardStatus extends React.Component{
     
@@ -23,13 +23,17 @@ class DashBoardStatus extends React.Component{
       })
     .then(res => res.json())
     .then(res => {
-        console.log(res)
+        if(res.code === 401){
+            this.props.validate(res)
+            return;
+        }
+        
         this.setState({
            getStatus: res
         })
     }).catch(err => err);
     }
-
+    
     render(){
         const { status, commentVal, handleOnChange, handKeyDown, comment } = this.props;
         const { getStatus } = this.state;
@@ -45,7 +49,7 @@ class DashBoardStatus extends React.Component{
                         </div>
                         <div className="post-info right">
                             <span id="post-from">{cStatus.post_by}</span>
-                            <span id="post-age">30 minutes</span>
+                            <span id="post-age">{moment(cStatus.post_date).fromNow()}</span>
                         </div>
                     </div>
                     <div className="clear-both"></div>

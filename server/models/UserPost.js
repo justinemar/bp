@@ -19,6 +19,10 @@ const UserPostSchema = new Schema({
     post_by: {
         type: String,
         required: true
+    },
+    post_date: {
+        type: Date, 
+        default: Date.now 
     }
 });
 
