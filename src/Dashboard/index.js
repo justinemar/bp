@@ -22,7 +22,6 @@ class DashBoard extends React.Component{
                 code: null
             },
             recentUpdates: [],
-            status: [],
             tabToRender: null
         };
         this.authUtil = new AuthService();
@@ -61,13 +60,12 @@ class DashBoard extends React.Component{
         socket.on('statusInit', (data) => {
           console.log('Main DashBoard', data)
           this.setState({
-              status: this.state.status.concat(data),
               recentUpdates: this.state.recentUpdates.concat(data)
           });
         });
     }   
     render(){
-        const { recentUpdates, validation, status } = this.state;
+        const { recentUpdates, validation, } = this.state;
         const { user } = this.props;
         return(
             <div className="dashboard-wrapper">
@@ -81,7 +79,7 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu tabRender={this.renderTab}/>
                     <DashBoardNotification recentUpdates={recentUpdates}/>
-                    <DashBoardStatusContainer user={user} validate={this.validate}/>
+                    <DashBoardStatusContainer recentUpdates={recentUpdates} user={user} validate={this.validate}/>
                     </div>
                 </div>
         )

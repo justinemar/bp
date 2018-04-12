@@ -71,7 +71,7 @@ module.exports = {
               if(err) throw err;
               
               if(posts){
-                  res.send(posts);
+                  res.send(posts.reverse());
               } 
           });
         }

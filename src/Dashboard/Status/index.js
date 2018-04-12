@@ -11,56 +11,12 @@ class DashBoardStatusContainer extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            commentVal: '',
             previewImages: [],
             previewImagesData: [],
         };
         this.Auth = new AuthService();
     }
     
-    
-    handleOnChange = (e) => {
-        this.setState({
-            commentVal: e.target.value
-        })    
-    }
-    
- 
-    handKeyDown = (e) => {
-      const el = e.target;
-      
-      if(e.shiftKey && e.keyCode === 13){
-          // For Shift + Enter
-          setTimeout( () => {
-            el.style.cssText = 'height:auto; padding:0';
-            el.style.cssText = 'height:' + el.scrollHeight + 'px';
-          },0);
-      } else if(e.keyCode === 13){
-        e.preventDefault()
-          if(this.state.commentVal.length <= 0 || this.state.commentVal.match(/^\s*$/g)){
-              return;
-          }
-            this.Auth.fetch('/comment', {
-                method: 'POST',
-                credentials: 'same-origin',
-                body: JSON.stringify({comment: this.state.commentVal})
-            })
-            .then(res => {
-                if(res.message['message'] === 'invalid token'){
-                    this.initLogout();
-                } else {
-                    console.log('success')
-                }
-            })
-            .catch(err => console.log(err))
-      }
-      
-      // For word breakpoint
-      setTimeout( () => {
-        el.style.cssText = 'height:auto; padding:0';
-        el.style.cssText = 'height:' + el.scrollHeight + 'px';
-      },0);
-    }
     
     submitPost = (e) => {
         e.preventDefault();
@@ -125,9 +81,10 @@ class DashBoardStatusContainer extends React.Component{
         }
     }
     
+    
     render(){
-        const { commentVal, previewImages } = this.state;
-        const { user, status } = this.props;
+        const { previewImages } = this.state;
+        const { user, recentUpdates } = this.props;
         const imageListPreview = previewImages && previewImages.length !== 0 ? previewImages : null;
         const renderList = imageListPreview ? imageListPreview.map((i, index) => {
             return (
@@ -189,10 +146,7 @@ class DashBoardStatusContainer extends React.Component{
                 <div className="dashboard-content-post">
                 <DashBoardStatus
                     util={this.Auth}
-                    status={status}
-                    handKeyDown={this.handKeyDown} 
-                    handleOnChange={this.handleOnChange}
-                    comment={text => this.commentVal = text}
+                    recentUpdates={recentUpdates}
                     validate={this.props.validate}
                     />
                 </div>
