@@ -16,7 +16,7 @@ export default class Form extends Component{
     
     componentDidMount(){
     if(this.Auth.loggedIn())
-        console.log(this.props.history.push('/dashboard'))
+       this.props.history.push('/dashboard')
     }
     
     toggleForm = () => {
