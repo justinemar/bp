@@ -65,10 +65,13 @@ class DashBoardStatusContainer extends React.Component{
     }
     
     removePreview = (index) => {
-       const copy = this.state.previewImages;
-       const newState = copy.splice(index, 1);
+       const copyImage = this.state.previewImages;
+       const copyData = this.state.previewImagesData;
+       copyImage.splice(index, 1);
+       copyData.splice(index, 1);
        this.setState({
-           previewImages: copy
+           previewImages: copyImage,
+           previewImagesData: copyData
        });
     }
     

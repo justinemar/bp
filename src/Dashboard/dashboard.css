@@ -415,3 +415,10 @@ color: #fff;
     margin-bottom: 10px !important;
     border-radius: 100px;
 }
+
+.post-icon{
+    cursor: pointer;
+}
+.post-control{
+    text-align: end;
+}
