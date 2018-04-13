@@ -9,10 +9,12 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 class DashBoardStatusWrapper extends React.Component{
     
     
-    
-    state = {
-        commentVal: '',
-        postControlVisible: false
+    constructor(){
+        super()
+        this.state = {
+            commentVal: '',
+            postControlVisible: false
+        }
     }
     
     
@@ -70,6 +72,7 @@ class DashBoardStatusWrapper extends React.Component{
             postControlVisible: newState
         })
     }
+    
     render(){
         const { postControlVisible } = this.state;
         const { cStatus } = this.props;
@@ -78,10 +81,10 @@ class DashBoardStatusWrapper extends React.Component{
                 <div className="dashboard-post">
                     <div className="post-from-detail">
                         <div className="post-control">
-                                <label htmlFor="postIcon">
+                                <label htmlFor={cStatus._id}>
                                     <FontAwesomeIcon className="post-icon" icon="ellipsis-h"/> 
                                 </label>
-                                <input type="button" id="postIcon" className="opt-none"
+                                <input type="button" id={cStatus._id} className="opt-none"
                                     onClick={this.postControl}/>
                                 { postControlVisible ?
                                 <div className="control-btn">
