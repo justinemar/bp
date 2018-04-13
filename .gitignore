@@ -1,10 +1,7 @@
 
 /nodule_modules
 /public
-<<<<<<< HEAD
-=======
 
->>>>>>> 0224dce0688994f32813cd9120a6a52853c716bd
 
 .DS_Store
 .env.local
