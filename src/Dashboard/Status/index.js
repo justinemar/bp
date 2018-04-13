@@ -94,7 +94,7 @@ class DashBoardStatusContainer extends React.Component{
                 )
         }) : null;
         return (
-            <div className="dashboard-post-container">
+            <div className="section-selected-tab">
                 <div className="dashboard-post-status-main">
                     <form onSubmit={this.submitPost} method="post">
                         <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.info}`}>

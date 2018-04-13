@@ -1,16 +1,28 @@
 import React from 'react';
 import MenuGroups from './MenuGroups.jsx';
-import MenuSetting from './MenuSetting.jsx';
+import MenuSetting from './MenuSetting';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-
+import { withRouter } from 'react-router-dom';
 
 
 class DashBoardMenu extends React.Component{
     
-    
-    
     state = {
-        tabToRender: null
+        prevActiveElem: null
+    }
+    
+    
+    
+    toggleTab = (e) => {
+       const { prevActiveElem } = this.state;
+       e.currentTarget.parentElement.classList.add('dashboard-active-tab');
+       this.setState({
+           prevActiveElem: e.currentTarget
+       });
+       if(prevActiveElem !== e.currentTarget){
+            prevActiveElem.parentElement.classList.remove('dashboard-active-tab');
+            this.props.history.replace(e.currentTarget.id)
+       }   
     }
     
     render(){
@@ -18,22 +30,22 @@ class DashBoardMenu extends React.Component{
             <div className="dashboard-menu">
                 <div className="dashboard-controls">
                     <div className="dashboard-tab">
-                        <label htmlFor="SettingTab">
+                        <label htmlFor="/dashboard/setting">
                             <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
                             <span className="dashboard-tab-name">
                                 Settings
                             </span>
                         </label>
-                        <input type="button" onClick={this.toggleTab} id="SettingTab" className="opt-none"/>
+                        <input type="button" onClick={this.toggleTab} id="/dashboard/setting" className="opt-none"/>
                     </div>
-                    <div className="dashboard-tab dashboard-active-tab">
-                        <label htmlFor="FeedTab">
+                    <div className="dashboard-tab">
+                        <label htmlFor="/dashboard/feed">
                             <FontAwesomeIcon className="dashboard-icon" icon="newspaper"/> 
                             <span className="dashboard-tab-name">
                                 Feed
                             </span>
                         </label>
-                        <input type="button" onClick={this.toggleTab} id="FeedTab" className="opt-none"/>
+                        <input type="button" onClick={this.toggleTab} id="/dashboard/feed" className="opt-none"/>
                     </div>
                 </div>
             </div>
@@ -42,4 +54,4 @@ class DashBoardMenu extends React.Component{
 }
 
 
-export default DashBoardMenu;
+export default withRouter(DashBoardMenu);
