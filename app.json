@@ -1,0 +1,39 @@
+{
+  "name": "bidap",
+  "description": "",
+  "scripts": {
+  },
+  "env": {
+    "CLOUD_API_KEY": {
+      "required": true
+    },
+    "CLOUD_API_SECRET": {
+      "required": true
+    },
+    "CLOUD_NAME": {
+      "required": true
+    },
+    "DB_URL": {
+      "required": true
+    },
+    "KEY1": {
+      "required": true
+    },
+    "KEY2": {
+      "required": true
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
