@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-
+import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 
 
 
@@ -11,7 +11,8 @@ class DashBoardStatusWrapper extends React.Component{
     
     
     state = {
-        commentVal: ''
+        commentVal: '',
+        postControlVisible: false
     }
     
     
@@ -62,12 +63,32 @@ class DashBoardStatusWrapper extends React.Component{
         })    
     }
     
+    
+    postControl = () => {
+        const newState = this.state.postControlVisible ? false : true;
+        this.setState({
+            postControlVisible: newState
+        })
+    }
     render(){
+        const { postControlVisible } = this.state;
         const { cStatus } = this.props;
         return (
             <div>
                 <div className="dashboard-post">
                     <div className="post-from-detail">
+                        <div className="post-control">
+                                <label htmlFor="postIcon">
+                                    <FontAwesomeIcon className="post-icon" icon="ellipsis-h"/> 
+                                </label>
+                                <input type="button" id="postIcon" className="opt-none"
+                                    onClick={this.postControl}/>
+                                { postControlVisible ?
+                                <div className="control-btn">
+                                    <button>Delete</button>
+                                    <button>Report</button>
+                                </div> : null }
+                        </div>
                         <div className="post-from-profile-con left">
                             <div id="post-from-image">
                             
