@@ -119,7 +119,7 @@ class DashBoardStatusWrapper extends React.Component{
                                     className="main-comment-box" type="text" 
                                     placeholder="Say something about this human..."
                                     ref={(text) => this.commentVal = text}
-                                    value={this.commentVal}
+                                    value={this.state.commentVal}
                                 />
                             </div>
                         </div>
