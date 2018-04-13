@@ -39,10 +39,9 @@ class DashBoardMenu extends React.Component{
            prevActiveElem: e.currentTarget
        });
        if(prevActiveElem && prevActiveElem !== e.currentTarget){
-           console.log('should redirect')
             prevActiveElem.parentElement.classList.remove('dashboard-active-tab');
        }   
-        this.props.history.push({
+        this.props.history.replace({
             pathname: e.currentTarget.id,
             retainElem: e.currentTarget
         })

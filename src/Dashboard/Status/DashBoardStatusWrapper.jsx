@@ -85,7 +85,6 @@ class DashBoardStatusWrapper extends React.Component{
                             <div className="post-image" style={{backgroundImage: `url(${cStatus.post_img[0]})`}}></div>  
                                 :
                             cStatus.post_img.map((i, index) => {
-                                console.log(index)
                                 if(index > 2){
                                     return (
                                         <div className="post-image-more">
