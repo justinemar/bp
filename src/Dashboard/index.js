@@ -72,7 +72,7 @@ class DashBoard extends React.Component{
             { validation.code === 401 ? 
                 <div className="dashboard-timeout">
                     <div className="dashboard-timeout-content">
-                            <h1> Your session has expired, please login to continue where you left off </h1>
+                            <h1> {validation.message} </h1>
                             <button onClick={() => this.props.history.push('/')}> Login to continue </button>
                     </div>
                 </div> : null }
