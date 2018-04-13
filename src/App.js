@@ -8,7 +8,7 @@ import image from '@fortawesome/fontawesome-free-solid/faImage'
 import bell from '@fortawesome/fontawesome-free-solid/faBell'
 import RootPage from './Root';
 import Dashboard from './Dashboard';
-import { Route, withRouter } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 fontawesome.library.add(brands, ellipsis, newspaper, image, bell)
 class App extends React.Component{
     render(){
