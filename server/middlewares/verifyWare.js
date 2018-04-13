@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
         jwt.verify(token, process.env.KEY1, function(err, decoded) {
             if(err) {
                 res.status(401).json({
-                    message: "Your session has expired, please login again.",
+                    message: "Your session has expired, please login to continue where you left off",
                     type: 'error',
                     code: 401
                 })
