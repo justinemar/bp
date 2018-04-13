@@ -5,6 +5,11 @@ import { withRouter } from 'react-router-dom';
 
 
 class MenuSetting extends React.Component{
+    
+    componentDidMount(){
+          
+    }
+    
     render(){
         return (
             <div className="section-selected-tab">

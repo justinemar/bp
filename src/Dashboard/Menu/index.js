@@ -11,18 +11,41 @@ class DashBoardMenu extends React.Component{
         prevActiveElem: null
     }
     
+    componentDidMount(){
+        const activeTab = this.props.location.pathname.split('/')
+        let elem = document.querySelector(`#\\\/${activeTab[1]}\\/${activeTab[2]}`)
+        if(elem){
+            this.onMountActiveTab(elem.parentElement)
+        }
+    }
     
+    
+    onMountActiveTab = (e) => {
+       e.classList.add('dashboard-active-tab');
+       this.setState({
+           prevActiveElem: e.children[1]
+       })
+    }
     
     toggleTab = (e) => {
        const { prevActiveElem } = this.state;
+       console.log(e.target)
+       if(e === null) {
+           console.log("null")
+           return false;
+       }
        e.currentTarget.parentElement.classList.add('dashboard-active-tab');
        this.setState({
            prevActiveElem: e.currentTarget
        });
-       if(prevActiveElem !== e.currentTarget){
+       if(prevActiveElem && prevActiveElem !== e.currentTarget){
+           console.log('should redirect')
             prevActiveElem.parentElement.classList.remove('dashboard-active-tab');
-            this.props.history.replace(e.currentTarget.id)
        }   
+        this.props.history.push({
+            pathname: e.currentTarget.id,
+            retainElem: e.currentTarget
+        })
     }
     
     render(){
