@@ -1,9 +1,10 @@
 import React from 'react';
+import { Route } from 'react-router-dom';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
 import MenuGroups from './Menu/MenuGroups.jsx';
-import MenuSetting from './Menu/MenuSetting.jsx';
+import MenuSetting from './Menu/MenuSetting';
 import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
@@ -21,13 +22,12 @@ class DashBoard extends React.Component{
                 type: null,
                 code: null
             },
-            recentUpdates: [],
             tabToRender: null
         };
         this.authUtil = new AuthService();
     }
     
-    
+
     
     initLogout = () => {
          this.authUtil.logout();
@@ -56,16 +56,8 @@ class DashBoard extends React.Component{
         })
     }
     
-    componentDidMount(){
-        socket.on('statusInit', (data) => {
-          console.log('Main DashBoard', data)
-          this.setState({
-              recentUpdates: this.state.recentUpdates.concat(data)
-          });
-        });
-    }   
     render(){
-        const { recentUpdates, validation, } = this.state;
+        const { validation, } = this.state;
         const { user } = this.props;
         return(
             <div className="dashboard-wrapper">
@@ -77,9 +69,10 @@ class DashBoard extends React.Component{
                     </div>
                 </div> : null }
                 <div className="dashboard-main-content">
-                    <DashBoardMenu tabRender={this.renderTab}/>
-                    <DashBoardNotification recentUpdates={recentUpdates}/>
-                    <DashBoardStatusContainer recentUpdates={recentUpdates} user={user} validate={this.validate}/>
+                    <DashBoardMenu tabRender={this.renderTab} props={this.props}/>
+                    <DashBoardNotification/>
+                    <Route path="/dashboard/setting" component={MenuSetting}/>
+                    <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer user={user} validate={this.validate} {...props}/>}/>
                     </div>
                 </div>
         )

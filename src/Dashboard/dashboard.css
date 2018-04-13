@@ -98,7 +98,7 @@
     border: 1px solid rgba(128, 128, 128, 0.1);
 }
 
-.dashboard-post-container{
+.section-selected-tab{
     height: 100%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -414,4 +414,11 @@ color: #fff;
     background: black;
     margin-bottom: 10px !important;
     border-radius: 100px;
+}
+
+.post-icon{
+    cursor: pointer;
+}
+.post-control{
+    text-align: end;
 }

@@ -1,15 +1,17 @@
 import React from 'react';
 import DashBoardPostLayout from './DashBoardPostLayout.jsx';
-import DashBoardRecentsStatus from './DashBoardRecentsStatus.jsx';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper.jsx';
-import moment from 'moment';
+import openSocket from 'socket.io-client';
+const socket = openSocket('/');
 
 class DashBoardStatus extends React.Component{
     
     state = {
         getStatus: [],
+        recentUpdates: [],
         error: null
     }
+    
     
     componentDidMount(){
       fetch('status', { 
@@ -25,31 +27,36 @@ class DashBoardStatus extends React.Component{
                 this.props.validate(res)
                 return;
             }
-            
             this.setState({
                getStatus: res
             })
         }).catch(err => err);
+        
+        socket.on('statusInit', (data) => {
+          console.log('Main DashBoard', data)
+          this.setState({
+              recentUpdates: this.state.recentUpdates.concat(data)
+          });
+        });
     }
     
     render(){
-        const { recentUpdates} = this.props;
-        const { getStatus } = this.state;
+        const { getStatus, recentUpdates } = this.state;
         const updates = getStatus && getStatus.length ? 
             getStatus.map((cStatus, index) => {
                 return (
                     <DashBoardStatusWrapper cStatus={cStatus}/>  
                 )
             }) : <DashBoardPostLayout/>
-        const recent = recentUpdates && recentUpdates.length ?
-            recentUpdates.reverse().map((cStatus, index) => {
+        const newest = recentUpdates && recentUpdates.length ?
+            recentUpdates.map((cStatus, index) => {
                 return (
-                 <DashBoardStatusWrapper cStatus={cStatus}/> 
+                    <DashBoardStatusWrapper cStatus={cStatus}/>    
                 )
             }) : null
         return (
            <div>
-            {recent}
+            {newest}
             {updates} 
            </div>
         )
