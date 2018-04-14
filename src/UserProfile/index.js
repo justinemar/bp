@@ -9,6 +9,7 @@ class UserProfile extends React.Component{
     state = {
         profile: null
     }
+    
     componentDidMount(){
         const userID = this.props.match.params.user
         fetch(`/profile/users/${userID}`, {

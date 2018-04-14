@@ -15,9 +15,11 @@ class App extends React.Component{
     render(){
         return (
          <div>
+            <Switch>
                 <Route exact path="/" render={(props) => <RootPage {...props}/>}/>
                 <Route path="/dashboard" render={(props) => <Dashboard {...props}/>}/>
                 <Route path="/:user" render={(props) => <UserProfile {...props}/>}/>
+            </Switch>
          </div>
             )
     }
