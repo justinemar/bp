@@ -22,7 +22,7 @@ class Login extends React.Component{
         e.preventDefault()
         this.Auth.login(this.email.value, this.password.value)
         .then(res => {
-            this.props.history.push('/dashboard')
+            this.props.history.push('/dashboard/feed')
         })
         .catch(err => {
             this.setState({

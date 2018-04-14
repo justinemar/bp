@@ -421,4 +421,23 @@ color: #fff;
 }
 .post-control{
     text-align: end;
+    position: relative;
+}
+
+.control-btn{
+    position: absolute;
+    right: 0;
+    background: #2f3541;
+    width: 100px;
+    height: 70px;
+    display: grid;
+    border-top-left-radius: 4px;
+}
+
+.control-btn button{
+    border: 0;
+    margin-bottom: 1px;
+    background: #2f3541;
+    color: #ffffff;
+    width: 100%;
 }

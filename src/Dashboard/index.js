@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
@@ -71,10 +71,10 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu tabRender={this.renderTab} props={this.props}/>
                     <DashBoardNotification/>
-                    <Route path="/dashboard/setting" component={MenuSetting}/>
-                    <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer user={user} validate={this.validate} {...props}/>}/>
-                    </div>
+                        <Route path="/dashboard/setting" component={MenuSetting}/>
+                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer user={user} validate={this.validate} {...props}/>}/>
                 </div>
+            </div>
         )
     }
     
