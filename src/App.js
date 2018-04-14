@@ -8,15 +8,16 @@ import image from '@fortawesome/fontawesome-free-solid/faImage'
 import bell from '@fortawesome/fontawesome-free-solid/faBell'
 import RootPage from './Root';
 import Dashboard from './Dashboard';
-import MenuSetting from './Dashboard/Menu/MenuSetting';
-import { Route } from 'react-router-dom';
+import UserProfile from './UserProfile';
+import { Route, Switch } from 'react-router-dom';
 fontawesome.library.add(brands, ellipsis, newspaper, image, bell)
 class App extends React.Component{
     render(){
         return (
          <div>
-            <Route exact path="/" render={(props) => <RootPage {...props}/>}/>
-            <Route path="/dashboard" render={(props) => <Dashboard {...props}/>}/>
+                <Route exact path="/" render={(props) => <RootPage {...props}/>}/>
+                <Route path="/dashboard" render={(props) => <Dashboard {...props}/>}/>
+                <Route path="/:user" render={(props) => <UserProfile {...props}/>}/>
          </div>
             )
     }

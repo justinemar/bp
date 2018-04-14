@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-
+import { Link } from 'react-router-dom';
 
 
 
@@ -75,7 +75,7 @@ class DashBoardStatusWrapper extends React.Component{
     
     render(){
         const { postControlVisible } = this.state;
-        const { cStatus } = this.props;
+        const { cStatus, user } = this.props;
         return (
             <div>
                 <div className="dashboard-post">
@@ -88,14 +88,19 @@ class DashBoardStatusWrapper extends React.Component{
                                     onClick={this.postControl}/>
                                 { postControlVisible ?
                                 <div className="control-btn">
-                                    <button>Delete</button>
+                                    <button>Open in tab</button>
+                                { cStatus.user_id === user.id ?
+                                    <button>Delete</button> : null }
                                     <button>Report</button>
+                                    
                                 </div> : null }
                         </div>
                         <div className="post-from-profile-con left">
-                            <div id="post-from-image">
-                            
-                            </div>
+                             <Link to={`/${cStatus.user_id}`}>
+                                <div id="post-from-image">
+                                
+                                </div>
+                             </Link>
                         </div>
                         <div className="post-info right">
                             <span id="post-from">{cStatus.post_by}</span>

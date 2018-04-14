@@ -28,7 +28,9 @@ module.exports = {
     },
     
     login: (req, res) => {
-        Account.findOne({user_email: req.body.email}, function(err, user){
+        Account.findOne({user_email: req.body.email})
+        .select('+password')
+        .exec(function(err, user){
             if(err) throw err;
 
             if(user){
