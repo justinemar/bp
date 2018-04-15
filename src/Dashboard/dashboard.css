@@ -5,6 +5,14 @@
     width: 100%;
 }
 
+.section-selected-tab{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-bottom: 130px;
+}
+
+
 .dashboard-menu{
     width: 254px;
     float: left;
@@ -84,6 +92,18 @@
     padding: 5px;
 }
 
+.reactions-list{
+    max-height: 150px;
+    height: 35px;
+    width: 100%;
+    background: rgba(128, 128, 128, 0.04);
+}
+
+#post-init-react{
+    margin-right: 5px;
+}
+
+
 .dashboard-content-post{
     margin: 0 auto;
     border: 1px solid rgba(128, 128, 128, 0.08);
@@ -97,15 +117,6 @@
     background: white;
     border: 1px solid rgba(128, 128, 128, 0.1);
 }
-
-.section-selected-tab{
-    height: 100%;
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin-bottom: 130px;
-}
-
-
 
 .dashboard-post-status-main #post-status{
     caret-color: #ffffff;
@@ -152,16 +163,6 @@ color: #fff;
     width: 100%;
 }
 
-.reactions-list{
-    max-height: 150px;
-    height: 35px;
-    width: 100%;
-    background: rgba(128, 128, 128, 0.04);
-}
-
-#post-init-react{
-    margin-right: 5px;
-}
 
 .post-commentBox-wrapper{
     padding: 10px;
@@ -208,18 +209,6 @@ color: #fff;
     border-radius: 50%;
 }
 
-.main-comment-box{
-    overflow: hidden;
-    resize: none;
-    padding-left: 10px;
-    border: 0;
-    word-break: break-all;
-    outline: 0;
-    width: 100%;
-    font-family: 'Segoe UI';
-    color: rgba(128, 128, 128, 0.74);
-    border-left: 2px solid #e2e1e1;
-}
 
 .post-status-wrapper{
     padding-bottom: 5%;
@@ -252,6 +241,19 @@ color: #fff;
     margin-left: 15px;
 }
 
+.main-comment-box{
+    overflow: hidden;
+    resize: none;
+    padding-left: 10px;
+    border: 0;
+    word-break: break-all;
+    outline: 0;
+    width: 100%;
+    font-family: 'Segoe UI';
+    color: rgba(128, 128, 128, 0.74);
+    border-left: 2px solid #e2e1e1;
+}
+
 #opt-share{
     background: #3f95ff;
     padding: 5px;
@@ -269,6 +271,20 @@ color: #fff;
 .opt-none{
     display: none;
 }
+
+
+.opt-cta{
+    display: inline-block;
+    cursor: pointer;  
+}
+
+.opt-image-upload{
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
 .dashboard-opt-left{
     float: left;
     height: 100%;
@@ -337,17 +353,6 @@ color: #fff;
     display: inline-block;
 }
 
-.opt-cta{
-    display: inline-block;
-    cursor: pointer;  
-}
-
-.opt-image-upload{
-    border: 1px solid #ccc;
-    display: inline-block;
-    padding: 6px 12px;
-    cursor: pointer;
-}
 
 
 .file-preview{
@@ -419,6 +424,7 @@ color: #fff;
 .post-icon{
     cursor: pointer;
 }
+
 .post-control{
     text-align: end;
     position: relative;
@@ -441,3 +447,34 @@ color: #fff;
     color: #ffffff;
     width: 100%;
 }
+
+
+.modal-wrapper{
+    background: #2f3541;
+    color: #ffffff;
+    text-align: center;
+}
+
+.modal-wrapper h3{
+    padding: 8px;
+    font-family: 'Segoe UI';
+}
+
+.modal-opt{
+    padding: 10px;
+    background: #3f95ff;
+    width: 100%;
+    display: inline-flex;
+}
+
+.modal-opt button{
+    padding: 5px;
+    border: 0;
+    background: white;
+    color: black;
+}
+
+.modal-delete-btn, .modal-cancel-btn{
+    margin: 0 auto;
+}
+

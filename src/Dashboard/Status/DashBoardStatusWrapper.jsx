@@ -3,7 +3,39 @@ import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom';
 
+const Modal = ({modalVisible, toggleModal, initDelete}) => {
+    const renderModal = modalVisible ?
+        <div className="modal-wrapper">
+            <h3> You sure you want to do this? </h3>
+            <div className="modal-opt">
+                <div className="modal-delete-btn">
+                    <button onClick={initDelete}> Delete </button>
+                </div>
+                <div className="modal-cancel-btn">
+                    <button onClick={toggleModal}> Cancel </button>
+                </div>
+            </div>
+        </div>
+     : null
+     
+     return renderModal;
+}
 
+const PostControl = ({isVisible, currentStatus, util, toggleModal}) => {
+    return (
+        <div>
+        { isVisible ?
+            <div className="control-btn">
+                <button>Open in tab</button>
+            { currentStatus.user_id === util.getProfile().id ?
+                <button onClick={toggleModal}>Delete</button> : null 
+            }
+                <button>Report</button>
+            </div> : null 
+        }
+        </div>
+        )
+}
 
 
 class DashBoardStatusWrapper extends React.Component{
@@ -13,15 +45,13 @@ class DashBoardStatusWrapper extends React.Component{
         super()
         this.state = {
             commentVal: '',
-            postControlVisible: false
+            postControlVisible: false,
+            controlModalVisible: false
         }
     }
     
     
     
-    // static getDerivedStateFromProps(nextProps, currState){
-        
-    // }
     
     handKeyDown = (e) => {
       const el = e.target;
@@ -65,6 +95,17 @@ class DashBoardStatusWrapper extends React.Component{
         })    
     }
     
+    toggleModal = () => {
+        const state = this.state.controlModalVisible ? false : true;
+        this.setState({
+            controlModalVisible: state
+        })    
+    }
+    
+    handleDelete = () => {
+        alert('delete')
+    }
+    
     
     postControl = () => {
         const newState = this.state.postControlVisible ? false : true;
@@ -74,11 +115,12 @@ class DashBoardStatusWrapper extends React.Component{
     }
     
     render(){
-        const { postControlVisible } = this.state;
-        const { cStatus, user } = this.props;
+        const { postControlVisible, controlModalVisible } = this.state;
+        const { cStatus, user, util } = this.props;
         return (
             <div>
                 <div className="dashboard-post">
+                <Modal toggleModal={this.toggleModal} initDelete={this.handleDelete} modalVisible={controlModalVisible}/>
                     <div className="post-from-detail">
                         <div className="post-control">
                                 <label htmlFor={cStatus._id}>
@@ -86,14 +128,11 @@ class DashBoardStatusWrapper extends React.Component{
                                 </label>
                                 <input type="button" id={cStatus._id} className="opt-none"
                                     onClick={this.postControl}/>
-                                { postControlVisible ?
-                                <div className="control-btn">
-                                    <button>Open in tab</button>
-                                { cStatus.user_id === user.id ?
-                                    <button>Delete</button> : null }
-                                    <button>Report</button>
-                                    
-                                </div> : null }
+                                <PostControl isVisible={postControlVisible} 
+                                currentStatus={cStatus} 
+                                util={util}
+                                toggleModal={this.toggleModal}
+                                />
                         </div>
                         <div className="post-from-profile-con left">
                              <Link to={`/${cStatus.user_id}`}>
