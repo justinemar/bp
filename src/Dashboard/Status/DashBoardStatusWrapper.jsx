@@ -119,8 +119,11 @@ class DashBoardStatusWrapper extends React.Component{
         const { cStatus, user, util } = this.props;
         return (
             <div>
+                <Modal toggleModal={this.toggleModal} 
+                initDelete={this.handleDelete} 
+                modalVisible={controlModalVisible}
+                />
                 <div className="dashboard-post">
-                <Modal toggleModal={this.toggleModal} initDelete={this.handleDelete} modalVisible={controlModalVisible}/>
                     <div className="post-from-detail">
                         <div className="post-control">
                                 <label htmlFor={cStatus._id}>
