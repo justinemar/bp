@@ -1,6 +1,4 @@
 import React from 'react';
-import MenuGroups from './MenuGroups.jsx';
-import MenuSetting from './MenuSetting';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { withRouter } from 'react-router-dom';
 
