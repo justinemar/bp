@@ -1,8 +1,9 @@
 const Account = require('../models/Account');
+const jwt = require("jsonwebtoken");
+require('dotenv').config()
 
 
-
-const accountWares = {
+const accountMiddlewares = {
     checkUser: function(req, res, next){
         const filter = req.body.email || req.body.user_id
         Account.findOne({user_email: filter}, function(err, user) {
@@ -24,7 +25,23 @@ const accountWares = {
             }
         })
     },
+    verifyToken: (req, res, next) => {
+        const token = req.headers.authorization.slice(7 - req.headers.authorization.length);
+        jwt.verify(token, process.env.KEY1, function(err, decoded) {
+            if(err) {
+                res.status(401).json({
+                    message: "Your session has expired, please login to continue where you left off",
+                    type: 'error',
+                    code: 401
+                })
+            }
+            
+            if(decoded){
+                next();
+            } 
+        })
+    }
 
 }
 
-module.exports = accountWares;
+module.exports = accountMiddlewares;

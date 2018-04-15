@@ -450,19 +450,23 @@ color: #fff;
 
 
 .modal-wrapper{
-    background: #2f3541;
+    background: rgba(47, 53, 65, 0.78);
+    background: rgba(47, 53, 65, 0.78);
     color: #ffffff;
-    text-align: center;
+    max-width: 500px;
+    z-index: 10;
+    padding: 20px;
+    width: 100%;
 }
 
 .modal-wrapper h3{
+    text-align: center;
     padding: 8px;
     font-family: 'Segoe UI';
 }
 
 .modal-opt{
     padding: 10px;
-    background: #3f95ff;
     width: 100%;
     display: inline-flex;
 }
@@ -470,8 +474,8 @@ color: #fff;
 .modal-opt button{
     padding: 5px;
     border: 0;
-    background: white;
-    color: black;
+    background: #3f95ff;
+    color: white;
 }
 
 .modal-delete-btn, .modal-cancel-btn{

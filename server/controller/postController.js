@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Post = require("../models/UserPost");
 const Account = require("../models/Account");
 const DataUri = require("datauri");
-const verifyToken = require("../middlewares/verifyWare");
+
 
 require('dotenv').config();
 
