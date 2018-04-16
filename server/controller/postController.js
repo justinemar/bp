@@ -74,6 +74,10 @@ module.exports = {
                   res.send(posts.reverse());
               } 
           });
+        },
+    delete: 
+        (req, res) => {
+            Post.findOne({_id: req.body.statusID})
         }
 };
 

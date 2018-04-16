@@ -23,8 +23,8 @@ class DashBoardStatusContainer extends React.Component{
         const imageData = this.state.previewImagesData;
         const formData = new FormData();
         formData.append("description", this.status.value);
-        formData.append("user", this.props.user.info)
-        formData.append("id", this.props.user.id)
+        formData.append("user", this.Auth.getProfile().info)
+        formData.append("id", this.Auth.getProfile().id)
         imageData.forEach(i => {
             formData.append("image", i)
         })
