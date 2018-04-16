@@ -77,7 +77,49 @@ module.exports = {
         },
     delete: 
         (req, res) => {
-            Post.findOne({_id: req.body.statusID})
+            const promises = [];
+            Post.findOne({_id: req.body.statusID},
+            (error, status) => {
+                if(error) throw error;
+                
+                if(status){
+                    const status_images = status.post_img;
+                    if(status_images.length !== 0 || undefined){
+                        status_images.forEach(i => {
+                            promises.push(removeAsync(i))
+                        })
+                    } else {
+                        Promise.resolve(status)
+                    }
+                }
+            })
+            
+            
+            function removeAsync(i){
+                const image_id = i.substr(i.lastIndexOf('/') + 1).split('.')[0];
+                return new Promise(resolve => {
+                    cloudinary.v2.uploader.destroy(image_id, (result) => {
+                        if(result){
+                            resolve(result);
+                        }
+                    }); 
+                });
+            }
+            
+            
+            Promise.all(promises)
+            .then(result => {
+                Post.deleteOne({_id: req.body.statusID}, 
+                (err, result) => {
+                    if(err) throw err;
+                    
+                    if(result){
+                        res.send(result)
+                    }
+                });
+            }).catch(err => {
+                throw err;
+            })
         }
 };
 

@@ -104,18 +104,24 @@ class DashBoardStatusWrapper extends React.Component{
     
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
-        //we get the actual token stored in the token.
-        const storedID = this.props.util.getToken().id; 
+        //we get the actual id stored in the token.
+        const userID = this.props.util.getProfile.id; 
         const statusID = data._id
-        
+        console.log('called')
         fetch('/status', {
             method: "Delete",
             credentials: 'same-origin',
-            body: JSON.stringify({userID: storedID, statusID: statusID}),
+            body: JSON.stringify({userID, statusID}),
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": "Bearer " + this.props.util.getToken()
             }
         })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res)
+        })
+        .catch(err => console.log(err));
         
     }
     
