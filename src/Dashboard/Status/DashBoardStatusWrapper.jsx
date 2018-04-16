@@ -3,13 +3,13 @@ import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom';
 
-const Modal = ({modalVisible, toggleModal, initDelete}) => {
+const Modal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
         <div className="modal-wrapper">
             <h3> You sure you want to do this? </h3>
             <div className="modal-opt">
                 <div className="modal-delete-btn">
-                    <button onClick={initDelete}> Delete </button>
+                    <button onClick={() => initDelete(data)}> Delete </button>
                 </div>
                 <div className="modal-cancel-btn">
                     <button onClick={toggleModal}> Cancel </button>
@@ -102,8 +102,21 @@ class DashBoardStatusWrapper extends React.Component{
         })    
     }
     
-    handleDelete = () => {
-        alert('delete')
+    handleDelete = (data) => {
+        //Instead of getting the id from the user props 
+        //we get the actual token stored in the token.
+        const storedID = this.props.util.getToken().id; 
+        const statusID = data._id
+        
+        fetch('/status', {
+            method: "Delete",
+            credentials: 'same-origin',
+            body: JSON.stringify({userID: storedID, statusID: statusID}),
+            headers: {
+                "Authorization": "Bearer " + this.props.util.getToken()
+            }
+        })
+        
     }
     
     
@@ -116,12 +129,13 @@ class DashBoardStatusWrapper extends React.Component{
     
     render(){
         const { postControlVisible, controlModalVisible } = this.state;
-        const { cStatus, user, util } = this.props;
+        const { cStatus, util } = this.props;
         return (
             <div>
                 <Modal toggleModal={this.toggleModal} 
                 initDelete={this.handleDelete} 
                 modalVisible={controlModalVisible}
+                data={cStatus}
                 />
                 <div className="dashboard-post">
                     <div className="post-from-detail">

@@ -13,7 +13,8 @@ router.get('/', root.index);
 router.route('/status')
   .all(accountMiddleWare.verifyToken)
   .get(status.get)
-  .post(status.new);
+  .post(status.new)
+  .delete(status.delete);
 
 
 router.get('/profile/users/:user', profile.getUser)  

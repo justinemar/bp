@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const UserPostSchema = new Schema({
     user_id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: true,
     },
     post_img: {
