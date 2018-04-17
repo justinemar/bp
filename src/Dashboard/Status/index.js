@@ -48,7 +48,7 @@ class DashBoardStatusContainer extends React.Component{
         const output = this.filePreview;
         let divcopy = this.state.previewImages;
         let imagecopy = this.state.previewImagesData;
-        let div = undefined;
+        let div;
         let divStore = [];
         let dataStore = [];
         for (var i = 0, f; f = this.imageUpload.files[i]; i++) {

@@ -35,7 +35,7 @@ class DashBoardStatus extends React.Component{
         socket.on('statusInit', (data) => {
           console.log('Main DashBoard', data)
           this.setState({
-              recentUpdates: this.state.recentUpdates.concat(data)
+              recentUpdates: this.state.recentUpdates.concat(data).reverse()
           });
         });
     }
@@ -43,7 +43,7 @@ class DashBoardStatus extends React.Component{
     render(){
         const { getStatus, recentUpdates } = this.state;
         const { util } = this.props;
-        const updates = getStatus && getStatus.length ? 
+        const updates = getStatus && getStatus.length || recentUpdates && recentUpdates.length ? 
             getStatus.map((cStatus, index) => {
                 return (
                     <DashBoardStatusWrapper util={util} cStatus={cStatus} user={this.props.user}/>  
