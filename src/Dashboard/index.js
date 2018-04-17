@@ -46,8 +46,6 @@ class DashBoard extends React.Component{
             
             return;
         } 
-        
-        
     }
     
     renderTab = (tabName) => {

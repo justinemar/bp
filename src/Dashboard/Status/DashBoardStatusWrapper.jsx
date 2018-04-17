@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom';
+import openSocket from 'socket.io-client';
+const socket = openSocket('/');
 
 const Modal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
@@ -48,10 +50,9 @@ class DashBoardStatusWrapper extends React.Component{
             postControlVisible: false,
             controlModalVisible: false
         }
+        
+        
     }
-    
-    
-    
     
     handKeyDown = (e) => {
       const el = e.target;
@@ -107,7 +108,6 @@ class DashBoardStatusWrapper extends React.Component{
         //we get the actual id stored in the token.
         const userID = this.props.util.getProfile.id; 
         const statusID = data._id
-        console.log('called')
         fetch('/status', {
             method: "Delete",
             credentials: 'same-origin',

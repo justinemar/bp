@@ -6,7 +6,7 @@ export default class AuthService {
         this.login = this.login.bind(this)
         this.getProfile = this.getProfile.bind(this)
     }
-
+    
     login(email, password) {
         return this.fetch('/login', {
             method: 'POST',

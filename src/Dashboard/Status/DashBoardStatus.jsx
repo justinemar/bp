@@ -14,26 +14,22 @@ class DashBoardStatus extends React.Component{
     
     
     componentDidMount(){
-      fetch('status', { 
+      this.props.util.fetch('status', { 
          method: 'GET', 
          credentials: 'same-origin',
-         headers: {
-             "Authorization": 'Bearer ' + this.props.util.getToken()
-         }
       })
-        .then(res => res.json())
-        .then(res => {
-            if(res.code === 401){
-                this.props.validate(res)
-                return;
-            }
-            this.setState({
-               getStatus: res
-            })
-        }).catch(err => err);
+      .then(res => {
+        if(res.code === 401){
+            this.props.validate(res)
+            return;
+        }
+        this.setState({
+           getStatus: res
+        })
+      })
+      .catch(err => err);
         
         socket.on('statusInit', (data) => {
-          console.log('Main DashBoard', data)
           this.setState({
               recentUpdates: this.state.recentUpdates.concat(data).reverse()
           });

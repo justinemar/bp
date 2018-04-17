@@ -34,14 +34,12 @@ class DashBoardStatusContainer extends React.Component{
           body: formData,
         })
         .then(res => {
-            if(res.code === 401){
-                this.props.validate(res)
-            } else if(res.code === 200){
+            this.props.validate(res)
+            if(res.code === 200){
                 socket.emit('statusInit', res.data)
             }
-            
-            
-        }).catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
     }
     
     previewFile = (input) => {
