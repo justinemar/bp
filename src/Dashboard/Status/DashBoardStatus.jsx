@@ -31,29 +31,32 @@ class DashBoardStatus extends React.Component{
         
         socket.on('statusInit', (data) => {
           this.setState({
-              recentUpdates: this.state.recentUpdates.concat(data).reverse()
+              recentUpdates: this.state.recentUpdates.concat(data).reverse(),
+              getStatus: this.state.getStatus.concat(data).reverse()
           });
         });
+        
+        socket.on('statusDelete', (data) => {
+            console.log(data._id)
+            const state = this.state.getStatus;
+            const filtered = state.filter(obj => obj._id !== data._id)
+            this.setState({
+                getStatus: filtered
+            })
+        })
     }
     
     render(){
         const { getStatus, recentUpdates } = this.state;
-        const { util } = this.props;
+        const { util, validate } = this.props;
         const updates = getStatus && getStatus.length || recentUpdates && recentUpdates.length ? 
             getStatus.map((cStatus, index) => {
                 return (
-                    <DashBoardStatusWrapper util={util} cStatus={cStatus} user={this.props.user}/>  
+                    <DashBoardStatusWrapper validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
                 )
             }) : <DashBoardPostLayout/>
-        const newest = recentUpdates && recentUpdates.length ?
-            recentUpdates.map((cStatus, index) => {
-                return (
-                    <DashBoardStatusWrapper util={util} cStatus={cStatus} user={this.props.user}/>    
-                )
-            }) : null
         return (
            <div>
-            {newest}
             {updates} 
            </div>
         )

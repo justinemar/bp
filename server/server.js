@@ -50,6 +50,11 @@ io.on('connection', (socket) => {
       console.log(status)
          io.emit('statusInit', status);
     })
+    
+    socket.on('statusDelete', (status) => {
+      console.log(status)
+        io.emit('statusDelete', status);
+    })
 
 });
 

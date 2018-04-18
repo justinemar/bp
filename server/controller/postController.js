@@ -22,7 +22,7 @@ module.exports = {
             const promises = [];
             const images = [];
             
-            //Get buffer from files and transform
+            //Get buffer from files
             for(var key in req.files){ 
               const obj = req.files[key];
               uri.format('.png', obj.buffer);
@@ -78,11 +78,13 @@ module.exports = {
     delete: 
         (req, res) => {
             const promises = [];
+            let deletedPost;
             Post.findOne({_id: req.body.statusID},
             (error, status) => {
                 if(error) throw error;
                 
                 if(status){
+                    deletedPost = status;
                     const status_images = status.post_img;
                     if(status_images.length !== 0 || undefined){
                         status_images.forEach(i => {
@@ -96,11 +98,11 @@ module.exports = {
             
             
             function removeAsync(i){
-                const image_id = i.substr(i.lastIndexOf('/') + 1).split('.')[0];
+                const image_id = i.substr(i.lastIndexOf('/') + 1).split('.')[0];//Get image unique ID
                 return new Promise(resolve => {
-                    cloudinary.v2.uploader.destroy(image_id, (result) => {
+                    cloudinary.v2.uploader.destroy(image_id, (result) => { //Destroy image
                         if(result){
-                            resolve(result);
+                            resolve(result); // Resolve promise
                         }
                     }); 
                 });
@@ -108,13 +110,14 @@ module.exports = {
             
             
             Promise.all(promises)
-            .then(result => {
+            .then(result => { // Get resolve data
                 Post.deleteOne({_id: req.body.statusID}, 
                 (err, result) => {
                     if(err) throw err;
                     
                     if(result){
-                        res.send(result)
+                        console.log(deletedPost)
+                        res.json({data: deletedPost})
                     }
                 });
             }).catch(err => {
