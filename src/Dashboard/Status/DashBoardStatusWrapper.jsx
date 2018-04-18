@@ -129,7 +129,7 @@ class DashBoardStatusWrapper extends React.Component{
             this.props.validate(res);
             socket.emit('statusDelete', res.data);
             this.toggleModal();
-            this.postControlVisible();
+            this.togglePostControl();
         })
         .catch(err => console.log(err));
         
