@@ -103,6 +103,13 @@ class DashBoardStatusWrapper extends React.Component{
         })    
     }
     
+    togglePostControl = () => {
+        const newState = this.state.postControlVisible ? false : true;
+        this.setState({
+            postControlVisible: newState
+        })
+    }
+    
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
         //we get the actual id stored in the token.
@@ -120,20 +127,14 @@ class DashBoardStatusWrapper extends React.Component{
         .then(res => res.json())
         .then(res => {
             this.props.validate(res);
-            socket.emit('statusDelete', res.data)
-            this.toggleModal()
+            socket.emit('statusDelete', res.data);
+            this.toggleModal();
+            this.postControlVisible();
         })
         .catch(err => console.log(err));
         
     }
     
-    
-    postControl = () => {
-        const newState = this.state.postControlVisible ? false : true;
-        this.setState({
-            postControlVisible: newState
-        })
-    }
     
     render(){
         const { postControlVisible, controlModalVisible } = this.state;
@@ -152,7 +153,7 @@ class DashBoardStatusWrapper extends React.Component{
                                     <FontAwesomeIcon className="post-icon" icon="ellipsis-h"/> 
                                 </label>
                                 <input type="button" id={cStatus._id} className="opt-none"
-                                    onClick={this.postControl}/>
+                                    onClick={this.togglePostControl}/>
                                 <PostControl isVisible={postControlVisible} 
                                 currentStatus={cStatus} 
                                 util={util}
