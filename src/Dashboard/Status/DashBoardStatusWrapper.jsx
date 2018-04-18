@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
 
-const Modal = ({modalVisible, toggleModal, initDelete, data}) => {
+const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
         <div className="modal-wrapper">
             <h3> You sure you want to do this? </h3>
@@ -138,7 +138,7 @@ class DashBoardStatusWrapper extends React.Component{
         const { cStatus, util } = this.props;
         return (
             <div>
-                <Modal toggleModal={this.toggleModal} 
+                <DeleteConfirmModal toggleModal={this.toggleModal} 
                 initDelete={this.handleDelete} 
                 modalVisible={controlModalVisible}
                 data={cStatus}
