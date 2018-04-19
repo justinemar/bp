@@ -3,6 +3,7 @@ import DashBoardPostLayout from './DashBoardPostLayout.jsx';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper.jsx';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
+import moment from 'moment';
 
 class DashBoardStatus extends React.Component{
     
@@ -27,7 +28,7 @@ class DashBoardStatus extends React.Component{
            getStatus: res
         })
       })
-      .catch(err => err);
+      .catch(err => console.log(err));
         
         socket.on('statusInit', (data) => {
           this.setState({
