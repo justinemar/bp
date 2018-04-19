@@ -3,7 +3,7 @@ import DashBoardPostLayout from './DashBoardPostLayout.jsx';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper.jsx';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
-import moment from 'moment';
+
 
 class DashBoardStatus extends React.Component{
     
@@ -21,12 +21,12 @@ class DashBoardStatus extends React.Component{
       })
       .then(res => {
         if(res.code === 401){
-            this.props.validate(res)
+            this.props.validate(res);
             return;
         }
         this.setState({
            getStatus: res
-        })
+        });
       })
       .catch(err => console.log(err));
         
@@ -38,13 +38,12 @@ class DashBoardStatus extends React.Component{
         });
         
         socket.on('statusDelete', (data) => {
-            console.log(data._id)
             const state = this.state.getStatus;
-            const filtered = state.filter(obj => obj._id !== data._id)
+            const filtered = state.filter(obj => obj._id !== data._id);
             this.setState({
                 getStatus: filtered
-            })
-        })
+            });
+        });
     }
     
     render(){
@@ -54,13 +53,13 @@ class DashBoardStatus extends React.Component{
             getStatus.map((cStatus, index) => {
                 return (
                     <DashBoardStatusWrapper validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
-                )
-            }) : <DashBoardPostLayout/>
+                );
+            }) : <DashBoardPostLayout/>;
         return (
            <div>
             {updates} 
            </div>
-        )
+        );
     }
 }
 
