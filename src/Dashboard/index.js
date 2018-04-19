@@ -30,7 +30,7 @@ class DashBoard extends React.Component{
 
     
     initLogout = () => {
-         this.authUtil.logout();
+         this.props.history.push('/', this.authUtil.logout());
     }
     
     
@@ -42,7 +42,7 @@ class DashBoard extends React.Component{
                     type: res.type,
                     code: res.code
                 }
-            }, this.initLogout())
+            })
             
             return;
         } 
@@ -63,7 +63,7 @@ class DashBoard extends React.Component{
                 <div className="dashboard-timeout">
                     <div className="dashboard-timeout-content">
                             <h1> {validation.message} </h1>
-                            <button onClick={() => this.props.history.push('/')}> Login to continue </button>
+                            <button onClick={this.initLogout}> Login to continue </button>
                     </div>
                 </div> : null }
                 <div className="dashboard-main-content">
