@@ -14,9 +14,8 @@ class DashBoardNotification extends React.Component {
     }
     componentDidMount(){
         socket.on('statusInit', (data) => {
-          console.log('Notification', data)
           this.setState({
-              notifications: this.state.notifications.concat(data)
+              notifications: this.state.notifications.concat(data).reverse()
           });
         });
     }   

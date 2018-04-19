@@ -2,8 +2,10 @@ import React from 'react';
 import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom';
+import openSocket from 'socket.io-client';
+const socket = openSocket('/');
 
-const Modal = ({modalVisible, toggleModal, initDelete, data}) => {
+const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
         <div className="modal-wrapper">
             <h3> You sure you want to do this? </h3>
@@ -48,10 +50,9 @@ class DashBoardStatusWrapper extends React.Component{
             postControlVisible: false,
             controlModalVisible: false
         }
+        
+        
     }
-    
-    
-    
     
     handKeyDown = (e) => {
       const el = e.target;
@@ -102,12 +103,18 @@ class DashBoardStatusWrapper extends React.Component{
         })    
     }
     
+    togglePostControl = () => {
+        const newState = this.state.postControlVisible ? false : true;
+        this.setState({
+            postControlVisible: newState
+        })
+    }
+    
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
         //we get the actual id stored in the token.
         const userID = this.props.util.getProfile.id; 
         const statusID = data._id
-        console.log('called')
         fetch('/status', {
             method: "Delete",
             credentials: 'same-origin',
@@ -119,26 +126,22 @@ class DashBoardStatusWrapper extends React.Component{
         })
         .then(res => res.json())
         .then(res => {
-            console.log(res)
+            this.props.validate(res);
+            socket.emit('statusDelete', res.data);
+            this.toggleModal();
+            this.togglePostControl();
         })
         .catch(err => console.log(err));
         
     }
     
     
-    postControl = () => {
-        const newState = this.state.postControlVisible ? false : true;
-        this.setState({
-            postControlVisible: newState
-        })
-    }
-    
     render(){
         const { postControlVisible, controlModalVisible } = this.state;
         const { cStatus, util } = this.props;
         return (
             <div>
-                <Modal toggleModal={this.toggleModal} 
+                <DeleteConfirmModal toggleModal={this.toggleModal} 
                 initDelete={this.handleDelete} 
                 modalVisible={controlModalVisible}
                 data={cStatus}
@@ -150,7 +153,7 @@ class DashBoardStatusWrapper extends React.Component{
                                     <FontAwesomeIcon className="post-icon" icon="ellipsis-h"/> 
                                 </label>
                                 <input type="button" id={cStatus._id} className="opt-none"
-                                    onClick={this.postControl}/>
+                                    onClick={this.togglePostControl}/>
                                 <PostControl isVisible={postControlVisible} 
                                 currentStatus={cStatus} 
                                 util={util}

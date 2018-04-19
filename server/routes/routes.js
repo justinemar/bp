@@ -4,7 +4,6 @@ const root = require("../controller/indexController");
 const account = require("../controller/accountController");
 const comment = require("../controller/commentController");
 const status = require("../controller/postController");
-const profile = require("../controller/profileController");
 const accountMiddleWare = require("../middlewares/account");
 
 
@@ -16,8 +15,7 @@ router.route('/status')
   .post(status.new)
   .delete(status.delete);
 
-
-router.get('/profile/users/:user', profile.getUser)  
+router.get('/profile/users/:user', account.getUser);
 
 router.post('/register', accountMiddleWare.checkUser, account.register);
 

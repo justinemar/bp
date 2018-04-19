@@ -9,7 +9,7 @@ import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
-const socket = openSocket('/');
+
 
 
 class DashBoard extends React.Component{
@@ -46,8 +46,6 @@ class DashBoard extends React.Component{
             
             return;
         } 
-        
-        
     }
     
     renderTab = (tabName) => {
