@@ -1,10 +1,19 @@
 import React from 'react';
 import moment from 'moment';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import { Link, Route } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
 
+
+
+const PostTabContainer = () => {
+    return (
+        <div>
+            <h1>Post </h1>
+        </div>
+    )
+}
 const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
         <div className="modal-wrapper">
@@ -18,10 +27,10 @@ const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
                 </div>
             </div>
         </div>
-     : null
+     : null;
      
      return renderModal;
-}
+};
 
 const PostControl = ({isVisible, currentStatus, util, toggleModal}) => {
     return (
@@ -36,20 +45,20 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal}) => {
             </div> : null 
         }
         </div>
-        )
-}
+        );
+};
 
 
 class DashBoardStatusWrapper extends React.Component{
     
     
     constructor(){
-        super()
+        super();
         this.state = {
             commentVal: '',
             postControlVisible: false,
             controlModalVisible: false
-        }
+        };
         
         
     }
@@ -64,7 +73,7 @@ class DashBoardStatusWrapper extends React.Component{
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
           },0);
       } else if(e.keyCode === 13){
-        e.preventDefault()
+        e.preventDefault();
           if(this.state.commentVal.length <= 0 || this.state.commentVal.match(/^\s*$/g)){
               return;
           }
@@ -77,10 +86,10 @@ class DashBoardStatusWrapper extends React.Component{
                 if(res.message['message'] === 'invalid token'){
                     this.initLogout();
                 } else {
-                    console.log('success')
+                    console.log('success');
                 }
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
       }
       
       // For word breakpoint
@@ -93,28 +102,28 @@ class DashBoardStatusWrapper extends React.Component{
     handleOnChange = (e) => {
         this.setState({
             commentVal: e.target.value
-        })    
+        })  ;  
     }
     
     toggleModal = () => {
         const state = this.state.controlModalVisible ? false : true;
         this.setState({
             controlModalVisible: state
-        })    
+        });
     }
     
     togglePostControl = () => {
         const newState = this.state.postControlVisible ? false : true;
         this.setState({
             postControlVisible: newState
-        })
+        });
     }
     
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
         //we get the actual id stored in the token.
         const userID = this.props.util.getProfile.id; 
-        const statusID = data._id
+        const statusID = data._id;
         fetch('/status', {
             method: "Delete",
             credentials: 'same-origin',
@@ -182,13 +191,13 @@ class DashBoardStatusWrapper extends React.Component{
                                 if(index > 2){
                                     return (
                                         <div className="post-image-more">
-                                            <h4> Show more </h4>
+                                            <Link to={`/${cStatus.user_id}/status/${cStatus._id}`}><h4> Show more </h4></Link>
                                         </div>
-                                    )
+                                    );
                                 }
                                 return (
                                     <div className="post-image-small" style={{backgroundImage: `url(${i})`}}></div>
-                                )
+                                );
                             })
                         }
                         </div>
@@ -220,7 +229,7 @@ class DashBoardStatusWrapper extends React.Component{
                     </div>
                 </div>      
             </div>
-        )
+        );
     }
 }
 

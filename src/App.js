@@ -18,7 +18,7 @@ class App extends React.Component{
             <Switch>
                 <Route exact path="/" render={(props) => <RootPage {...props}/>}/>
                 <Route path="/dashboard" render={(props) => <Dashboard {...props}/>}/>
-                <Route path="/:user" render={(props) => <UserProfile {...props}/>}/>
+                <Route path="/:user/:status_id?" render={(props) => <UserProfile {...props}/>}/>
             </Switch>
          </div>
             )
