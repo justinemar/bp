@@ -32,12 +32,12 @@ const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
      return renderModal;
 };
 
-const PostControl = ({isVisible, currentStatus, util, toggleModal}) => {
+const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) => {
     return (
         <div>
         { isVisible ?
             <div className="control-btn">
-                <button>Open in tab</button>
+                <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
             { currentStatus.user_id === util.getProfile().id ?
                 <button onClick={toggleModal}>Delete</button> : null 
             }
@@ -119,6 +119,10 @@ class DashBoardStatusWrapper extends React.Component{
         });
     }
     
+    
+    handleStatusTab = (status) => {
+        this.props.history.push(`/${status.user_id}/status/${status._id}`)
+    }
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
         //we get the actual id stored in the token.
@@ -166,6 +170,7 @@ class DashBoardStatusWrapper extends React.Component{
                                 <PostControl isVisible={postControlVisible} 
                                 currentStatus={cStatus} 
                                 util={util}
+                                handleStatusTab={this.handleStatusTab}
                                 toggleModal={this.toggleModal}
                                 />
                         </div>

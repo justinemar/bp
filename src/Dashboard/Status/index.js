@@ -149,7 +149,7 @@ class DashBoardStatusContainer extends React.Component{
                     util={this.Auth}
                     recentUpdates={recentUpdates}
                     validate={this.props.validate}
-                    user={this.props.user}/>
+                    user={this.props.user} {...this.props}/>
                 </div>
             </div>
             
