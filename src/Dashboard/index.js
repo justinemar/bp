@@ -56,7 +56,6 @@ class DashBoard extends React.Component{
 
     render(){
         const { validation, } = this.state;
-        const { user } = this.props;
         return(
             <div className="dashboard-wrapper">
             { validation.code === 401 ? 
@@ -69,8 +68,8 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu tabRender={this.renderTab} props={this.props}/>
                     <DashBoardNotification/>
-                        <Route path="/dashboard/setting" component={MenuSetting}/>
-                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer user={user} validate={this.validate} {...props}/>}/>
+                        <Route path="/dashboard/setting" render={(props) => <MenuSetting {...this.props}/>}/>
+                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
             </div>
         )

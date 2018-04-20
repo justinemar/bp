@@ -6,11 +6,12 @@ import ellipsis from '@fortawesome/fontawesome-free-solid/faEllipsisH'
 import newspaper from '@fortawesome/fontawesome-free-solid/faNewspaper'
 import image from '@fortawesome/fontawesome-free-solid/faImage'
 import bell from '@fortawesome/fontawesome-free-solid/faBell'
+import edit from '@fortawesome/fontawesome-free-solid/faEdit'
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import UserProfile from './UserProfile';
 import { Route, Switch } from 'react-router-dom';
-fontawesome.library.add(brands, ellipsis, newspaper, image, bell)
+fontawesome.library.add(brands, ellipsis, newspaper, image, bell, edit)
 class App extends React.Component{
     render(){
         return (

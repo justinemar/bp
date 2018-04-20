@@ -42,10 +42,10 @@ class DashBoardMenu extends React.Component{
     }
     
     toggleClassTab(prevActiveElem, currentTarget, navigate){
-       currentTarget.parentElement.classList.add('dashboard-active-tab');
        this.setState({
            prevActiveElem: currentTarget
        });
+       currentTarget.parentElement.classList.add('dashboard-active-tab');
        if(prevActiveElem && prevActiveElem !== currentTarget){
             prevActiveElem.parentElement.classList.remove('dashboard-active-tab');
        }
