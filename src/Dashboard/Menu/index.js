@@ -1,5 +1,5 @@
 import React from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome'
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import { withRouter } from 'react-router-dom';
 
 
@@ -10,39 +10,46 @@ class DashBoardMenu extends React.Component{
     }
     
     componentDidMount(){
-        const activeTab = this.props.location.pathname.split('/')
-        let elem = document.querySelector(`#\\\/${activeTab[1]}\\/${activeTab[2]}`)
+        const { location } = this.props;
+        const activeTab = location.pathname.split('/');
+        let elem = document.querySelector(`#\\\/${activeTab[1]}\\/${activeTab[2]}`);
         if(elem){
-            this.onMountActiveTab(elem.parentElement)
+            this.onMountActiveTab(elem.parentElement);
         }
     }
-    
     
     onMountActiveTab = (e) => {
        e.classList.add('dashboard-active-tab');
        this.setState({
            prevActiveElem: e.children[1]
-       })
+       });
     }
     
     toggleTab = (e) => {
        const { prevActiveElem } = this.state;
-       console.log(e.target)
+       const { history } = this.props;
        if(e === null) {
-           console.log("null")
            return false;
        }
-       e.currentTarget.parentElement.classList.add('dashboard-active-tab');
+        this.toggleClassTab(
+                prevActiveElem, 
+                e.currentTarget, 
+                () => history.push({
+                        pathname: e.currentTarget.id,
+                        retainElem: e.currentTarget
+                })
+        );
+    }
+    
+    toggleClassTab(prevActiveElem, currentTarget, navigate){
+       currentTarget.parentElement.classList.add('dashboard-active-tab');
        this.setState({
-           prevActiveElem: e.currentTarget
+           prevActiveElem: currentTarget
        });
-       if(prevActiveElem && prevActiveElem !== e.currentTarget){
+       if(prevActiveElem && prevActiveElem !== currentTarget){
             prevActiveElem.parentElement.classList.remove('dashboard-active-tab');
-       }   
-        this.props.history.replace({
-            pathname: e.currentTarget.id,
-            retainElem: e.currentTarget
-        })
+       }
+       navigate();
     }
     
     render(){
@@ -69,7 +76,7 @@ class DashBoardMenu extends React.Component{
                     </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 

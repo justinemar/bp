@@ -13,7 +13,23 @@ class MenuSetting extends React.Component{
     render(){
         return (
             <div className="section-selected-tab">
-            <h1> Menu Setting </h1>
+            <div className="setting-menu">
+                <div className="menu-tabs-container">
+                    <ul className="menu-list">
+                        <li>
+                        <div className="menu-account-tab">
+                            <div className="menu-tab-title">
+                                <h3> Account </h3>
+                            </div>
+                            <div className="menu-tab-controls">
+                            <label htmlFor="displayName"></label>
+                            <input id="displayName" type="text"/>
+                            </div>
+                        </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
             </div>
         )
     }
