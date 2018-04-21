@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import SettingInput from './SettingInput.jsx';
 import './setting.css';
 
 
@@ -27,23 +27,19 @@ class MenuSetting extends React.Component{
                                 <div className="tab-control display-name-control">
                                     <div className="tab-content">
                                         <label htmlFor="displayName" className="labelText">Display name:</label>
-                                        <input id="displayName" type="text" value={user.info}/>    
-                                        <span className="control-default">{user.displayName || user.info}</span>
-                                         <label htmlFor="edit-name">
-                                            <FontAwesomeIcon className="setting-icon" icon="edit"/> 
-                                        </label>
-                                        <input onClick={() => alert('1')} type="button" id="edit-name" className="opt-none"/>
+                                        <SettingInput
+                                        type="text"
+                                        value={user}
+                                        forLabel="edit-name"/>
                                     </div>
                                 </div>
                                 <div className="tab-control email-control">
                                     <div className="tab-content">
                                         <label htmlFor="email" className="labelText">Email:</label>
-                                        <input id="email" type="email" value={user.info}/>
-                                        <span className="control-default">{user.info}</span>
-                                        <label htmlFor="edit-email">
-                                            <FontAwesomeIcon className="setting-icon" icon="edit"/> 
-                                        </label>
-                                        <input onClick={() => alert('2')} type="button" id="edit-email" className="opt-none"/>
+                                        <SettingInput 
+                                        type="email"
+                                        value={user}
+                                        forLabel="edit-email"/>
                                     </div>
                                 </div>
                             </div>
@@ -56,6 +52,5 @@ class MenuSetting extends React.Component{
         )
     }
 }
-
 
 export default withRouter(MenuSetting);
