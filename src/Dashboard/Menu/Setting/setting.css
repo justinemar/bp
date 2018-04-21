@@ -1,0 +1,47 @@
+.setting-menu{
+    height: 100%;
+    background: #272C38;
+    color: #D7DDE8;
+    font-family: 'Segoe UI';
+}
+
+.setting-icon{
+    margin-left: 10px;
+    font-size: 13px;
+    color: #cecece;
+}
+
+.control-default{
+    color: #3f95ff;
+    font-size: 14px;
+}
+
+.menu-tab-controls{
+    padding: 20px;    
+}
+
+.menu-tab-controls .tab-control input{
+    background: #2f3541;
+    border: 1px solid rgba(234, 234, 234, 0.25);
+    outline: 0;
+    color: #d7dde8;
+    padding: 8px;
+    width: 240px;
+    font-size: 12px;
+}
+
+.menu-tab-title{
+    padding: 10px;
+    font-size: 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tab-content{
+    max-width: 280px;
+    margin-bottom: 20px;
+}
+
+.tab-content .labelText{
+    margin-bottom: 5px;
+    display: block;
+}

@@ -52,7 +52,7 @@ class DashBoardStatus extends React.Component{
         const updates = getStatus && getStatus.length || recentUpdates && recentUpdates.length ? 
             getStatus.map((cStatus, index) => {
                 return (
-                    <DashBoardStatusWrapper validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
+                    <DashBoardStatusWrapper {...this.props} validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
                 );
             }) : <DashBoardPostLayout/>;
         return (
