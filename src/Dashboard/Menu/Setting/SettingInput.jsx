@@ -4,7 +4,8 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 class SettingInput extends React.Component{
     
     state = {
-        show: false    
+        show: false,
+        bindValue: this.props.value.info || this.props.value.displayName
     }
     
     triggerEdit = () => {
@@ -13,14 +14,21 @@ class SettingInput extends React.Component{
             show: newState
         })
     }
+    
+    handleChange = (e) => {
+        this.setState({
+            bindValue: e.target.value
+        })
+    }
+    
     render(){
-        const { className, type, value, forLabel } = this.props;
+        const { className, type, forLabel } = this.props;
         return (
             <div>
                 { this.state.show ?
-                    <input className={className} type={type} value={value.info}/>    
+                    <input onChange={this.handleChange} className={className} type={type} value={this.state.bindValue}/>    
                     : 
-                    <span className="control-default">{value.displayName || value.info}</span>
+                    <span className="control-default">{this.state.bindValue}</span>
                 }
                 
                 { this.state.show ?
