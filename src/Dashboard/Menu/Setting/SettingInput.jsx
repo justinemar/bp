@@ -28,7 +28,7 @@ class SettingInput extends React.Component{
         const { dataChange } = this.props;
         if(bindValue !== originalValue){
             dataChange(bindValue, originalValue);
-        }   
+        }
     }
     
     render(){
@@ -43,11 +43,11 @@ class SettingInput extends React.Component{
                 
                 { this.state.show ?
                     <label htmlFor={forLabel}>
-                         <FontAwesomeIcon className="setting-icon" icon="ban"/> 
+                         <FontAwesomeIcon className="setting-icon" id="ban" icon="ban"/> 
                     </label>
                     :
                     <label htmlFor={forLabel}>
-                        <FontAwesomeIcon className="setting-icon" icon="edit"/> 
+                        <FontAwesomeIcon className="setting-icon" id="edit" icon="edit"/> 
                     </label>
                 }
                 

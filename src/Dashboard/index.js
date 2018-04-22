@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
@@ -11,32 +12,30 @@ import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
 
-const DashBoardTimeOut = ({validation}) => {
+const DashBoardTimeOut = ({validation, history}) => {
     return (
         <div>
         { validation.code === 401 ? 
                 <div className="dashboard-timeout">
                     <div className="dashboard-timeout-content">
                             <h1> {validation.message} </h1>
-                            <button onClick={() => this.props.history.push('/')}> Login to continue </button>
+                            <button onClick={() => history.push('/')}> Login to continue </button>
                     </div>
                 </div> : null }  
         </div>
-    )    
-}
+    );
+};
 
-const DashBoardDataChange = ({dataChange}) => {
+const DashBoardDataChange = ({isActiveClass}) => {
     return (
-        <div>
-            { dataChange ? 
-                <div className="dashboard-change-notificaiton">
-                    <div className="dashboard-change-content">
-                            <h1> DATA CHANGE </h1>
-                    </div>
-                </div> : null }  
-        </div>
-    )    
-}
+        <div className="dashboard-change-notificaiton">
+            <div className={`dashboard-change-content ${isActiveClass}`}>
+            <FontAwesomeIcon className="change-icon" icon="save"/>
+                    <h1>Account updated!</h1>
+            </div>
+        </div> 
+    );    
+};
 
 
 
@@ -50,10 +49,10 @@ class DashBoard extends React.Component{
                 type: null,
                 code: null
             },
-            tabToRender: null,
-            dataChange: false
+            isActiveClass: 'nonactive-class'
         };
         this.authUtil = new AuthService();
+        this.timeOut;
     }
     
 
@@ -71,38 +70,43 @@ class DashBoard extends React.Component{
                     type: res.type,
                     code: res.code
                 }
-            }, this.initLogout())
+            }, this.initLogout());
             
             return;
         } 
     }
     
-    renderTab = (tabName) => {
+    removeChageNotification = () => {
         this.setState({
-            tabToRender: tabName
-        })
+            isActiveClass: 'nonactive-class'
+        });
+        clearTimeout(this.timeOut);
     }
     
     dataChange = (newData, originalData) => {
         this.setState({
-            dataChange: true
-        })
+            isActiveClass: 'active-class'
+        });
+        
+        this.timeOut = setTimeout(() => {
+          this.removeChageNotification();
+        }, 3000);
     }
     
     render(){
-        const { validation, dataChange } = this.state;
+        const { validation,  isActiveClass } = this.state;
         return(
             <div className="dashboard-wrapper">
-            <DashBoardTimeOut validation={validation}/>
-            <DashBoardDataChange dataChange={dataChange}/>
+            <DashBoardTimeOut validation={validation} {...this.props}/>
+            <DashBoardDataChange isActiveClass={isActiveClass}/>
                 <div className="dashboard-main-content">
-                    <DashBoardMenu tabRender={this.renderTab} props={this.props}/>
+                    <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>
                        <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
             </div>
-        )
+        );
     }
     
 }
