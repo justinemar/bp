@@ -11,6 +11,34 @@ import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
 
+const DashBoardTimeOut = ({validation}) => {
+    return (
+        <div>
+        { validation.code === 401 ? 
+                <div className="dashboard-timeout">
+                    <div className="dashboard-timeout-content">
+                            <h1> {validation.message} </h1>
+                            <button onClick={() => this.props.history.push('/')}> Login to continue </button>
+                    </div>
+                </div> : null }  
+        </div>
+    )    
+}
+
+const DashBoardDataChange = ({dataChange}) => {
+    return (
+        <div>
+            { dataChange ? 
+                <div className="dashboard-change-notificaiton">
+                    <div className="dashboard-change-content">
+                            <h1> DATA CHANGE </h1>
+                    </div>
+                </div> : null }  
+        </div>
+    )    
+}
+
+
 
 class DashBoard extends React.Component{
     
@@ -22,7 +50,8 @@ class DashBoard extends React.Component{
                 type: null,
                 code: null
             },
-            tabToRender: null
+            tabToRender: null,
+            dataChange: false
         };
         this.authUtil = new AuthService();
     }
@@ -53,29 +82,28 @@ class DashBoard extends React.Component{
             tabToRender: tabName
         })
     }
-
+    
+    dataChange = (newData, originalData) => {
+        this.setState({
+            dataChange: true
+        })
+    }
+    
     render(){
-        const { validation, } = this.state;
+        const { validation, dataChange } = this.state;
         return(
             <div className="dashboard-wrapper">
-            { validation.code === 401 ? 
-                <div className="dashboard-timeout">
-                    <div className="dashboard-timeout-content">
-                            <h1> {validation.message} </h1>
-                            <button onClick={() => this.props.history.push('/')}> Login to continue </button>
-                    </div>
-                </div> : null }
+            <DashBoardTimeOut validation={validation}/>
+            <DashBoardDataChange dataChange={dataChange}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu tabRender={this.renderTab} props={this.props}/>
                     <DashBoardNotification/>
-                        <Route path="/dashboard/setting" render={(props) => <MenuSetting {...this.props}/>}/>
-                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
+                       <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
+                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
             </div>
         )
     }
     
 }
-
-
 export default withAuth(DashBoard);
