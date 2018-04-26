@@ -4,7 +4,7 @@ const Post = require("../models/UserPost");
 const Account = require("../models/Account");
 const DataUri = require("datauri");
 
-
+/* LOAD LOCAL ENVS */
 require('dotenv').config();
 
 
@@ -17,6 +17,7 @@ cloudinary.config({
 
 module.exports = {
     new: 
+    /* Cloudinary doesn't support multiple resource upload on a single POST request */
         (req, res) => {
             const uri = new DataUri();
             const promises = [];

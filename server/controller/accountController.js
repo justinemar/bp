@@ -4,21 +4,6 @@ const jwt           = require('jsonwebtoken'); // used to create, sign, and veri
 require('dotenv').config()
 
 
-
-const utility = {
-    findByEmail: (email) => {
-            return (
-                Account.findOne({user_email: email})
-                .exec()
-            )
-    },
-    findByName: (name) => {
-            return (
-                Account.findOne({display_name: name})
-                .exec()
-            )
-    }
-}
 module.exports = {
     
     user_register: (req, res) => {
