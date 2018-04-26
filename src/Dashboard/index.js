@@ -26,10 +26,10 @@ const DashBoardTimeOut = ({validation, history}) => {
     );
 };
 
-const DashBoardDataChange = ({isActiveClass}) => {
+const DashBoardDataChange = ({notification_className}) => {
     return (
         <div className="dashboard-change-notificaiton">
-            <div className={`dashboard-change-content ${isActiveClass}`}>
+            <div className={`dashboard-change-content ${notification_className}`}>
             <FontAwesomeIcon className="change-icon" icon="save"/>
                     <h1>Account updated!</h1>
             </div>
@@ -49,7 +49,7 @@ class DashBoard extends React.Component{
                 type: null,
                 code: null
             },
-            isActiveClass: 'nonactive-class'
+            notification_className: 'nonactive-class'
         };
         this.authUtil = new AuthService();
         this.timeOut;
@@ -78,14 +78,14 @@ class DashBoard extends React.Component{
     
     removeChageNotification = () => {
         this.setState({
-            isActiveClass: 'nonactive-class'
+            notification_className: 'nonactive-class'
         });
         clearTimeout(this.timeOut);
     }
     
-    dataChange = (newData, originalData) => {
+    dataChange = () => {
         this.setState({
-            isActiveClass: 'active-class'
+            notification_className: 'active-class'
         });
         
         this.timeOut = setTimeout(() => {
@@ -94,11 +94,11 @@ class DashBoard extends React.Component{
     }
     
     render(){
-        const { validation,  isActiveClass } = this.state;
+        const { validation,  notification_className } = this.state;
         return(
             <div className="dashboard-wrapper">
             <DashBoardTimeOut validation={validation} {...this.props}/>
-            <DashBoardDataChange isActiveClass={isActiveClass}/>
+            <DashBoardDataChange notification_className={notification_className}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>

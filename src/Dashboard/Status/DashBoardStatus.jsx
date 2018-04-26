@@ -25,7 +25,7 @@ class DashBoardStatus extends React.Component{
             return;
         }
         this.setState({
-           getStatus: res
+          getStatus: res
         });
       })
       .catch(err => console.log(err));

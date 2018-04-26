@@ -23,7 +23,7 @@ class DashBoardStatusContainer extends React.Component{
         const imageData = this.state.previewImagesData;
         const formData = new FormData();
         formData.append("description", this.status.value);
-        formData.append("user", this.Auth.getProfile().info)
+        formData.append("user", this.Auth.getProfile().displayName)
         formData.append("id", this.Auth.getProfile().id)
         imageData.forEach(i => {
             formData.append("image", i)
@@ -98,7 +98,7 @@ class DashBoardStatusContainer extends React.Component{
             <div className="section-selected-tab">
                 <div className="dashboard-post-status-main">
                     <form onSubmit={this.submitPost} method="post">
-                        <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.info}`}>
+                        <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.displayName}`}>
                         
                         </textarea>
                         { renderList ? 

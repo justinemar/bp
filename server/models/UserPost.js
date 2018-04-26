@@ -5,10 +5,6 @@ const Schema = mongoose.Schema;
 
 
 const UserPostSchema = new Schema({
-    user_id: {
-        type: Schema.Types.ObjectId,
-        required: true,
-    },
     post_img: {
         type: Array,
         required: true
@@ -17,7 +13,7 @@ const UserPostSchema = new Schema({
         type: String,
     },
     post_by: {
-        type: String,
+        type: Schema.Types.ObjectId, ref: 'Account',
         required: true
     },
     post_date: {

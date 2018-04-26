@@ -29,7 +29,8 @@ class MenuSetting extends React.Component{
                                         <label htmlFor="displayName" className="labelText">Display name:</label>
                                         <SettingInput
                                         type="text"
-                                        value={user}
+                                        value={{name: user.displayName}}
+                                        id={user.id}
                                         forLabel="edit-name"
                                         dataChange={dataChange}/>
                                     </div>
@@ -39,7 +40,8 @@ class MenuSetting extends React.Component{
                                         <label htmlFor="email" className="labelText">Email:</label>
                                         <SettingInput 
                                         type="email"
-                                        value={user}
+                                        value={{email: user.info}}
+                                        id={user.id}
                                         forLabel="edit-email"
                                         dataChange={dataChange}/>
                                     </div>

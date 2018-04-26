@@ -46,11 +46,11 @@ module.exports = {
             Promise.all(promises)
               .then(results => {
                   // Init post model
+                  console.log(req.body.id)
                     const post = new Post({
-                         user_id: req.body.id,
                          post_img: images,
                          post_description: req.body.description,
-                         post_by: req.body.user
+                         post_by: req.body.id
                      });
                   // Save data
                     post.save(function(err) {
@@ -67,13 +67,14 @@ module.exports = {
         
     get: 
         (req, res) => {
-          Post.find({}, (err, posts) => {
-              if(err) throw err;
-              
-              if(posts){
-                  res.send(posts.reverse());
-              } 
-          });
+             Post.find({})
+             .populate('post_by', 'display_name')
+             .exec((err, post) => {
+                 if(err) {
+                     throw err;
+                 }
+                 res.send(post.reverse());
+              });
         },
     delete: 
         (req, res) => {

@@ -5,8 +5,8 @@ class SettingInput extends React.Component{
     
     state = {
         show: false,
-        bindValue: this.props.value.info || this.props.value.displayName,
-        originalValue: this.props.value.info || this.props.value.displayName
+        bindValue: this.props.value.email || this.props.value.name,
+        originalValue: this.props.value.email || this.props.value.name,
     }
     
     triggerEdit = () => {
@@ -25,9 +25,22 @@ class SettingInput extends React.Component{
     
     componentWillUnmount(){
         const { bindValue, originalValue } = this.state;
+        const originalKeyValue = this.props.value.email ? {email: this.props.value.email} : {name: this.props.value.name}
+        const user_id = this.props.id;
+        const value = originalKeyValue.email ? originalKeyValue.email : originalKeyValue.name;
         const { dataChange } = this.props;
-        if(bindValue !== originalValue){
-            dataChange(bindValue, originalValue);
+        if(bindValue !== value){
+            fetch(`/profile/users/${value}`, {
+                  method: 'PUT',
+                  credentials: 'same-origin',
+                  body: JSON.stringify({originalKeyValue, entry: bindValue, user_id}),
+                  headers: { 'Content-Type': 'application/json' }
+            })
+            .then(res => res.json())
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => console.log(err));
         }
     }
     

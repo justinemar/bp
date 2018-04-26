@@ -15,11 +15,13 @@ router.route('/status')
   .post(status.new)
   .delete(status.delete);
 
-router.get('/profile/users/:user', account.getUser);
+router.get('/profile/users/:user', account.user_get);
 
-router.post('/register', accountMiddleWare.checkUser, account.register);
+router.put('/profile/users/:user', account.user_update);
 
-router.post('/login', account.login);
+router.post('/register', accountMiddleWare.checkUser, account.user_register);
+
+router.post('/login', account.user_login);
 
 router.post('/comment', accountMiddleWare.verifyToken, comment.new);
 

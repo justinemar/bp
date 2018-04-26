@@ -15,6 +15,10 @@ const AccountSchema = new Schema({
         required: true,
         select: false
     },
+    display_name: {
+        type: String,
+        required: true
+    },
     registration: {
         type: Date,
         required: true,
