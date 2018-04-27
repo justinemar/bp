@@ -1,13 +1,16 @@
 const Account       = require("../models/Account");
+const UserPost      = require("../models/UserPost");
 const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
 require('dotenv').config()
 
+
 module.exports = {
     
-    register: (req, res) => {
+    user_register: (req, res) => {
         const member = new Account({
             user_email: req.body.email,
             password: req.body.password,
+            display_name: req.body.name,
             registration: Date.now(),
         })
         member.save(function(err, data) {
@@ -26,7 +29,7 @@ module.exports = {
 
     },
     
-    login: (req, res) => {
+    user_login: (req, res) => {
         Account.findOne({user_email: req.body.email})
         .select('+password')
         .exec(function(err, user){
@@ -34,8 +37,9 @@ module.exports = {
 
             if(user){
                 var payload = {
-                    info: user.user_email || user.displayName,
-                    id: user._id
+                    displayName: user.display_name,
+                    id: user._id,
+                    info: user.user_email
                 }
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;
@@ -67,7 +71,7 @@ module.exports = {
         })
     },
 
-    getUser: (req, res) => {
+    user_get: (req, res) => {
         Account.findOne({_id: req.params.user}, 
             (err, user) => {
                 if(err) throw err;
@@ -76,6 +80,42 @@ module.exports = {
                     res.send(user)
                 }
             })
-        }
+        },
     
-}
+    user_update: (req, res) => {
+        if(req.body.originalKeyValue.email){
+        
+        } else if(req.body.originalKeyValue.name) {
+            Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
+            .exec((err, user) => {
+                if(err){
+                    throw err;
+                }
+                
+                
+                if(user){
+                    console.log(user)
+                    var payload = {
+                        displayName: req.body.entry,
+                        id: user._id,
+                        info: user.user_email
+                    };
+                    var token = jwt.sign(payload, process.env.KEY1, {
+                      expiresIn: 1800 // expires in 30 minutes
+                    });
+                    res.json({
+                        message: 'Account Updated!', 
+                        token: token, 
+                        code: 200
+                    });
+                } else {
+                    res.json({
+                        message: 'Unknown error has occured.',
+                        code: 501
+                    });
+                }
+            });
+        } 
+    }
+    
+};

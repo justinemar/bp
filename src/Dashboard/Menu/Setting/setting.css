@@ -11,6 +11,10 @@
     color: #cecece;
 }
 
+.setting-icon:hover{
+    cursor: pointer;
+}
+
 .control-default{
     color: #3f95ff;
     font-size: 14px;
@@ -30,6 +34,23 @@
     font-size: 12px;
 }
 
+.menu-tab-controls .tab-content input:focus{
+    border: 1px solid rgb(63, 149, 255);
+}
+
+.menu-tab-controls .tab-control input::placeholder{
+    color: #d7dde8;   
+    opacity: 1; 
+}
+
+:-ms-input-placeholder { 
+    color: red;
+}
+
+::-ms-input-placeholder {
+    color: red;
+}
+
 .menu-tab-title{
     padding: 10px;
     font-size: 18px;
@@ -44,4 +65,60 @@
 .tab-content .labelText{
     margin-bottom: 5px;
     display: block;
+}
+
+
+
+.dashboard-change-content{
+    bottom: 55px;
+    position: absolute;
+    height: 66px;
+    background: white;
+    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9);
+    width: 230px;
+    left: 11px;
+    -webkit-transition: 0.5s;
+    -moz-transition: 0.5s;
+    -o-transition: 0.5s;
+    transition: 0.5s;
+    border-top-left-radius: 10px;
+}
+
+
+.active-class{
+  opacity: 1;
+  visibility: visible; 
+}
+
+.nonactive-class{
+    visibility: hidden;
+    opacity: 0
+}
+
+.dashboard-change-content h1{
+    font-size: 15px;
+    text-align: center;
+    color: #3f95ff;
+    padding: 23px;
+}
+
+.change-icon{
+    font-size: 19px;
+    position: absolute;
+    bottom: 23px;
+    color: #3f95ff;
+    margin-left: 25px;
+}
+
+#ban{
+    color: #3f95ff;
+}
+
+#ban:hover{
+    color: rgba(63, 149, 255, 0.72);
+}
+
+#edit:hover{
+    color: #ffffff;
 }

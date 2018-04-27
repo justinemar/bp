@@ -58,7 +58,7 @@ class Register extends React.Component{
         fetch('/register', {
             method: 'POST',
             credentials: 'same-origin',
-            body: JSON.stringify({email: this.email.value,  password: this.password.value}),
+            body: JSON.stringify({email: this.email.value,  password: this.password.value, name: this.name.value}),
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json())
           .then(res => {
@@ -115,6 +115,7 @@ class Register extends React.Component{
                         { password.response ? 
                             <span class={password.type}>{password.response}</span> : null }
                             <input className={email.emailErr} autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
+                            <input className={email.emailErr} type="text" onChange={this.validateInput} ref={(input) => this.name = input} name="name" placeholder="Display name"/>
                             <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password = input} name="password" placeholder="Password"/>
                             <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password"/>
                         </div>

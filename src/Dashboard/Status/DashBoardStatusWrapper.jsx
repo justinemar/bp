@@ -38,7 +38,7 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) =>
         { isVisible ?
             <div className="control-btn">
                 <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
-            { currentStatus.user_id === util.getProfile().id ?
+            { currentStatus.post_by._id=== util.getProfile().id ?
                 <button onClick={toggleModal}>Delete</button> : null 
             }
                 <button>Report</button>
@@ -121,7 +121,7 @@ class DashBoardStatusWrapper extends React.Component{
     
     
     handleStatusTab = (status) => {
-        this.props.history.push(`/${status.user_id}/status/${status._id}`)
+        this.props.history.push(`/${status.post_by._id}/status/${status._id}`)
     }
     handleDelete = (data) => {
         //Instead of getting the id from the user props 
@@ -177,14 +177,14 @@ class DashBoardStatusWrapper extends React.Component{
                                 />
                         </div>
                         <div className="post-from-profile-con left">
-                             <Link to={`/${cStatus.user_id}`}>
+                             <Link to={`/${cStatus.post_by._id}`}>
                                 <div id="post-from-image">
                                 
                                 </div>
                              </Link>
                         </div>
                         <div className="post-info right">
-                            <span id="post-from">{cStatus.post_by}</span>
+                            <span id="post-from">{cStatus.post_by.display_name}</span>
                             <span id="post-age">{moment(cStatus.post_date).fromNow()}</span>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ class DashBoardStatusWrapper extends React.Component{
                                 if(index > 2){
                                     return (
                                         <div className="post-image-more">
-                                            <Link to={`/${cStatus.user_id}/status/${cStatus._id}`}><h4> Show more </h4></Link>
+                                            <Link to={`/${cStatus.post_by._id}/status/${cStatus._id}`}><h4> Show more </h4></Link>
                                         </div>
                                     );
                                 }

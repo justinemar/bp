@@ -7,11 +7,12 @@ import image from '@fortawesome/fontawesome-free-solid/faImage';
 import bell from '@fortawesome/fontawesome-free-solid/faBell';
 import edit from '@fortawesome/fontawesome-free-solid/faEdit';
 import ban from '@fortawesome/fontawesome-free-solid/faBan';
+import save from '@fortawesome/fontawesome-free-solid/faSave';
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import UserProfile from './UserProfile';
 import { Route, Switch } from 'react-router-dom';
-fontawesome.library.add(brands, ellipsis, newspaper, image, bell, edit, ban);
+fontawesome.library.add(brands, ellipsis, newspaper, image, bell, edit, ban, save);
 class App extends React.Component{
     render(){
         return (
