@@ -12,7 +12,7 @@ class MenuSetting extends React.Component{
     }
     
     render(){
-        const { user, dataChange } = this.props;
+        const { user, dataChange, updateUser } = this.props;
         return (
             <div className="section-selected-tab">
             <div className="setting-menu">
@@ -32,7 +32,8 @@ class MenuSetting extends React.Component{
                                         value={{name: user.displayName}}
                                         id={user.id}
                                         forLabel="edit-name"
-                                        dataChange={dataChange}/>
+                                        dataChange={dataChange}
+                                        updateUser={updateUser}/>
                                     </div>
                                 </div>
                                 <div className="tab-control email-control">
@@ -43,7 +44,8 @@ class MenuSetting extends React.Component{
                                         value={{email: user.info}}
                                         id={user.id}
                                         forLabel="edit-email"
-                                        dataChange={dataChange}/>
+                                        dataChange={dataChange}
+                                        updateUser={updateUser}/>
                                     </div>
                                 </div>
                             </div>

@@ -86,15 +86,36 @@ module.exports = {
         if(req.body.originalKeyValue.email){
         
         } else if(req.body.originalKeyValue.name) {
-            Account.update({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
+            Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
             .exec((err, user) => {
                 if(err){
                     throw err;
                 }
-                console.log(user)
-                res.send({message: 'Update success'});
-            })
+                
+                
+                if(user){
+                    console.log(user)
+                    var payload = {
+                        displayName: req.body.entry,
+                        id: user._id,
+                        info: user.user_email
+                    };
+                    var token = jwt.sign(payload, process.env.KEY1, {
+                      expiresIn: 1800 // expires in 30 minutes
+                    });
+                    res.json({
+                        message: 'Account Updated!', 
+                        token: token, 
+                        code: 200
+                    });
+                } else {
+                    res.json({
+                        message: 'Unknown error has occured.',
+                        code: 501
+                    });
+                }
+            });
         } 
     }
     
-}
+};

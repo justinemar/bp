@@ -15,36 +15,44 @@ export default function withAuth(AuthComponent) {
             super();
             this.state = {
                 user: null
-            }
+            };
         }
         componentWillMount() {
         if (!Auth.loggedIn()) {
-            this.props.history.replace('/')
+            this.props.history.replace('/');
         }
         else {
             try {
-                const profile = Auth.getProfile()
+                const profile = Auth.getProfile();
                 this.setState({
                     user: profile
-                })
+                });
             }
             catch(err){
-                Auth.logout()
-                this.props.history.replace('/')
+                Auth.logout();
+                this.props.history.replace('/');
                 }
             }
+        }
+        
+        updateUser = (token) => {
+            Auth.setToken(token);
+            const profile = Auth.getProfile();
+            this.setState({
+                user: profile
+            });
         }
         
         render() {
             if (this.state.user) {
                 return (
-                    <AuthComponent history={this.props.history} user={this.state.user} />
-                )
+                    <AuthComponent updateUser={this.updateUser} history={this.props.history} user={this.state.user} />
+                );
             }
             else {
-                return null
+                return null;
             }
         }        
 
-    }
+    };
 }

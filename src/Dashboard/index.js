@@ -102,7 +102,7 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>
-                       <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
+                       <Route path="/dashboard/setting" render={(props) => <MenuSetting updateUser={this.props.updateUser} dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
             </div>

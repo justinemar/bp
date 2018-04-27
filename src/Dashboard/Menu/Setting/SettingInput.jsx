@@ -1,12 +1,18 @@
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import AuthService from '../../../utils/authService';
 
-class SettingInput extends React.Component{
-    
-    state = {
-        show: false,
-        bindValue: this.props.value.email || this.props.value.name,
-        originalValue: this.props.value.email || this.props.value.name,
+
+class SettingInput extends React.Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            show: false,
+            bindValue: this.props.value.email || this.props.value.name,
+            originalValue: this.props.value.email || this.props.value.name,
+        };
+        
+        this.authUtil = new AuthService();
     }
     
     triggerEdit = () => {
@@ -38,7 +44,7 @@ class SettingInput extends React.Component{
             })
             .then(res => res.json())
             .then(res => {
-                console.log(res)
+                this.props.updateUser(res.token)
             })
             .catch(err => console.log(err));
         }
