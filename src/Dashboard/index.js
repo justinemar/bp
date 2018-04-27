@@ -70,11 +70,7 @@ class DashBoard extends React.Component{
                     type: res.type,
                     code: res.code
                 }
-<<<<<<< HEAD
-            })
-=======
             }, this.initLogout());
->>>>>>> bp-staging
             
             return;
         } 
@@ -101,18 +97,8 @@ class DashBoard extends React.Component{
         const { validation,  notification_className } = this.state;
         return(
             <div className="dashboard-wrapper">
-<<<<<<< HEAD
-            { validation.code === 401 ? 
-                <div className="dashboard-timeout">
-                    <div className="dashboard-timeout-content">
-                            <h1> {validation.message} </h1>
-                            <button onClick={this.initLogout}> Login to continue </button>
-                    </div>
-                </div> : null }
-=======
             <DashBoardTimeOut validation={validation} {...this.props}/>
             <DashBoardDataChange notification_className={notification_className}/>
->>>>>>> bp-staging
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>
