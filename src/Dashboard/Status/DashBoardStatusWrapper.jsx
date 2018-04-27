@@ -59,8 +59,6 @@ class DashBoardStatusWrapper extends React.Component{
             postControlVisible: false,
             controlModalVisible: false
         };
-        
-        
     }
     
     handKeyDown = (e) => {
@@ -151,7 +149,7 @@ class DashBoardStatusWrapper extends React.Component{
     
     render(){
         const { postControlVisible, controlModalVisible } = this.state;
-        const { cStatus, util } = this.props;
+        const { cStatus, util, user } = this.props;
         return (
             <div>
                 <DeleteConfirmModal toggleModal={this.toggleModal} 
@@ -182,7 +180,7 @@ class DashBoardStatusWrapper extends React.Component{
                              </Link>
                         </div>
                         <div className="post-info right">
-                            <span id="post-from">{cStatus.post_by.display_name}</span>
+                            <span id="post-from">{cStatus.post_by.display_name || this.props.user.displayName }</span>
                             <span id="post-age">{moment(cStatus.post_date).fromNow()}</span>
                         </div>
                     </div>
