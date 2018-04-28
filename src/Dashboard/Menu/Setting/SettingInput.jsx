@@ -30,7 +30,7 @@ class SettingInput extends React.Component {
     
     
     componentWillUnmount(){
-        const { bindValue, originalValue } = this.state;
+        const { bindValue } = this.state;
         const originalKeyValue = this.props.value.email ? {email: this.props.value.email} : {name: this.props.value.name}
         const user_id = this.props.id;
         const value = originalKeyValue.email ? originalKeyValue.email : originalKeyValue.name;
@@ -44,7 +44,7 @@ class SettingInput extends React.Component {
             })
             .then(res => res.json())
             .then(res => {
-                this.props.updateUser(res.token)
+                dataChange(res.token)
             })
             .catch(err => console.log(err));
         }
