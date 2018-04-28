@@ -47,13 +47,13 @@ module.exports = {
             Promise.all(promises)
               .then(results => {
                   // Init post model
-                  console.log(req.body.id)
                     const post = new Post({
                          post_img: images,
                          post_description: req.body.description,
                          post_by: req.body.id
                      });
                   // Save data
+                
                     post.save(function(err) {
                          if(err) {
                             res.send(err);
@@ -118,8 +118,7 @@ module.exports = {
                     if(err) throw err;
                     
                     if(result){
-                        console.log(deletedPost)
-                        res.json({data: deletedPost})
+                        res.json({data: deletedPost, code: 200, type: 'success', message: 'Post deleted'})
                     }
                 });
             }).catch(err => {

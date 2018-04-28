@@ -38,7 +38,7 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) =>
         { isVisible ?
             <div className="control-btn">
                 <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
-            { currentStatus.post_by._id=== util.getProfile().id ?
+            { currentStatus.post_by._id || currentStatus.post_by === util.getProfile().id ?
                 <button onClick={toggleModal}>Delete</button> : null 
             }
                 <button>Report</button>
@@ -121,9 +121,10 @@ class DashBoardStatusWrapper extends React.Component{
     handleStatusTab = (status) => {
         this.props.history.push(`/${status.post_by._id}/status/${status._id}`)
     }
+    
     handleDelete = (data) => {
-        //Instead of getting the id from the user props 
-        //we get the actual id stored in the token.
+        // Instead of getting the id from the user props 
+        // we get the actual id stored in the token.
         const userID = this.props.util.getProfile.id; 
         const statusID = data._id;
         fetch('/status', {
