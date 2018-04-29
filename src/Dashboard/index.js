@@ -24,12 +24,12 @@ const DashBoardTimeOut = ({validation, history}) => {
     );
 };
 
-const DashBoardDataChange = ({notification_className}) => {
+const DashBoardDataChange = ({validation, notification_className}) => {
     return (
         <div className="dashboard-change-notificaiton">
             <div className={`dashboard-change-content ${notification_className}`}>
             <FontAwesomeIcon className="change-icon" icon="save"/>
-                    <h1>Account updated!</h1>
+                    <h1>{validation.message}</h1>
             </div>
         </div> 
     );    
@@ -42,11 +42,6 @@ class DashBoard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            validation: {
-                message: null,
-                type: null,
-                code: null
-            },
             notification_className: 'nonactive-class'
         };
         this.authUtil = new AuthService();
@@ -81,10 +76,15 @@ class DashBoard extends React.Component{
         clearTimeout(this.timeOut);
     }
     
-    dataChange = (token) => {
+    dataChange = (res) => {
         this.setState({
-            notification_className: 'active-class'
-        }, this.props.updateUser(token));
+            notification_className: 'active-class',
+            validation: {
+                message: res.message,
+                code: res.code,
+                type: res.type
+            }
+        }, this.props.updateUser(res.token));
         
         this.timeOut = setTimeout(() => {
           this.removeChageNotification();

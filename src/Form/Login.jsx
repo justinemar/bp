@@ -7,22 +7,23 @@ import AuthService from '../utils/authService';
 class Login extends React.Component{
     
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             validation: {
                 response: null,
-                type: null
+                type: null,
+                code: null
             }   
-        }
+        };
         this.Auth = new AuthService;
     }
 
     
     login = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         this.Auth.login(this.email.value, this.password.value)
         .then(res => {
-            this.props.history.push('/dashboard/feed')
+            this.props.history.push('/dashboard/feed');
         })
         .catch(err => {
             this.setState({
@@ -30,8 +31,8 @@ class Login extends React.Component{
                     response: err.message,
                     type: err.type
                 }
-            })
-        })
+            });
+        });
     }
     
     render(){
@@ -55,7 +56,7 @@ class Login extends React.Component{
                     <button>Login</button>
                     <h2 onClick={toggleForm}> {textNode} </h2>
               </form>
-          )
+          );
     }
 }
 

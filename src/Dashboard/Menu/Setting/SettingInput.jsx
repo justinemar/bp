@@ -44,7 +44,7 @@ class SettingInput extends React.Component {
             })
             .then(res => res.json())
             .then(res => {
-                dataChange(res.token)
+                dataChange(res)
             })
             .catch(err => console.log(err));
         }
