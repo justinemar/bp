@@ -1,12 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
-import MenuGroups from './Menu/MenuGroups.jsx';
 import MenuSetting from './Menu/Setting';
-import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';

@@ -31,7 +31,7 @@ class SettingInput extends React.Component {
     
     componentWillUnmount(){
         const { bindValue } = this.state;
-        const originalKeyValue = this.props.value.email ? {email: this.props.value.email} : {name: this.props.value.name}
+        const originalKeyValue = this.props.value.email ? {email: this.props.value.email} : {name: this.props.value.name};
         const user_id = this.props.id;
         const value = originalKeyValue.email ? originalKeyValue.email : originalKeyValue.name;
         const { dataChange } = this.props;
