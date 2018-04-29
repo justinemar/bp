@@ -31,9 +31,9 @@ class Register extends React.Component{
                     validation: {
                         ...null
                     }
-                })
+                });
             }
-        })
+        });
     }
     
     
@@ -52,13 +52,13 @@ class Register extends React.Component{
                     inputErr: 'input-error'
                 }
             }, this.checkFields());
-            return false
+            return false;
         }
         
         fetch('/register', {
             method: 'POST',
             credentials: 'same-origin',
-            body: JSON.stringify({email: this.email.value,  password: this.password.value, name: this.name.value}),
+            body: JSON.stringify({email: this.email.value,  password: this.password.value, name: this.display_name.value}),
             headers: { 'Content-Type': 'application/json' }
         }).then(res => res.json())
           .then(res => {
@@ -83,8 +83,6 @@ class Register extends React.Component{
                     ...err_res,
                 }
             });
-            this.checkFields();
-            return false;
             
         } else if (e.target.name === 'password_confirm' || e.target.name === 'password') {
             err_res = this.password.value === this.password_confirm.value ? null : errors.password_error;
@@ -93,14 +91,14 @@ class Register extends React.Component{
                     ...err_res 
                 }
             });
-            this.checkFields();
-            return false;
-        }
+        } 
+        console.log('tag');
+        this.checkFields();
     }
     
     render(){
         const { toggleForm , textNode} = this.props;
-        const { validation, email, password } = this.state;
+        const { validation, email, password, display_name } = this.state;
         return(
              <form onSubmit={this.register}>
                     <div class="root-form-actions">
@@ -115,7 +113,7 @@ class Register extends React.Component{
                         { password.response ? 
                             <span class={password.type}>{password.response}</span> : null }
                             <input className={email.emailErr} autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
-                            <input className={email.emailErr} type="text" onChange={this.validateInput} ref={(input) => this.name = input} name="name" placeholder="Display name"/>
+                            <input type="text" ref={(input) => this.display_name = input} name="display_name" placeholder="Display name"/>
                             <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password = input} name="password" placeholder="Password"/>
                             <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password"/>
                         </div>
@@ -125,7 +123,7 @@ class Register extends React.Component{
                     <button>Create Account </button>
                     <h2 onClick={toggleForm}> {textNode} </h2>
               </form>
-        )
+        );
     }
 }
 
