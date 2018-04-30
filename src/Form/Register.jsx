@@ -1,61 +1,77 @@
 import React from 'react';
-import errors from '../err-codes/errors';
 
+
+const Errors = ({errors}) => 
+    Object.values(errors).map((val, i) => {
+        if(val !== null){
+            return <p className="error"> {val}</p>;
+        } else {
+            return null;
+        }
+    })
 
 
 
 
 class Register extends React.Component{
-    state = {
-        validation: {
-            response: null,
-            type: null,
-        },
-        password: {
-
-        },
-        email: {
-
-        }
+    constructor(props){
+        super(props)
+        this.state = {
+            errors: {
+                    inputErr: null,
+                    email: null,
+                    displayName: null,
+                    password: null,
+                    passwordConfirm: null
+                },
+            network:{
+                response: null,
+                type: null
+            },
+            email: null,
+            password: null,
+            displayName: null,
+            invalidForm: false,
+            passwordConfirm: null,
+        };
     }
+
     
     
-    checkFields = (a) => {
-        const regEmpty = "^\\s+$";
+    checkFields = () => {
         const input = document.getElementsByTagName('input');
+        let invalid  = this.state.invalidForm;
         Array.prototype.slice.call(input).forEach(i => {
-            if(regEmpty.match(i.value)){
+            if("^\\s+$".match(i.value)){
                 i.className = 'input-error';
+                invalid = true;
             } else {
-                this.setState({
-                    validation: {
-                        ...null
-                    }
-                });
+                invalid = false;
             }
         });
+        this.setState({
+            invalidForm: invalid
+        })
+        
+        return invalid;
     }
     
     
     register = (e) => {
         e.preventDefault();
-        const { validation, email, password } = this.state;
-        if(validation.type === 'error' || password.type === 'error' || email.type === 'error'){
-            return false;
-        }
         
-        if(this.email.value === '' || this.password.value === ''){
+        if(this.checkFields()) {
             this.setState({
-                validation: {
-                    response: 'Missing informations!',
-                    type: 'error',
-                    inputErr: 'input-error'
+                errors: {
+                    ...this.state.errors,
+                    inputErr: 'Missing information'
                 }
-            }, this.checkFields());
-            return false;
+            });
+            
+            return;
         }
         
-        fetch('/register', {
+       fetch('/register', {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify({email: this.email.value,  password: this.password.value, name: this.display_name.value}),
@@ -63,7 +79,7 @@ class Register extends React.Component{
         }).then(res => res.json())
           .then(res => {
               this.setState({
-                  validation: {
+                  network: {
                       response: res.message,
                       type: res.type,
                   }
@@ -72,50 +88,72 @@ class Register extends React.Component{
     }
     
 
+    toggleClass = (errorCheck, target) => {
+        if(errorCheck){
+            target.className = 'input-error';
+        } else {
+            target.className = 'input-success';
+        }
+    }
     
     validateInput = (e) => {
-        let err_res;
-        if(e.target.name === 'email') {
-            const regEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-            err_res = regEmail.test(this.email.value) ? null : errors.email_error;
-            this.setState({
-                email: {
-                    ...err_res,
-                }
-            });
-            
-        } else if (e.target.name === 'password_confirm' || e.target.name === 'password') {
-            err_res = this.password.value === this.password_confirm.value ? null : errors.password_error;
-            this.setState({
-                password: {
-                    ...err_res 
-                }
-            });
-        } 
-        console.log('tag');
-        this.checkFields();
+      const input_error = this.checkFields();
+      let emailError = this.state.errors.email;
+      let passwordError = this.state.errors.password;
+      let passwordConfirmError = this.state.errors.passwordConfirm;
+      let displayNameError = this.state.errors.displayName;
+      switch(e.target){
+          case this.email: 
+            const emailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email.value);
+            emailError = emailValid ? null : 'Invalid email address.';  
+            this.toggleClass(emailError, this.email);
+            break;
+          case this.password:
+            const passwordValid = /^(?=.*\d).{8,}$/.test(this.password.value);
+            passwordError = passwordValid ? null : 'Password must be at least 8 characters long and must contain at least 1 digit.';
+            this.toggleClass(passwordError, this.password);
+            break;
+          case this.password_confirm:
+            const passwordConfirmValid = this.password_confirm.value === this.password.value;
+            passwordConfirmError = passwordConfirmValid ? null : 'Password do not match.';
+            this.toggleClass(passwordConfirmError, this.password_confirm);
+            break;
+          case this.display_name:
+              displayNameError = /^[a-zA-Z0-9_]*$/.test(this.display_name.value) ? null : 'Usernames may only contain letters, numbers, and _.';
+              this.toggleClass(displayNameError, this.display_name);
+          default:
+            break;
+      }
+      
+      this.setState({
+              errors: {
+                  inputErr: input_error ? 'Missing informations!' : null,
+                  email: emailError,
+                  password: passwordError,
+                  passwordConfirm: passwordConfirmError,
+                  displayName: displayNameError
+              }
+      });
     }
+    
     
     render(){
         const { toggleForm , textNode} = this.props;
-        const { validation, email, password, display_name } = this.state;
+        const { network, errors, empty } = this.state;
         return(
              <form onSubmit={this.register}>
                     <div class="root-form-actions">
                         <div class="root-form-header">
-                             <h2> Register  </h2>
+                             <h2 ref={this.textInput}> Register  </h2>
                         </div>
                         <div class="root-form-inputs">
-                        { validation.response ? 
-                            <span class={validation.type}>{validation.response}</span> : null }
-                        { email.response ? 
-                            <span class={email.type}>{email.response}</span> : null }
-                        { password.response ? 
-                            <span class={password.type}>{password.response}</span> : null }
-                            <input className={email.emailErr} autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
-                            <input type="text" ref={(input) => this.display_name = input} name="display_name" placeholder="Display name"/>
-                            <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password = input} name="password" placeholder="Password"/>
-                            <input className={password.passErr} type="password" onChange={this.validateInput} ref={(input) => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password"/>
+                            <Errors errors={errors}/>
+                            { network.response ? 
+                            <span class={network.type}>{network.response}</span> : null }
+                            <input className={empty ? "input-error" : ""} autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
+                            <input type="text" onChange={this.validateInput} ref={(input) => this.display_name = input} name="display_name" placeholder="Display name"/>
+                            <input type="password" onChange={this.validateInput} ref={(input) => this.password = input} name="password" placeholder="Password"/>
+                            <input type="password" onChange={this.validateInput} ref={(input) => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password"/>
                         </div>
                         <div class="clear-both">
                         </div>
