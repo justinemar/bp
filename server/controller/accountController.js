@@ -40,36 +40,32 @@ module.exports = {
                 const payload = {
                     displayName: user.display_name,
                     id: user._id,
-                    info: user.user_email
-                }
+                    email: user.user_email
+                };
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;
                     
                     if(match){
-                        var token = jwt.sign(payload, process.env.KEY1, {
-                          expiresIn: 1800 // expires in 30 minutes
-                        });
-                        
                         res.json({
                             message: 'Login successfully',
                             type: 'success',
-                            token: token
-                        })
+                            token: utils.setToken(payload),
+                        });
                     } else {
                         res.json({
                             message: 'Invalid email or password',
                             type: 'error'
-                        })
+                        });
                     }
-                })
+                });
             
             } else {
                 res.json({
                     message: "We can't find an account associated with this email",
                     type: 'error'
-                })
+                });
             }
-        })
+        });
     },
 
     user_get: (req, res) => {
@@ -78,9 +74,9 @@ module.exports = {
                 if(err) throw err;
     
                 if(user){
-                    res.send(user)
+                    res.send(user);
                 }
-            })
+            });
         },
     
     user_update: (req, res) => {
@@ -94,18 +90,15 @@ module.exports = {
                 }
                 
                 if(user){
-                    var payload = {
-                        displayName: user.display_name,
-                        id: user._id,
-                        info: req.body.entry
-                    };
+                    // Set token payload with new email
+                    const payload = { displayName: user.display_name, id: user._id, email: req.body.entry };
                      res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload),
                         code: 200
                     });
                 }
-            })
+            });
             
         } else if(name) {
             Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
@@ -116,11 +109,8 @@ module.exports = {
                 
                 
                 if(user){
-                    var payload = {
-                        displayName: req.body.entry,
-                        id: user._id,
-                        info: user.user_email
-                    };
+                    // Set token payload with new display_name
+                    const payload = { displayName: req.body.entry, id: user._id, email: user.user_email };
                     res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload), 
