@@ -55,9 +55,12 @@ module.exports = {
                     post.save(function(err) {
                          if(err) {
                             res.send(err);
-                         } else {
-                            res.json({message: 'Success', type: 'success', code: 200, data: post});
-                         }
+                         } 
+                        var leanObject = post.toObject(); // Transform instance to plain JS Object for modification
+                        leanObject['display_name'] = req.body.user; // Add current user display name
+                        
+                        
+                        res.json({message: 'Success', type: 'success', code: 200, data: leanObject});
                      });
               }).catch(err => {
                   console.log(err);

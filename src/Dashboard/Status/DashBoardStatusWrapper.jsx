@@ -181,7 +181,7 @@ class DashBoardStatusWrapper extends React.Component{
                              </Link>
                         </div>
                         <div className="post-info right">
-                            <span id="post-from">{this.props.user.displayName }</span>
+                            <span id="post-from">{cStatus.display_name || cStatus.post_by.display_name }</span>
                             <span id="post-age">{moment(cStatus.post_date).fromNow()}</span>
                         </div>
                     </div>
