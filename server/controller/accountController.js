@@ -1,5 +1,6 @@
 const Account       = require("../models/Account");
 const UserPost      = require("../models/UserPost");
+const utils      = require("../utils/utils");
 const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
 require('dotenv').config()
 
@@ -36,7 +37,7 @@ module.exports = {
             if(err) throw err;
 
             if(user){
-                var payload = {
+                const payload = {
                     displayName: user.display_name,
                     id: user._id,
                     info: user.user_email
@@ -83,9 +84,30 @@ module.exports = {
         },
     
     user_update: (req, res) => {
-        if(req.body.originalKeyValue.email){
-        
-        } else if(req.body.originalKeyValue.name) {
+        const email = req.body.originalKeyValue.email;
+        const name = req.body.originalKeyValue.name;
+        if(email){
+            Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {user_email: req.body.entry}})
+            .exec((err, user) => {
+                if(err){
+                    throw err;
+                }
+                
+                if(user){
+                    var payload = {
+                        displayName: user.display_name,
+                        id: user._id,
+                        info: req.body.entry
+                    };
+                     res.json({
+                        message: 'Account Updated!', 
+                        token: utils.setToken(payload),
+                        code: 200
+                    });
+                }
+            })
+            
+        } else if(name) {
             Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
             .exec((err, user) => {
                 if(err){
@@ -94,18 +116,14 @@ module.exports = {
                 
                 
                 if(user){
-                    console.log(user)
                     var payload = {
                         displayName: req.body.entry,
                         id: user._id,
                         info: user.user_email
                     };
-                    var token = jwt.sign(payload, process.env.KEY1, {
-                      expiresIn: 1800 // expires in 30 minutes
-                    });
                     res.json({
                         message: 'Account Updated!', 
-                        token: token, 
+                        token: utils.setToken(payload), 
                         code: 200
                     });
                 } else {

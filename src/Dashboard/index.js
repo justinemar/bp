@@ -42,6 +42,11 @@ class DashBoard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            validation: {
+              message: null,
+              type: null,
+              code: null
+            },
             notification_className: 'nonactive-class'
         };
         this.authUtil = new AuthService();
@@ -96,7 +101,7 @@ class DashBoard extends React.Component{
         return(
             <div className="dashboard-wrapper">
             <DashBoardTimeOut validation={validation} {...this.props}/>
-            <DashBoardDataChange notification_className={notification_className}/>
+            <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>
