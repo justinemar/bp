@@ -116,7 +116,7 @@ module.exports = {
                     if(err) throw err;
                     
                     if(result){
-                        res.json({data: deletedPost});
+                        res.json({data: deletedPost, code: 200, type: 'success', message: 'Post deleted'});
                     }
                 });
             }).catch(err => {

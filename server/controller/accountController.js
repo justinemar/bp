@@ -1,8 +1,8 @@
 const Account       = require("../models/Account");
 const UserPost      = require("../models/UserPost");
-const utils      = require("../utils/utils");
+const utils         = require("../utils/utils");
 const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
-require('dotenv').config()
+require('dotenv').config();
 
 
 module.exports = {
@@ -13,20 +13,19 @@ module.exports = {
             password: req.body.password,
             display_name: req.body.name,
             registration: Date.now(),
-        })
+        });
         member.save(function(err, data) {
             if(err) {
-                console.log(err)
-                res.status(500).json({message: 'Internal Server Error', type: 'error'})
-            };
+                res.status(500).json({message: 'Internal Server Error', type: 'error'});
+            }
             
             if(data){
                 res.json({
                     message: 'Account successfully created.',
                     type: 'success'
-                })
+                });
             } 
-        })
+        });
 
     },
     
