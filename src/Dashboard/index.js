@@ -68,7 +68,7 @@ class DashBoard extends React.Component{
                     type: res.type,
                     code: res.code
                 }
-            }, this.initLogout());
+            });
             
             return;
         } 
