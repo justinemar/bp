@@ -47,12 +47,10 @@ var io = require('socket.io').listen(server.listen(process.env.PORT || 8080));
 
 io.on('connection', (socket) => {
     socket.on('statusInit', (status) => {
-      console.log(status)
          io.emit('statusInit', status);
     })
     
     socket.on('statusDelete', (status) => {
-      console.log(status)
         io.emit('statusDelete', status);
     })
 

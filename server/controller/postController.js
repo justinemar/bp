@@ -51,6 +51,7 @@ module.exports = {
                          post_by: req.body.id
                      });
                   // Save data
+                
                     post.save(function(err) {
                          if(err) {
                             res.send(err);

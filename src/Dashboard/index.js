@@ -56,7 +56,7 @@ class DashBoard extends React.Component{
 
     
     initLogout = () => {
-         this.authUtil.logout();
+         this.props.history.push('/', this.authUtil.logout());
     }
     
     

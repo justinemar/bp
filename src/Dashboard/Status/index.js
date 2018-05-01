@@ -36,6 +36,7 @@ class DashBoardStatusContainer extends React.Component{
         .then(res => {
             this.props.validate(res)
             if(res.code === 200){
+                console.log(res.data)
                 socket.emit('statusInit', res.data)
             }
         })
