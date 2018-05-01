@@ -82,7 +82,7 @@ export default class AuthService {
             headers,
             ...options
         }).then(response => response.json())
-        
+ 
     }
 
     _checkStatus(response) {

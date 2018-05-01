@@ -81,3 +81,7 @@ h1{
 .input-error{
     box-shadow: 0px 1px 1px 0px red;
 }
+
+.input-success{
+    box-shadow: 0px 1px 1px 0px #3c763d;
+}

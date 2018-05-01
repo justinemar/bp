@@ -1,12 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
-import MenuGroups from './Menu/MenuGroups.jsx';
 import MenuSetting from './Menu/Setting';
-import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
@@ -26,12 +24,12 @@ const DashBoardTimeOut = ({validation, history}) => {
     );
 };
 
-const DashBoardDataChange = ({notification_className}) => {
+const DashBoardDataChange = ({validation, notification_className}) => {
     return (
         <div className="dashboard-change-notificaiton">
             <div className={`dashboard-change-content ${notification_className}`}>
             <FontAwesomeIcon className="change-icon" icon="save"/>
-                    <h1>Account updated!</h1>
+                    <h1>{validation.message}</h1>
             </div>
         </div> 
     );    
@@ -45,9 +43,9 @@ class DashBoard extends React.Component{
         super(props);
         this.state = {
             validation: {
-                message: null,
-                type: null,
-                code: null
+              message: null,
+              type: null,
+              code: null
             },
             notification_className: 'nonactive-class'
         };
@@ -83,10 +81,15 @@ class DashBoard extends React.Component{
         clearTimeout(this.timeOut);
     }
     
-    dataChange = () => {
+    dataChange = (res) => {
         this.setState({
-            notification_className: 'active-class'
-        });
+            notification_className: 'active-class',
+            validation: {
+                message: res.message,
+                code: res.code,
+                type: res.type
+            }
+        }, this.props.updateUser(res.token));
         
         this.timeOut = setTimeout(() => {
           this.removeChageNotification();
@@ -98,11 +101,11 @@ class DashBoard extends React.Component{
         return(
             <div className="dashboard-wrapper">
             <DashBoardTimeOut validation={validation} {...this.props}/>
-            <DashBoardDataChange notification_className={notification_className}/>
+            <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
                     <DashBoardNotification/>
-                       <Route path="/dashboard/setting" render={(props) => <MenuSetting updateUser={this.props.updateUser} dataChange={this.dataChange} {...this.props}/>}/>
+                       <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
             </div>

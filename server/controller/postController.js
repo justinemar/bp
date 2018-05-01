@@ -1,7 +1,5 @@
 const cloudinary = require("cloudinary");
-const mongoose = require("mongoose");
 const Post = require("../models/UserPost");
-const Account = require("../models/Account");
 const DataUri = require("datauri");
 
 /* LOAD LOCAL ENVS */
@@ -90,13 +88,13 @@ module.exports = {
                     const status_images = status.post_img;
                     if(status_images.length !== 0 || undefined){
                         status_images.forEach(i => {
-                            promises.push(removeAsync(i))
-                        })
+                            promises.push(removeAsync(i));
+                        });
                     } else {
-                        Promise.resolve(status)
+                        Promise.resolve(status);
                     }
                 }
-            })
+            });
             
             
             function removeAsync(i){
@@ -118,12 +116,12 @@ module.exports = {
                     if(err) throw err;
                     
                     if(result){
-                        res.json({data: deletedPost, code: 200, type: 'success', message: 'Post deleted'})
+                        res.json({data: deletedPost});
                     }
                 });
             }).catch(err => {
                 throw err;
-            })
+            });
         }
 };
 
