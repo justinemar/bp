@@ -57,8 +57,11 @@ module.exports = {
                             res.send(err);
                          } 
                         var leanObject = post.toObject(); // Transform instance to plain JS Object for modification
-                        leanObject['display_name'] = req.body.user; // Add current user display name
-                        
+                        // Modifications
+                        leanObject['post_by'] = {
+                            _id: leanObject['post_by'],
+                            display_name: req.body.user // Add current user display name
+                        };
                         
                         res.json({message: 'Success', type: 'success', code: 200, data: leanObject});
                      });

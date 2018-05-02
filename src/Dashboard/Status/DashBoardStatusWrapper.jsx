@@ -1,19 +1,12 @@
 import React from 'react';
 import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import openSocket from 'socket.io-client';
 const socket = openSocket('/');
 
 
 
-const PostTabContainer = () => {
-    return (
-        <div>
-            <h1>Post </h1>
-        </div>
-    )
-}
 const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
     const renderModal = modalVisible ?
         <div className="modal-wrapper">
@@ -38,7 +31,7 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) =>
         { isVisible ?
             <div className="control-btn">
                 <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
-            { currentStatus.post_by._id || currentStatus.post_by === util.getProfile().id ?
+            { currentStatus.post_by._id === util.getProfile().id ?
                 <button onClick={toggleModal}>Delete</button> : null 
             }
                 <button>Report</button>
