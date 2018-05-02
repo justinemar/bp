@@ -5,21 +5,17 @@ require('dotenv').config();
 
 const accountMiddlewares = {
     checkUser: function(req, res, next){
-        const filter = req.body.email || req.body.user_id;
-        Account.findOne({user_email: filter}, function(err, user) {
+        Account.find({$or: [ {user_email: req.body.email}, {display_name: req.body.phone}]}) 
+        .exec((err, user) => {
             if(err) { 
-                console.error(err);
-                res.status(500).json({message: 'Internal Server Error'});
+                res.status(500).json({message: 'Internal Server Error', type: 'error'});
             }
             
-            if(user && req.body.email) {
+            if(user) {
                 res.json({
-                    message: 'Account email address already exists!',
+                    message: 'Email or name is already in use',
                     type: 'error'
-                });
-            } else if(user && req.body.user_id) {
-                res.send(user);
-            
+                })
             } else {
                 next();
             }

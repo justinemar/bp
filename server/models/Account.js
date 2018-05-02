@@ -17,7 +17,7 @@ const AccountSchema = new Schema({
     },
     display_name: {
         type: String,
-        required: true
+        required: true,
     },
     registration: {
         type: Date,
