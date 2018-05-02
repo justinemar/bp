@@ -10,14 +10,14 @@ import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
 
-const DashBoardTimeOut = ({validation, history}) => {
+const DashBoardTimeOut = ({validation, initLogout}) => {
     return (
         <div>
         { validation.code === 401 ? 
                 <div className="dashboard-timeout">
                     <div className="dashboard-timeout-content">
                             <h1> {validation.message} </h1>
-                            <button onClick={() => history.push('/')}> Login to continue </button>
+                            <button onClick={() => initLogout()}> Login to continue </button>
                     </div>
                 </div> : null }  
         </div>
@@ -100,7 +100,7 @@ class DashBoard extends React.Component{
         const { validation,  notification_className } = this.state;
         return(
             <div className="dashboard-wrapper">
-            <DashBoardTimeOut validation={validation} {...this.props}/>
+            <DashBoardTimeOut validation={validation} initLogout={this.initLogout} {...this.props}/>
             <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu props={this.props}/>
