@@ -51,6 +51,7 @@ io.on('connection', (socket) => {
     })
     
     socket.on('statusDelete', (status) => {
+        console.log('SERVER:', status)
         io.emit('statusDelete', status);
     })
 

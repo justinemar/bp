@@ -39,8 +39,7 @@ class DashBoardStatus extends React.Component{
         
         socket.on('statusDelete', (data) => {
             const state = this.state.getStatus;
-            const filtered = state.filter(obj => obj._id !== data._id);
-            console.log(data)
+            const filtered = state.filter(obj => obj._id !== data[0]._id);
             this.setState({
                 getStatus: filtered
             });
@@ -53,7 +52,7 @@ class DashBoardStatus extends React.Component{
         const updates = getStatus && getStatus.length || recentUpdates && recentUpdates.length ? 
             getStatus.map((cStatus, index) => {
                 return (
-                    <DashBoardStatusWrapper {...this.props} validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
+                    <DashBoardStatusWrapper key={cStatus._id} {...this.props} validate={validate} util={util} cStatus={cStatus} user={this.props.user}/>  
                 );
             }) : <DashBoardPostLayout/>;
         return (

@@ -31,19 +31,24 @@ module.exports = {
             
             //Init upload
             function uploadAsync(buffer){
-                return new Promise(resolve => {
-                cloudinary.uploader.upload(buffer, function(result) {
-                            if(result.url){
-                                images.push(result.url);
-                                resolve(result.url);
-                            }
-                        });
+                return new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload(buffer, function(error, result) {
+                        if(error){
+                            reject(error);
+                        }
+                            
+                        
+                        if(result.url){
+                            images.push(result.url);
+                            resolve(images);
+                        }
                     });
-                }
+                });
+            }
             
         
             Promise.all(promises)
-              .then(results => {
+            .then(results => {
                   // Init post model
                     const post = new Post({
                          post_img: images,
@@ -51,7 +56,6 @@ module.exports = {
                          post_by: req.body.id
                      });
                   // Save data
-                
                     post.save(function(err) {
                          if(err) {
                             res.send(err);
@@ -65,7 +69,8 @@ module.exports = {
                         
                         res.json({message: 'Success', type: 'success', code: 200, data: leanObject});
                      });
-              }).catch(err => {
+              })
+              .catch(err => {
                   console.log(err);
               });
         },
@@ -84,49 +89,51 @@ module.exports = {
     delete: 
         (req, res) => {
             const promises = [];
-            let deletedPost;
-            Post.findOne({_id: req.body.statusID},
-            (error, status) => {
+            Post.findOne({_id: req.body.statusID})
+            .exec((error, status) => {
                 if(error) throw error;
                 
                 if(status){
-                    deletedPost = status;
                     const status_images = status.post_img;
                     if(status_images.length !== 0 || undefined){
                         status_images.forEach(i => {
-                            promises.push(removeAsync(i));
+                            promises.push(removeAsync(status, i));
                         });
                     } else {
-                        Promise.resolve(status);
+                        promises.push(Promise.resolve(status));
                     }
                 }
-            });
-            
-            
-            function removeAsync(i){
-                const image_id = i.substr(i.lastIndexOf('/') + 1).split('.')[0];//Get image unique ID
-                return new Promise(resolve => {
-                    cloudinary.v2.uploader.destroy(image_id, (result) => { //Destroy image
+                
+                
+                function removeAsync(status, i){
+                    const image_id = i.substr(i.lastIndexOf('/') + 1).split('.')[0];//Get image unique ID
+                    return new Promise((resolve, reject) => {
+                        cloudinary.v2.uploader.destroy(image_id, function(error,result) {
+                            if(error){
+                                reject(error);
+                            }
+                            
+                            if(result){
+                                resolve(status); // Resolve promise
+                            }
+                        });
+                    });
+                }
+                
+                Promise.all(promises)
+                .then(post => { // Get resolve data
+                    Post.deleteOne({_id: req.body.statusID}, 
+                    (err, result) => {
+                        if(err) throw err;
+                        
                         if(result){
-                            resolve(result); // Resolve promise
+                            res.json({data: post, code: 200, type: 'success', message: 'Post deleted'});
                         }
-                    }); 
+                    });
+                })
+                .catch(err => {
+                    throw err;
                 });
-            }
-            
-            
-            Promise.all(promises)
-            .then(result => { // Get resolve data
-                Post.deleteOne({_id: req.body.statusID}, 
-                (err, result) => {
-                    if(err) throw err;
-                    
-                    if(result){
-                        res.json({data: deletedPost, code: 200, type: 'success', message: 'Post deleted'});
-                    }
-                });
-            }).catch(err => {
-                throw err;
             });
         }
 };
