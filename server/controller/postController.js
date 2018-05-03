@@ -32,12 +32,11 @@ module.exports = {
             //Init upload
             function uploadAsync(buffer){
                 return new Promise((resolve, reject) => {
-                    cloudinary.uploader.upload(buffer, function(error, result) {
+                    cloudinary.v2.uploader.upload(buffer, function(error, result) {
                         if(error){
-                            reject(error);
+                            reject(error)
                         }
-                            
-                        
+                        console.log(result)
                         if(result.url){
                             images.push(result.url);
                             resolve(images);
