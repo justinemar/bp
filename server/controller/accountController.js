@@ -1,7 +1,5 @@
 const Account       = require("../models/Account");
-const UserPost      = require("../models/UserPost");
 const utils         = require("../utils/utils");
-const jwt           = require('jsonwebtoken'); // used to create, sign, and verify tokens
 require('dotenv').config();
 
 
