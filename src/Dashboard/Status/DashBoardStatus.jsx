@@ -31,7 +31,7 @@ class DashBoardStatus extends React.Component{
       .catch(err => console.log(err));
         
         socket.on('statusInit', (data) => {
-          var newStatuses = [data, ...this.state.getStatus]
+          const newStatuses = [data, ...this.state.getStatus];
           this.setState({
               recentUpdates: this.state.recentUpdates.concat(data),
               getStatus: newStatuses
