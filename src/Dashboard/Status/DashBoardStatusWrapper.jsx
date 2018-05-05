@@ -120,8 +120,9 @@ class DashBoardStatusWrapper extends React.Component{
             })
             .then(res => res.json())
             .then(res => {
-                if(res.message['message'] === 'invalid token'){
-                    this.initLogout();
+                if(res.code === 401){
+                    this.props.validate(res);
+                    return;
                 }
             })
             .catch(err => console.log(err));
