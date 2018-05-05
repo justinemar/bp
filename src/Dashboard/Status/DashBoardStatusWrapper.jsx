@@ -28,18 +28,59 @@ const DeleteConfirmModal = ({modalVisible, toggleModal, initDelete, data}) => {
 const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) => {
     return (
         <div>
-        { isVisible ?
-            <div className="control-btn">
-                <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
-            { currentStatus.post_by._id === util.getProfile().id ?
-                <button onClick={toggleModal}>Delete</button> : null 
+            { isVisible ?
+                <div className="control-btn">
+                    <button onClick={() => props.handleStatusTab(currentStatus)}>Open in tab</button>
+                { currentStatus.post_by._id === util.getProfile().id ?
+                    <button onClick={toggleModal}>Delete</button> : null 
+                }
+                    <button>Report</button>
+                </div> : null 
             }
-                <button>Report</button>
-            </div> : null 
-        }
         </div>
-        );
+    );
 };
+
+
+const PostImage = ({currentStatus}) => {
+    let displayImg;
+    if(currentStatus.post_img.length === 1){
+         displayImg = <div className="post-image" style={{backgroundImage: `url(${currentStatus.post_img[0]})`}}></div>  
+    } else {
+        displayImg = currentStatus.post_img.map((i, index) => {
+            if(index > 2){
+                return (
+                    <div className="post-image-more">
+                        <Link to={`/${currentStatus.post_by._id}/status/${currentStatus._id}`}><h4> Show more </h4></Link>
+                    </div>
+                );
+            }
+            
+            return (
+                <div className="post-image-small" style={{backgroundImage: `url(${i})`}}></div>
+            );
+        })
+    }
+    
+    return displayImg;
+}
+
+const PostComments = ({currentStatus}) => 
+    currentStatus.post_comments !== undefined ? currentStatus.post_comments.map(i => {
+        return (
+            <div className="main-comment-wrapper">
+                <div className="post-comment">
+                    <div className="comment-user-image">
+                    </div>
+                    <div className="post-comment-info">
+                        <span id="comment-date">{moment(i.comment_posted).fromNow()}</span>
+                        <span id="comment-from">{i.comment_from.display_name}</span>
+                        <p>{i.comment_text}</p>
+                    </div>
+                </div>
+            </div>   
+        );
+    }) : null;
 
 
 class DashBoardStatusWrapper extends React.Component{
@@ -68,11 +109,16 @@ class DashBoardStatusWrapper extends React.Component{
           if(this.state.commentVal.length <= 0 || this.state.commentVal.match(/^\s*$/g)){
               return;
           }
-            this.Auth.fetch('/comment', {
+            fetch('/comment', {
                 method: 'POST',
                 credentials: 'same-origin',
-                body: JSON.stringify({comment: this.state.commentVal})
+                body: JSON.stringify({id: this.props.user.id, comment: this.state.commentVal, post_id: this.props.cStatus._id}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + this.props.util.getToken()
+                }
             })
+            .then(res => res.json())
             .then(res => {
                 if(res.message['message'] === 'invalid token'){
                     this.initLogout();
@@ -181,22 +227,7 @@ class DashBoardStatusWrapper extends React.Component{
                     <div className="clear-both"></div>
                     <div className="post-details">
                         <div className="post-image-wrapper">
-                        { cStatus.post_img.length === 1 ?
-                            <div className="post-image" style={{backgroundImage: `url(${cStatus.post_img[0]})`}}></div>  
-                                :
-                            cStatus.post_img.map((i, index) => {
-                                if(index > 2){
-                                    return (
-                                        <div className="post-image-more">
-                                            <Link to={`/${cStatus.post_by._id}/status/${cStatus._id}`}><h4> Show more </h4></Link>
-                                        </div>
-                                    );
-                                }
-                                return (
-                                    <div className="post-image-small" style={{backgroundImage: `url(${i})`}}></div>
-                                );
-                            })
-                        }
+                            <PostImage currentStatus={cStatus}/>
                         </div>
                         <div className="post-status-wrapper">
                             <p> {cStatus.post_description} </p>
@@ -212,6 +243,7 @@ class DashBoardStatusWrapper extends React.Component{
                             </div>
                         </div>
                         <div className="post-commentBox-wrapper">
+                            <PostComments currentStatus={cStatus}/>
                             <div className="post-comment-box">
                                 <div className="user-image">
                                 </div>

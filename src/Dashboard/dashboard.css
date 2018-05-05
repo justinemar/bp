@@ -482,3 +482,46 @@ color: #fff;
     margin: 0 auto;
 }
 
+.post-comment{
+    padding: 10px;
+    display: flex;
+}
+
+.comment-user-image{
+    width: 44px;
+    height: 35px;
+    margin-right: 10px;
+    margin-top: 5px;
+    background-image: url(https://www.fakepersongenerator.com/Face/male/male1085599608124.jpg);
+    background-size: contain;
+    border-radius: 50%;
+}
+
+.post-comment-info{
+    width: 100%;
+    background: #ffffff;
+    padding: 5px;
+    border-radius: 10px;
+    font-family: 'Segoe UI';
+}
+
+.post-comment-info p{
+    font-size: 13px;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+
+.post-comment-info #comment-from{
+    color: #3f95ff;
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.post-comment-info #comment-date{
+    float: right;
+    font-size: 9px;    
+}
+
+.main-comment-wrapper{
+    border: 1px solid rgba(226, 225, 225, 0.24);
+}

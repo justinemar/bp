@@ -6,11 +6,6 @@ import './setting.css';
 
 
 class MenuSetting extends React.Component{
-    
-    componentDidMount(){
-          
-    }
-    
     render(){
         const { user, dataChange, updateUser } = this.props;
         return (

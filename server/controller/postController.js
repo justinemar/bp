@@ -52,7 +52,8 @@ module.exports = {
                     const post = new Post({
                          post_img: images,
                          post_description: req.body.description,
-                         post_by: req.body.id
+                         post_by: req.body.id,
+                         post_comments: []
                      });
                   // Save data
                     post.save(function(err) {
@@ -78,6 +79,7 @@ module.exports = {
         (req, res) => {
              Post.find({})
              .populate('post_by', 'display_name')
+             .populate('post_comments.comment_from', 'display_name')
              .exec((err, post) => {
                  if(err) {
                      throw err;

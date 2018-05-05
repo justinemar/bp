@@ -19,7 +19,18 @@ const UserPostSchema = new Schema({
     post_date: {
         type: Date, 
         default: Date.now 
-    }
+    },
+    post_comments: [{
+        comment_text: String,
+        comment_from: {
+            type: Schema.Types.ObjectId, ref: 'Account',
+            ref: 'Account'
+        },
+        comment_posted: {
+            type: Date,
+            default: Date.now
+        }
+    }]
 });
 
 

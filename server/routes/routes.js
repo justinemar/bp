@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const root = require("../controller/indexController");
 const account = require("../controller/accountController");
-const comment = require("../controller/commentController");
+const comment = require("../controller/postCommentController");
 const status = require("../controller/postController");
 const accountMiddleWare = require("../middlewares/account");
 
