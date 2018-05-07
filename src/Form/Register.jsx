@@ -28,50 +28,39 @@ class Register extends React.Component{
                 response: null,
                 type: null
             },
-            email: null,
-            password: null,
-            displayName: null,
-            invalidForm: false,
-            passwordConfirm: null,
         };
     }
 
     
     
-    checkFields = () => {
-        const input = document.getElementsByTagName('input');
-        let invalid  = this.state.invalidForm;
-        Array.prototype.slice.call(input).forEach(i => {
-            if("^\\s+$".match(i.value)){
-                i.className = 'input-error';
-                invalid = true;
-            } else {
-                invalid = false;
+    emptyFields(){
+        const refs = [this.email, this.display_name, this.password, this.password_confirm];
+        let error = null;
+        let empty = refs.filter(input => {
+            if(input.value === ''){
+                error = true;
+                this.toggleClass(error, input);
+                return input;
             }
         });
-        this.setState({
-            invalidForm: invalid
-        })
-        
-        return invalid;
+        return empty;
     }
     
     
     register = (e) => {
         e.preventDefault();
-        
-        if(this.checkFields()) {
+        if(this.emptyFields().length > 0){
             this.setState({
                 errors: {
                     ...this.state.errors,
-                    inputErr: 'Missing information'
+                    inputErr: 'Missing informations!'
                 }
-            });
-            
+            })
             return;
         }
-        
-       fetch('/register', {
+
+        console.log('unreachable');        
+      fetch('/register', {
             method: 'POST',
             credentials: 'same-origin',
             body: JSON.stringify({email: this.email.value,  password: this.password.value, name: this.display_name.value}),
@@ -88,20 +77,28 @@ class Register extends React.Component{
     }
     
 
-    toggleClass = (errorCheck, target) => {
-        if(errorCheck){
+    toggleClass = (error, target) => {
+        if(error){
             target.className = 'input-error';
-        } else {
-            target.className = 'input-success';
-        }
+            return;
+        } 
+        
+        target.className = 'input-success';
     }
     
+    
     validateInput = (e) => {
-      const input_error = this.checkFields();
+       // empty fields error
+      const input_error = this.emptyFields();
+      const refs = [this.email, this.display_name, this.password, this.password_confirm]
       let emailError = this.state.errors.email;
       let passwordError = this.state.errors.password;
       let passwordConfirmError = this.state.errors.passwordConfirm;
       let displayNameError = this.state.errors.displayName;
+     
+     
+      
+      // Validate values
       switch(e.target){
           case this.email: 
             const emailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email.value);
@@ -127,7 +124,7 @@ class Register extends React.Component{
       
       this.setState({
               errors: {
-                  inputErr: input_error ? 'Missing informations!' : null,
+                  inputErr: input_error.length > 0 ? 'Missing informations!' : null,
                   email: emailError,
                   password: passwordError,
                   passwordConfirm: passwordConfirmError,
@@ -139,7 +136,7 @@ class Register extends React.Component{
     
     render(){
         const { toggleForm , textNode} = this.props;
-        const { network, errors, empty } = this.state;
+        const { network, errors} = this.state;
         return(
              <form onSubmit={this.register}>
                     <div class="root-form-actions">
@@ -150,7 +147,7 @@ class Register extends React.Component{
                             <Errors errors={errors}/>
                             { network.response ? 
                             <span class={network.type}>{network.response}</span> : null }
-                            <input className={empty ? "input-error" : ""} autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
+                            <input autocomplete="off" type="email" onChange={this.validateInput} ref={(input) => this.email = input} name="email" placeholder="Email address"/>
                             <input type="text" onChange={this.validateInput} ref={(input) => this.display_name = input} name="display_name" placeholder="Display name"/>
                             <input type="password" onChange={this.validateInput} ref={(input) => this.password = input} name="password" placeholder="Password"/>
                             <input type="password" onChange={this.validateInput} ref={(input) => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password"/>
