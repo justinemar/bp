@@ -103,7 +103,7 @@ class DashBoard extends React.Component{
             <DashBoardTimeOut validation={validation} initLogout={this.initLogout} {...this.props}/>
             <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
-                    <DashBoardMenu props={this.props}/>
+                    <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
                        <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>

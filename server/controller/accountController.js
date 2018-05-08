@@ -37,7 +37,8 @@ module.exports = {
                 const payload = {
                     displayName: user.display_name,
                     id: user._id,
-                    email: user.user_email
+                    email: user.user_email,
+                    photoURL: user.photo_url
                 };
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;
@@ -88,7 +89,7 @@ module.exports = {
                 
                 if(user){
                     // Set token payload with new email
-                    const payload = { displayName: user.display_name, id: user._id, email: req.body.entry };
+                    const payload = { displayName: user.display_name, id: user._id, email: req.body.entry, photoURL: user.photo_url };
                      res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload),

@@ -53,6 +53,7 @@ module.exports = {
                          post_img: images,
                          post_description: req.body.description,
                          post_by: req.body.id,
+                         photoURL: req.body.user_photo,
                          post_comments: []
                      });
                   // Save data
@@ -78,11 +79,11 @@ module.exports = {
     get: 
         (req, res) => {
              Post.find({})
-             .populate('post_by', 'display_name')
+             .populate({path: 'post_by', select: ['display_name', 'photo_url']})
              .populate('post_comments.comment_from', 'display_name')
              .exec((err, post) => {
                  if(err) {
-                     throw err;
+                     console.log(err)
                  }
                  res.send(post.reverse());
               });

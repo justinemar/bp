@@ -1,4 +1,5 @@
 .dashboard-notification{
+    width: 190px;
     float: right;
     box-sizing: border-box;
     height: 100%;
@@ -27,7 +28,7 @@
 }
 
 .notification-detail{
-    padding: 15px;
+    padding: 6px;
     background: rgba(19, 19, 17, 0.3);
 }
 

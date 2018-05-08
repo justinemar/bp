@@ -1,0 +1,51 @@
+.dashboard-menu{
+    width: 230px;
+    float: left;
+    box-sizing: border-box;
+    height: 100%;
+    border-left: 1px solid #2b303b;
+    border-right: 1px solid #2b303b;
+    background: #2b303b;
+}
+
+.dashboard-controls{
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.dashboard-tab{
+    background-image: linear-gradient(90deg,rgba(165,151,232,.05) 67%,rgba(112,96,198,0));
+    color: white;
+    padding: 12px;
+    width: 100%;
+    cursor:pointer;
+}
+
+.dashboard-tab label{
+    cursor: pointer;
+    width: 100%;
+    display: block;
+    height: 100%;
+}
+
+.dashboard-tab-name{
+    display: inline-block;
+    position: relative;
+    bottom: 5px;
+    font-weight: bold;
+    font-family: 'Segoe UI';    
+}
+
+.dashboard-active-tab{
+    box-shadow: inset 6px -1px 0px 0px #3f95ff;
+}
+
+.dashboard-user-icon{
+    width: 38px;
+    height: 30px;
+    background-size: cover;
+    display: inline-block;
+    margin-right: 15px;
+    margin-left: 15px;
+}

@@ -16,6 +16,10 @@ const UserPostSchema = new Schema({
         type: Schema.Types.ObjectId, ref: 'Account',
         required: true
     },
+    photoURL: {
+        type: Schema.Types.ObjectId, ref: 'Account',
+        required: true
+    },
     post_date: {
         type: Date, 
         default: Date.now 

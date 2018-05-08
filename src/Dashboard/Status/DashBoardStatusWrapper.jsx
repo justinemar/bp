@@ -215,7 +215,7 @@ class DashBoardStatusWrapper extends React.Component{
                         </div>
                         <div className="post-from-profile-con left">
                              <Link to={`/${cStatus.post_by._id}`}>
-                                <div id="post-from-image">
+                                <div id="post-from-image" style={{backgroundImage: `url(${cStatus.post_by.photo_url})`}}>
                                 
                                 </div>
                              </Link>

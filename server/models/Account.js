@@ -19,6 +19,11 @@ const AccountSchema = new Schema({
         type: String,
         required: true,
     },
+    photo_url: {
+        // Doesn't need to be validated as URL 
+        default: 'http://res.cloudinary.com/dhwgznjct/image/upload/v1525771237/default_hprinl.png', 
+        type: String
+    },
     registration: {
         type: Date,
         required: true,
