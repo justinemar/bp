@@ -27,7 +27,7 @@ class MenuProfile extends React.Component{
                     <div className="profile-menu-wrapper">
                         <div className="profile-menu-general">
                             <ul>
-                                <li>Feed</li>
+                                <li className="profile-active-tab">Feed</li>
                                 <li>Images</li>
                                 <li>Groups</li>
                                 <li>About</li>

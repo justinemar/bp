@@ -80,10 +80,18 @@
     justify-content: flex-end;
 }
 
+
 .profile-menu-general ul li, .profile-menu-stats ul li{
-    margin-right: 10px;
+    margin-right: 12px;
+    cursor: pointer;
+    color: silver;
 }
 
 li:first-child{
     margin-left: auto !important;
+}
+
+.profile-active-tab{
+    border-bottom: 1px solid #3f95ff;
+    color: #ffffff !important;
 }
