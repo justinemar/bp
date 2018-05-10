@@ -53,7 +53,7 @@ module.exports = {
                          post_img: images,
                          post_description: req.body.description,
                          post_by: req.body.id,
-                         photoURL: req.body.user_photo,
+                         photoURL: req.body.id,
                          post_comments: []
                      });
                   // Save data
@@ -65,7 +65,8 @@ module.exports = {
                         // Modifications
                         leanObject['post_by'] = {
                             _id: leanObject['post_by'],
-                            display_name: req.body.user // Add current user display name
+                            display_name: req.body.user, // Add current user display name
+                            photo_url: req.body.user_photo
                         };
                         
                         res.json({message: 'Success', type: 'success', code: 200, data: leanObject});

@@ -24,6 +24,10 @@ const AccountSchema = new Schema({
         default: 'http://res.cloudinary.com/dhwgznjct/image/upload/v1525771237/default_hprinl.png', 
         type: String
     },
+    cover_url: {
+        default: 'http://res.cloudinary.com/dhwgznjct/image/upload/v1525850539/space-travel-2368412_1280_lajb9f.jpg',
+        type: String
+    },
     registration: {
         type: Date,
         required: true,

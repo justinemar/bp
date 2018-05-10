@@ -5,6 +5,7 @@ import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
 import MenuSetting from './Menu/Setting';
+import MenuProfile from './Menu/Profile';
 import AuthService from '../utils/authService';
 import withAuth from '../utils/withAuth';
 import './dashboard.css';
@@ -105,6 +106,7 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
+                       <Route path="/dashboard/me" render={(props) =>  <MenuProfile/>}/>
                        <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
                 </div>
