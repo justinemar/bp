@@ -23,8 +23,8 @@ class MenuProfile extends React.Component{
                             </div>
                             <div className="profile-user-stats">
                             <ul>
-                                <li>200 Followers</li>
-                                <li>3 Following</li>
+                                <li><span className="stats-color">200</span> Followers</li>
+                                <li><span className="stats-color">3</span> Following</li>
                             </ul>
                         </div>
                         </div>

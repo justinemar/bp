@@ -113,6 +113,10 @@
     color: white;
 }
 
+.stats-color {
+    color: rgb(43, 57, 74);
+}
+
 .profile-active-tab{
     border-bottom: 1px solid #3f95ff;
     color: #ffffff !important;
