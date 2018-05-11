@@ -6,18 +6,19 @@ import './profile.css';
 
 class MenuProfile extends React.Component{
     render(){
+        const { user } = this.props;
         return (
             <div className="section-selected-tab">
                 <div className="profile-head-wrapper">
                     <div className="profile-cover">
                     </div>
                     <div className="profile-photo">
-                        <div className="profile-user-image">
+                        <div className="profile-user-image" style={{backgroundImage: `url(${user.photoURL})`}}>
                         
                         </div>
                         <div className="profile-name">
                             <div className="profile-user-info">
-                                <h1>Kodus</h1>
+                                <h1>{user.displayName}</h1>
                                 <span id="title">The chosen one</span>
                             </div>
                             <div className="profile-user-stats">

@@ -55,10 +55,11 @@
     min-width: 80px;
     min-height: 80px;
     background: black;
-    border-radius: 40px;
     margin-right: 25px;
     margin-left: 50px;
     position: relative;
+    border: 1px solid white;
+    background-size: cover;
 }
 
 .profile-menu-wrapper{
