@@ -19,13 +19,18 @@ const EditTrigger = ({edit, forId, textNode, func, awesomeClass, textClass}) => 
 }
 
 class MenuProfile extends React.Component{
-    
-    state = {
-       edit: {
-           textNode: 'Edit Profile',
-           editing: false
-       } 
+    constructor(props){
+        super(props);
+        this.state = {
+            edit: {
+               textNode: 'Edit Profile',
+               editing: false
+            },
+            coverURL: props.user.coverURL,
+            photoURL: props.user.photoURL
+        }
     }
+
     
     toggleEdit = () => {
         const { edit } = this.state;
@@ -50,12 +55,12 @@ class MenuProfile extends React.Component{
         console.log('2')
     }
     render(){
-        const { edit } = this.state;
+        const { edit, coverURL, photoURL } = this.state;
         const { user } = this.props;
         return (
             <div className="section-selected-tab">
                 <div className="profile-head-wrapper">
-                    <div className="profile-cover-image" style={{backgroundImage: `url(${user.coverURL})`}}>
+                    <div className="profile-cover-image" style={{backgroundImage: `url(${coverURL})`}}>
                         <EditTrigger edit={edit} 
                         forId="change-cover-btn"
                         awesomeClass="profile-cover"
@@ -64,7 +69,7 @@ class MenuProfile extends React.Component{
                         textClass="change-cover-text"/>
                     </div>
                 <div className="profile-photo">
-                        <div className="profile-user-image" style={{backgroundImage: `url(${user.photoURL})`}}>
+                        <div className="profile-user-image" style={{backgroundImage: `url(${photoURL})`}}>
                             <EditTrigger edit={edit} 
                             forId="change-image-btn"
                             awesomeClass="profile-image"

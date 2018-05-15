@@ -36,7 +36,7 @@ class SettingInput extends React.Component {
         const value = originalKeyValue.email ? originalKeyValue.email : originalKeyValue.name;
         const { dataChange } = this.props;
         if(bindValue !== value){
-            fetch(`/profile/users/${value}`, {
+            fetch(`/users/${value}`, {
                   method: 'PUT',
                   credentials: 'same-origin',
                   body: JSON.stringify({originalKeyValue, entry: bindValue, user_id}),

@@ -12,7 +12,7 @@ class UserProfile extends React.Component{
     
     componentDidMount(){
         const userID = this.props.match.params.user
-        fetch(`/profile/users/${userID}`, {
+        fetch(`/users/${userID}`, {
             method: "GET",
             credentials: 'same-origin'
         })

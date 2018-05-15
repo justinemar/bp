@@ -1,5 +1,5 @@
 const Account       = require("../models/Account");
-const utils         = require("../utils");
+const helper         = require("../utils/lib/account");
 require('dotenv').config();
 
 
@@ -48,7 +48,7 @@ module.exports = {
                         res.json({
                             message: 'Login successfully',
                             type: 'success',
-                            token: utils.setToken(payload),
+                            token: helper.setToken(payload),
                         });
                     } else {
                         res.json({
@@ -98,7 +98,7 @@ module.exports = {
                     };
                      res.json({
                         message: 'Account Updated!', 
-                        token: utils.setToken(payload),
+                        token: helper.setToken(payload),
                         code: 200
                     });
                 }
@@ -122,7 +122,7 @@ module.exports = {
                     };
                     res.json({
                         message: 'Account Updated!', 
-                        token: utils.setToken(payload), 
+                        token: helper.setToken(payload), 
                         code: 200
                     });
                 } else {
@@ -133,6 +133,10 @@ module.exports = {
                 }
             });
         } 
+    },
+    
+    user_update_photo: (req, res) => {
+        
     }
     
 };

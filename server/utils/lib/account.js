@@ -1,10 +1,15 @@
-const Account = require('../models/Account');
+const Account = require('../../models/Account');
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
+exports.setToken = (payload) => {
+     return jwt.sign(payload, process.env.KEY1, {
+                  expiresIn: 1800 // expires in 30 minutes
+     });
+}
 
-const accountMiddlewares = {
-    checkUser: function(req, res, next){
+
+exports.checkUser = (req, res, next) => {
         Account.findOne({$or: [ {user_email: req.body.email}, {display_name: req.body.name}]}) 
         .exec((err, user) => {
             if(err) { 
@@ -24,7 +29,7 @@ const accountMiddlewares = {
         });
     },
 
-    verifyToken: (req, res, next) => {
+exports.verifyToken = (req, res, next) => {
         const token = req.headers.authorization.slice(7 - req.headers.authorization.length);
         jwt.verify(token, process.env.KEY1, function(err, decoded) {
             if(err) {
@@ -40,7 +45,3 @@ const accountMiddlewares = {
             } 
         });
     }
-
-};
-
-module.exports = accountMiddlewares;
