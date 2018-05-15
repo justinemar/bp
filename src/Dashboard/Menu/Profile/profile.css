@@ -2,12 +2,13 @@
     position: relative;
 }
 
-.profile-cover{
+.profile-cover-image{
     width: 100%;
     height: 205px;
     background: #3f95ff;
     position: absolute;
     z-index: 0;
+    background-size: cover;
 }
 
 .profile-control{
@@ -134,10 +135,45 @@
     cursor: pointer;
 }
 
+.profile-cover-image label{
+    position: absolute;
+    background: rgba(0, 0, 0, 0.84);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.profile-user-image label:hover {
+    background: rgb(63, 149, 255);
+}
+
 .profile-image{
     margin: 30px;
 }
 
+.profile-cover{
+    width: 100% !important;
+    height: 60px;
+    color: white;
+}
+
+
+.change-cover-text{
+    position: absolute;
+    font-size: 11px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    width: 100%;
+    color: white;
+}
+
+.change-photo-text{
+    position: absolute;
+    font-size: 11px;
+    text-align: center;
+    font-family: 'Segoe UI';
+    bottom: 3px;
+}
 
 @media only screen and (max-width: 850px){
     .dashboard-menu{
@@ -152,7 +188,7 @@
 }
 
 @media only screen and (max-width: 600px) {
-    .profile-cover{
+    .profile-cover-image{
         height: 220px;
     }
     .profile-control{

@@ -1,5 +1,5 @@
 const Account       = require("../models/Account");
-const utils         = require("../utils/utils");
+const utils         = require("../utils");
 require('dotenv').config();
 
 
@@ -38,7 +38,8 @@ module.exports = {
                     displayName: user.display_name,
                     id: user._id,
                     email: user.user_email,
-                    photoURL: user.photo_url
+                    photoURL: user.photo_url,
+                    coverURL: user.cover_url
                 };
                 user.comparePassword(req.body.password, function(err, match) {
                     if(err) throw err;
@@ -89,7 +90,12 @@ module.exports = {
                 
                 if(user){
                     // Set token payload with new email
-                    const payload = { displayName: user.display_name, id: user._id, email: req.body.entry, photoURL: user.photo_url };
+                    const payload = { 
+                        displayName: user.display_name, 
+                        id: user._id, email: req.body.entry, 
+                        photoURL: user.photo_url,
+                        coverURL: user.cover_url
+                    };
                      res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload),
@@ -108,7 +114,12 @@ module.exports = {
                 
                 if(user){
                     // Set token payload with new display_name
-                    const payload = { displayName: req.body.entry, id: user._id, email: user.user_email, photoURL: user.photo_url };
+                    const payload = { 
+                        displayName: req.body.entry, 
+                        id: user._id, email: user.user_email, 
+                        photoURL: user.photo_url,
+                        coverURL: user.cover_url
+                    };
                     res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload), 
