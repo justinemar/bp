@@ -1,11 +1,38 @@
 import React from 'react';
 import './profile.css';
-
-
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 
 class MenuProfile extends React.Component{
+    
+    state = {
+       edit: {
+           textNode: 'Edit Profile',
+           editing: false
+       } 
+    }
+    
+    toggleEdit = () => {
+        const { edit } = this.state;
+        const newState = edit.editing ? 
+        { textNode: 'Edit Profile' , editing: false } 
+            : 
+        { textNode: 'Done Edit' , editing: true };
+        
+        this.setState({
+            edit: {
+                textNode: newState.textNode,
+                editing: newState.editing
+            }
+        })
+    }
+    
+    uploadImage = () => {
+         
+    }
+    
     render(){
+        const { edit } = this.state;
         const { user } = this.props;
         return (
             <div className="section-selected-tab">
@@ -14,7 +41,14 @@ class MenuProfile extends React.Component{
                     </div>
                     <div className="profile-photo">
                         <div className="profile-user-image" style={{backgroundImage: `url(${user.photoURL})`}}>
-                        
+                        { edit.editing ?
+                             <div>
+                                <label htmlFor="change-image-btn">
+                                    <FontAwesomeIcon className="profile-image" icon="image"/> 
+                                </label>
+                                <button id="change-image-btn" className="opt-none" onClick={this.uploadImage}></button>
+                            </div> : null
+                        }
                         </div>
                         <div className="profile-name">
                             <div className="profile-user-info">
@@ -31,7 +65,7 @@ class MenuProfile extends React.Component{
                     </div>
                     <div className="profile-control">
                             <button> View as </button>
-                            <button> Edit Profile </button>
+                            <button onClick={this.toggleEdit}>{edit.textNode}</button>
                     </div>
                     <div className="profile-menu-wrapper">
                         <div className="profile-menu-general">

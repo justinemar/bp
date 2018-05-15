@@ -126,6 +126,18 @@
     color: #ffffff !important;
 }
 
+.profile-user-image label{
+    position: absolute;
+    background: rgba(44, 45, 45, 0.43);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.profile-image{
+    margin: 30px;
+}
+
 
 @media only screen and (max-width: 850px){
     .dashboard-menu{

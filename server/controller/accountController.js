@@ -108,7 +108,7 @@ module.exports = {
                 
                 if(user){
                     // Set token payload with new display_name
-                    const payload = { displayName: req.body.entry, id: user._id, email: user.user_email };
+                    const payload = { displayName: req.body.entry, id: user._id, email: user.user_email, photoURL: user.photo_url };
                     res.json({
                         message: 'Account Updated!', 
                         token: utils.setToken(payload), 
