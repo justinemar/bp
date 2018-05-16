@@ -153,7 +153,9 @@
 
 .profile-cover{
     width: 100% !important;
-    height: 60px;
+    top: 30px;
+    position: relative;
+    height: 40px;
     color: white;
 }
 
@@ -165,6 +167,7 @@
     font-family: 'Segoe UI';
     width: 100%;
     color: white;
+    padding: 30px;
 }
 
 .change-photo-text{

@@ -1,5 +1,5 @@
 const Account       = require("../models/Account");
-const helper         = require("../utils/lib/account");
+const account         = require("../utils/lib/account");
 require('dotenv').config();
 
 
@@ -48,7 +48,7 @@ module.exports = {
                         res.json({
                             message: 'Login successfully',
                             type: 'success',
-                            token: helper.setToken(payload),
+                            token: account.setToken(payload),
                         });
                     } else {
                         res.json({
@@ -98,7 +98,7 @@ module.exports = {
                     };
                      res.json({
                         message: 'Account Updated!', 
-                        token: helper.setToken(payload),
+                        token: account.setToken(payload),
                         code: 200
                     });
                 }
@@ -122,7 +122,7 @@ module.exports = {
                     };
                     res.json({
                         message: 'Account Updated!', 
-                        token: helper.setToken(payload), 
+                        token: account.setToken(payload), 
                         code: 200
                     });
                 } else {

@@ -8,7 +8,6 @@ exports.setToken = (payload) => {
      });
 }
 
-
 exports.checkUser = (req, res, next) => {
         Account.findOne({$or: [ {user_email: req.body.email}, {display_name: req.body.name}]}) 
         .exec((err, user) => {
