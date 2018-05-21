@@ -3,8 +3,9 @@ Gamers hub social network
 https://bida-social.herokuapp.com/#/dashboard
 
 
-## Setup 
+## Setup
 
+You need to use at least node 6 to run this project.
 This project requires secrets for the following services :
 * Cloudinary
 * mLab
