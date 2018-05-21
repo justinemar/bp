@@ -1,5 +1,9 @@
-const Account = require('../../models/Account');
-const jwt = require("jsonwebtoken");
+const Account       = require('../../models/Account');
+const jwt           = require("jsonwebtoken");
+const multer        = require("multer");
+const storage       = multer.memoryStorage();
+const upload        = multer({storage}).fields([{ name: 'photo', maxCount: 1 }, { name: 'cover', maxCount: 1 }]);
+const uploadArray   = multer({storage}).array('image', 12);
 require('dotenv').config();
 
 exports.setToken = (payload) => {
@@ -43,4 +47,25 @@ exports.verifyToken = (req, res, next) => {
                 next();
             } 
         });
-    }
+    };
+    
+
+exports.upload = (req, res, next) => {
+    upload(req, res, function (err) {
+        if (err) {
+          console.log(err);
+        }
+        next();
+      });
+};
+
+
+exports.uploadArray = (req, res, next) => {
+    uploadArray(req, res, function (err) {
+        if(err){
+            console.log(err);
+        }
+        next();
+    });
+    
+};

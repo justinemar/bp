@@ -1,10 +1,11 @@
 const Account       = require("../models/Account");
-const account         = require("../utils/lib/account");
-require('dotenv').config();
+const account       = require("../utils/lib/account");
+const cloudinary    = require("cloudinary");
+const DataUri       = require("datauri");
+require("../utils/lib/config");
 
 
 module.exports = {
-    
     user_register: (req, res) => {
         const member = new Account({
             user_email: req.body.email,
@@ -12,6 +13,7 @@ module.exports = {
             display_name: req.body.name,
             registration: Date.now(),
         });
+        
         member.save(function(err, data) {
             if(err) {
                 res.status(500).json({message: 'Internal Server Error', type: 'error'});
@@ -24,7 +26,6 @@ module.exports = {
                 });
             } 
         });
-
     },
     
     user_login: (req, res) => {
@@ -135,8 +136,62 @@ module.exports = {
         } 
     },
     
-    user_update_photo: (req, res) => {
-        
-    }
+    user_update_profile: (req, res) => {
+          const uri = new DataUri();
+          const asyncUpload = [];
+          const keys = Object.keys(req.files);
+          
+          for(var key in req.files){
+            const buffer = req.files[key][0].buffer;
+            uri.format('.png', buffer);
+            let uriContent = uri.content;
+            const ref = key;
+            asyncUpload.push(new Promise((resolve, reject) => {
+                    cloudinary.v2.uploader.upload(uriContent, function(error, result) {
+                        if(error){
+                            reject(error);
+                        }
+                        if(result.url){
+                            resolve({field: `${ref}_url`, data: result.url});
+                        }
+                    });
+                }));
+           }
+            
+            Promise.all(asyncUpload)
+            .then(results => {
+                  // Save data
+                  let constructObj = {};
+                  for(var x=0; x < results.length; x++){
+                    constructObj[results[x].field] = results[x].data
+                  }
+                  Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: constructObj})
+                  .exec((err, user) => {
+                      if(err){
+                          throw err;
+                      }
+                      if(user){
+                        const payload = { 
+                            displayName: user.display_name, 
+                            id: user._id, 
+                            email: user.user_email, 
+                            photoURL: results[0].data,
+                            coverURL: results[1].data
+                        };
+                        res.json({
+                            message: 'Account Updated!', 
+                            token: account.setToken(payload),
+                            code: 200
+                        });
+                      }
+                  });
+              })
+              .catch(err => {
+                  res.json({
+                      message: err,
+                      code: 501
+                  });
+              });
+    },
     
 };

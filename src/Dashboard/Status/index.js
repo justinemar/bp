@@ -23,23 +23,23 @@ class DashBoardStatusContainer extends React.Component{
         const imageData = this.state.previewImagesData;
         const formData = new FormData();
         formData.append("description", this.status.value);
-        formData.append("user", this.Auth.getProfile().displayName)
-        formData.append("id", this.Auth.getProfile().id)
-        formData.append("user_photo", this.Auth.getProfile().photoURL)
+        formData.append("user", this.Auth.getProfile().displayName);
+        formData.append("id", this.Auth.getProfile().id);
+        formData.append("user_photo", this.Auth.getProfile().photoURL);
         imageData.forEach(i => {
-            formData.append("image", i)
-        })
+            formData.append("image", i);
+        });
         this.Auth.fetch('/status', {
           method: 'POST',
           credentials: 'same-origin',
           body: formData,
         })
         .then(res => {
-            this.props.validate(res)
-            if(res.code === 200){
-                console.log(res.data)
-                socket.emit('statusInit', res.data)
+            if(res.code === 401){
+                this.props.timeOut(res);
+                return;
             }
+            socket.emit('statusInit', res.data);
         })
         .catch(err => console.log(err));
     }
@@ -61,7 +61,7 @@ class DashBoardStatusContainer extends React.Component{
         this.setState({
             previewImages: divcopy.concat(divStore),
             previewImagesData:  imagecopy.concat(dataStore) 
-        })
+        });
     }
     
     removePreview = (index) => {
@@ -94,7 +94,7 @@ class DashBoardStatusContainer extends React.Component{
                     <li onMouseLeave={this.effectPreview} onMouseOver={this.effectPreview} onClick={() => this.removePreview(index)} key={index}>
                        {i}
                     </li>
-                )
+                );
         }) : null;
         return (
             <div className="section-selected-tab">

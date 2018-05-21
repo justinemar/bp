@@ -61,18 +61,15 @@ class DashBoard extends React.Component{
     }
     
     
-    validate = (res) => {
-        if(res.code === 401) {
-            this.setState({
-                validation: {
-                    message: res.message,
-                    type: res.type,
-                    code: res.code
-                }
-            });
-            
-            return;
-        } 
+    timeOut = (res) => {
+        console.log('DOES GO HERE', res.code)
+        this.setState({
+            validation: {
+                message: res.message,
+                type: res.type,
+                code: res.code
+            }
+        });
     }
     
     removeChageNotification = () => {
@@ -106,9 +103,9 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
-                       <Route path="/dashboard/me" render={(props) =>  <MenuProfile user={this.props.user}/>}/>
+                       <Route path="/dashboard/me" render={(props) =>  <MenuProfile user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
-                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer validate={this.validate} {...this.props}/>}/>
+                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.timeOut} {...this.props}/>}/>
                 </div>
             </div>
         );

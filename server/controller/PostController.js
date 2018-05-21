@@ -2,41 +2,32 @@ const cloudinary = require("cloudinary");
 const Post = require("../models/UserPost");
 const DataUri = require("datauri");
 
-/* LOAD LOCAL ENVS */
-require('dotenv').config();
-
-
-cloudinary.config({
-    cloud_name: process.env.CLOUD_NAME,
-    api_key: process.env.CLOUD_API_KEY,
-    api_secret: process.env.CLOUD_API_SECRET
-});
+/* LOAD CONFIG */
+require("../utils/lib/config");
 
 
 module.exports = {
     new: 
     /* Cloudinary doesn't support multiple resource upload on a single POST request */
         (req, res) => {
+            
             const uri = new DataUri();
             const promises = [];
             const images = [];
-            
             //Get buffer from files
-            for(var key in req.files){ 
+            for(let key in req.files){ 
               const obj = req.files[key];
               uri.format('.png', obj.buffer);
               let uriContent = uri.content;
               promises.push(uploadAsync(uriContent)); //upload each image
             }
-            
             //Init upload
             function uploadAsync(buffer){
                 return new Promise((resolve, reject) => {
                     cloudinary.v2.uploader.upload(buffer, function(error, result) {
                         if(error){
-                            reject(error)
+                            reject(error);
                         }
-                        console.log(result)
                         if(result.url){
                             images.push(result.url);
                             resolve(images);
@@ -49,6 +40,7 @@ module.exports = {
             Promise.all(promises)
             .then(results => {
                   // Init post model
+                  console.log('test1')
                     const post = new Post({
                          post_img: images,
                          post_description: req.body.description,
@@ -86,9 +78,10 @@ module.exports = {
                  if(err) {
                      console.log(err)
                  }
-                 res.send(post.reverse());
+                 res.json({message: 'Success', type: 'success', code: 200, data: post.reverse()});
               });
         },
+        
     delete: 
         (req, res) => {
             const promises = [];

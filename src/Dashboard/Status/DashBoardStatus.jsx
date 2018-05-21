@@ -15,18 +15,19 @@ class DashBoardStatus extends React.Component{
     
     
     componentDidMount(){
-      this.props.util.fetch('status', { 
+      this.props.util.fetch('/status', { 
          method: 'GET', 
          credentials: 'same-origin',
       })
       .then(res => {
+        console.log('THIS IS THE RES CODE: ', res.code)
         if(res.code === 401){
-            this.props.validate(res);
+            this.props.timeOut(res);
             return;
         }
         this.setState({
-          getStatus: res
-        });
+          getStatus: res.data
+        })
       })
       .catch(err => console.log(err));
         

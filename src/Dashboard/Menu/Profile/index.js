@@ -11,12 +11,19 @@ const EditTrigger = ({edit, forId, textNode, func, awesomeClass, textClass, inpu
                         <FontAwesomeIcon className={awesomeClass} icon="image"/> 
                         <p className={textClass}>{textNode}</p>
                     </label>
-                    <input ref={inputRef} type="file" accept="image/*" id={forId} className="opt-none" onChange={func}/>
+                    <input ref={inputRef} 
+                        name="image" 
+                        type="file" 
+                        accept="image/*" 
+                        id={forId} 
+                        className="opt-none" 
+                        onChange={func}
+                    />
                 </div>
             : null }
          </div> 
-    )
-}
+    );
+};
 
 class MenuProfile extends React.Component{
     constructor(props){
@@ -26,8 +33,14 @@ class MenuProfile extends React.Component{
                textNode: 'Edit Profile',
                editing: false
             },
-            coverURL: props.user.coverURL,
-            photoURL: props.user.photoURL
+            cover: {
+                url: props.user.coverURL,
+                data: null
+            },
+            photo: { 
+                url: props.user.photoURL,
+                data: null
+            }
         };
     }
 
@@ -40,51 +53,81 @@ class MenuProfile extends React.Component{
         const newState = edit.editing ? 
         { textNode: 'Edit Profile' , editing: false } 
             : 
-        { textNode: 'Done Edit' , editing: true };
+        { textNode: 'Cancel Edit' , editing: true };
         
         this.setState({
             edit: {
                 textNode: newState.textNode,
                 editing: newState.editing
             }
-        })
+        });
     }
     
-    uploadImage = () => {
+    setImage = () => {
          const image = URL.createObjectURL(this.photo_ref.files[0]);
          this.setState({
-             photoURL: image
-         })
+             photo:{
+               url: image,
+               data: this.photo_ref.files[0]
+             } 
+         });
     }
     
-    uploadCover = () => {
+    setCover = () => {
          const image = URL.createObjectURL(this.cover_ref.files[0]);
          this.setState({
-             coverURL: image
-         })
+             cover: { 
+                 url: image,
+                 data: this.cover_ref.files[0]
+             }
+         });
     }
+    
+    
+    saveUpdate = () => {
+        const formData = new FormData();
+        const { user, Auth, dataChange } = this.props;
+        const newCover = user.coverURL !== this.state.cover.url ? this.state.cover : false;
+        const newPhoto = user.photoURL !== this.state.photo.url ? this.state.photo : false;
+        formData.append('user_id', user.id);
+        formData.append('photo', this.photo_ref.files[0]);
+        formData.append('cover', this.cover_ref.files[0]);
+    
+        Auth.fetch('/update', {
+            method: "POST",
+            credentials: 'same-origin',
+            body: formData,
+        })
+        .then(res => {
+            if(res.code === 200){
+                dataChange(res)
+            }
+        })
+        .catch(err => console.log(err));
+    }
+    
     render(){
-        const { edit, coverURL, photoURL } = this.state;
+        const { edit, cover, photo } = this.state;
         const { user } = this.props;
         return (
             <div className="section-selected-tab">
                 <div className="profile-head-wrapper">
-                    <div className="profile-cover-image" style={{backgroundImage: `url(${coverURL})`}}>
+                    <div className="profile-cover-image" style={{backgroundImage: `url(${cover.url})`}}>
                         <EditTrigger edit={edit} 
                         forId="change-cover-btn"
                         awesomeClass="profile-cover"
                         textNode="Change your profile cover"
-                        func={this.uploadCover}
+                        func={this.setCover}
                         textClass="change-cover-text"
                         inputRef={i => this.cover_ref = i}/>
                     </div>
                 <div className="profile-photo">
-                        <div className="profile-user-image" style={{backgroundImage: `url(${photoURL})`}}>
+                        <div className="profile-user-image" style={{backgroundImage: `url(${photo.url})`}}>
                             <EditTrigger edit={edit} 
                             forId="change-image-btn"
                             awesomeClass="profile-image"
                             textNode="Change your profile photo"
-                            func={this.uploadImage}
+                            func={this.setImage}
                             textClass="change-photo-text"
                             inputRef={i => this.photo_ref = i}/>
                         </div>
@@ -104,6 +147,9 @@ class MenuProfile extends React.Component{
                 </div>
                     <div className="profile-control">
                             <button> View as </button>
+                            { edit.editing ? 
+                            <button onClick={this.saveUpdate}>Save Update</button>
+                            : null }
                             <button onClick={this.toggleEdit}>{edit.textNode}</button>
                     </div>
                     <div className="profile-menu-wrapper">
