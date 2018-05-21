@@ -1,6 +1,5 @@
 # bida-social
-A social networking i am currently working on with features similar to most social networking.
-
+Gamers hub social network
 https://bida-social.herokuapp.com/#/dashboard
 
 
