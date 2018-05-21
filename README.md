@@ -73,3 +73,8 @@ All forms of contribution is welcome.
 
 Always work on `bp-staging` branch.
 
+
+## Notice
+
+This project is for learning purposes only and not use for commercially.
+Images uploaded to the website is not intented for copyright infringement.
