@@ -152,7 +152,13 @@ module.exports = {
                             reject(error);
                         }
                         if(result.url){
-                            resolve({field: `${ref}_url`, data: result.url});
+                            resolve({ 
+                                field: `${ref}_url`, 
+                                data: {
+                                    identifier: req.files[key][0].fieldname, 
+                                    url: result.url 
+                                }
+                            });
                         }
                     });
                 }));
@@ -163,7 +169,7 @@ module.exports = {
                   // Save data
                   let constructObj = {};
                   for(var x=0; x < results.length; x++){
-                    constructObj[results[x].field] = results[x].data
+                    constructObj[results[x].field] = results[x].data.url
                   }
                   Account.findByIdAndUpdate({_id: req.params.user}, {$set: constructObj})
                   .exec((err, user) => {
@@ -175,8 +181,8 @@ module.exports = {
                             displayName: user.display_name, 
                             id: user._id, 
                             email: user.user_email, 
-                            photoURL: results[0].data,
-                            coverURL: results[1].data
+                            photoURL: results[0] === undefined ? req.body.oldPhoto : results[0].data.url,
+                            coverURL: results[1] === undefined ? req.body.oldCover : results[1].data.url
                         };
                         res.json({
                             message: 'Account Updated!', 

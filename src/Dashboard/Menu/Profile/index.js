@@ -89,12 +89,13 @@ class MenuProfile extends React.Component{
     saveUpdate = () => {
         const formData = new FormData();
         const { user, Auth, dataChange } = this.props;
-        const newCover = user.coverURL !== this.state.cover.url ? this.state.cover : false;
-        const newPhoto = user.photoURL !== this.state.photo.url ? this.state.photo : false;
+     
         formData.append('user_id', user.id);
         formData.append('photo', this.photo_ref.files[0]);
-        formData.append('cover', this.cover_ref.files[0]);
-    
+        formData.append('cover', this.cover_ref.files[0]); 
+        formData.append('oldCover', user.coverURL);
+        formData.append('oldPhoto', user.photoURL)
+        
         Auth.fetch(`/profile/${user.id}`, {
             method: "POST",
             credentials: 'same-origin',
