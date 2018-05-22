@@ -140,7 +140,7 @@ module.exports = {
           const uri = new DataUri();
           const asyncUpload = [];
           const keys = Object.keys(req.files);
-          
+          console.log(req.params.user)
           for(var key in req.files){
             const buffer = req.files[key][0].buffer;
             uri.format('.png', buffer);
@@ -165,7 +165,7 @@ module.exports = {
                   for(var x=0; x < results.length; x++){
                     constructObj[results[x].field] = results[x].data
                   }
-                  Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: constructObj})
+                  Account.findByIdAndUpdate({_id: req.params.user}, {$set: constructObj})
                   .exec((err, user) => {
                       if(err){
                           throw err;

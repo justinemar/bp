@@ -7,7 +7,7 @@ require("../utils/lib/config");
 
 
 module.exports = {
-    new: 
+    post_new: 
     /* Cloudinary doesn't support multiple resource upload on a single POST request */
         (req, res) => {
             
@@ -69,7 +69,7 @@ module.exports = {
               });
         },
         
-    get: 
+    post_get: 
         (req, res) => {
              Post.find({})
              .populate({path: 'post_by', select: ['display_name', 'photo_url']})
@@ -82,7 +82,7 @@ module.exports = {
               });
         },
         
-    delete: 
+    post_delete: 
         (req, res) => {
             const promises = [];
             Post.findOne({_id: req.body.statusID})
@@ -131,7 +131,19 @@ module.exports = {
                     throw err;
                 });
             });
-        }
+        },
+        
+    post_user_owned: (req, res) => {
+        Post.find({})
+         .populate({path: 'post_by', select: ['display_name', 'photo_url']})
+         .populate('post_comments.comment_from', 'display_name')
+         .exec((err, post) => {
+             if(err) {
+                 console.log(err)
+             }
+                res.json({message: 'Success', type: 'success', code: 200, data: post.reverse()});
+         }); 
+    }
 };
 
 

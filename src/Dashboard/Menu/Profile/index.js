@@ -1,6 +1,7 @@
 import React from 'react';
 import './profile.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import Feed from './Feed.jsx';
 
 const EditTrigger = ({edit, forId, textNode, func, awesomeClass, textClass, inputRef}) => {
     return (
@@ -40,7 +41,8 @@ class MenuProfile extends React.Component{
             photo: { 
                 url: props.user.photoURL,
                 data: null
-            }
+            },
+            content: <Feed user={props.user} Auth={props.Auth}/>
         };
     }
 
@@ -93,7 +95,7 @@ class MenuProfile extends React.Component{
         formData.append('photo', this.photo_ref.files[0]);
         formData.append('cover', this.cover_ref.files[0]);
     
-        Auth.fetch('/update', {
+        Auth.fetch(`/profile/${user.id}`, {
             method: "POST",
             credentials: 'same-origin',
             body: formData,
@@ -107,7 +109,7 @@ class MenuProfile extends React.Component{
     }
     
     render(){
-        const { edit, cover, photo } = this.state;
+        const { edit, cover, photo, content } = this.state;
         const { user } = this.props;
         return (
             <div className="section-selected-tab">
@@ -162,6 +164,9 @@ class MenuProfile extends React.Component{
                             </ul>
                         </div>
                     </div>
+                </div>
+                <div className="profile-active-tab-content">
+                    {content}
                 </div>
             </div>
             )

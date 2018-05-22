@@ -12,13 +12,14 @@ router.get('/', root.index);
 router.route('/status')
   .all(helper.verifyToken)
   .all(helper.uploadArray)
-  .get(status.get)
-  .post(status.new)
-  .delete(status.delete);
+  .get(status.post_get)
+  .post(status.post_new)
+  .delete(status.post_delete);
   
-router.route('/update')
+router.route('/profile/:user')
   .all(helper.verifyToken)
   .all(helper.upload)
+  .get(status.post_user_owned)
   .post(account.user_update_profile)
   
   
