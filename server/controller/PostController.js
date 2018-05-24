@@ -53,12 +53,14 @@ module.exports = {
                          if(err) {
                             res.send(err);
                          } 
-                        var leanObject = post.toObject(); // Transform instance to plain JS Object for modification
+                        
+                        // Transform instance to plain JS Object for modification, instead of populate (freeing extra query)
+                        const leanObject = post.toObject(); 
                         // Modifications
                         leanObject['post_by'] = {
                             _id: leanObject['post_by'],
                             display_name: req.body.user, // Add current user display name
-                            photo_url: req.body.user_photo
+                            photo_url: req.body.user_photo // Add current user photo
                         };
                         
                         res.json({message: 'Success', type: 'success', code: 200, data: leanObject});

@@ -49,6 +49,11 @@ io.on('connection', (socket) => {
     socket.on('statusInit', (status) => {
          io.emit('statusInit', status);
     })
+
+    socket.on('statusComment', (comment) => {
+        console.log('SERVER:', comment)
+         io.emit('statusComment', comment);
+    })
     
     socket.on('statusDelete', (status) => {
         console.log('SERVER:', status)

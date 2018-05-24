@@ -46,6 +46,16 @@ class DashBoardStatus extends React.Component{
                 getStatus: filtered
             });
         });
+        
+        socket.on('statusComment', (data) => {
+            let mutator = [...this.state.getStatus];
+            mutator = JSON.parse(JSON.stringify(mutator));
+            const index =  mutator.findIndex(i => i._id === data._id);
+            mutator[index].post_comments = data.post_comments;
+            this.setState({
+                getStatus: mutator
+            })
+        });
     }
     
     render(){

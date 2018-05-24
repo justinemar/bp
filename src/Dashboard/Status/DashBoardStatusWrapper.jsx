@@ -97,15 +97,17 @@ class DashBoardStatusWrapper extends React.Component{
     
     handKeyDown = (e) => {
       const el = e.target;
-      
+      // Expand comment box via
       if(e.shiftKey && e.keyCode === 13){
-          // For Shift + Enter
+          
           setTimeout( () => {
             el.style.cssText = 'height:auto; padding:0';
             el.style.cssText = 'height:' + el.scrollHeight + 'px';
           },0);
+        
       } else if(e.keyCode === 13){
         e.preventDefault();
+        
           if(this.state.commentVal.length <= 0 || this.state.commentVal.match(/^\s*$/g)){
               return;
           }
@@ -121,24 +123,26 @@ class DashBoardStatusWrapper extends React.Component{
             .then(res => res.json())
             .then(res => {
                 if(res.code === 401){
-                    this.props.validate(res);
+                    this.props.timeOut(res);
                     return;
                 }
+                socket.emit('statusComment', res.data);
             })
             .catch(err => console.log(err));
       }
       
-      // For word breakpoint
+      // Hitting word breakpoint
       setTimeout( () => {
         el.style.cssText = 'height:auto; padding:0';
         el.style.cssText = 'height:' + el.scrollHeight + 'px';
-      },0);
+      }, 0);
+      
     }
 
     handleOnChange = (e) => {
         this.setState({
             commentVal: e.target.value
-        })  ;  
+        });  
     }
     
     toggleModal = () => {
@@ -176,12 +180,15 @@ class DashBoardStatusWrapper extends React.Component{
         })
         .then(res => res.json())
         .then(res => {
-            this.props.timeOut(res);
-            if(res.code === 200) {
-                socket.emit('statusDelete', res.data);
-                this.toggleModal();
-                this.togglePostControl();
+            if(res.code === 401){
+                this.props.timeOut(res);
+                return;
             }
+            
+            socket.emit('statusDelete', res.data);
+            this.toggleModal();
+            this.togglePostControl();
+
         })
         .catch(err => console.log(err));
         

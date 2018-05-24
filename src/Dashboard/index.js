@@ -61,8 +61,7 @@ class DashBoard extends React.Component{
     }
     
     
-    timeOut = (res) => {
-        console.log('DOES GO HERE', res.code)
+    expiredNotice = (res) => {
         this.setState({
             validation: {
                 message: res.message,
@@ -105,7 +104,7 @@ class DashBoard extends React.Component{
                     <DashBoardNotification/>
                        <Route path="/dashboard/me" render={(props) =>  <MenuProfile user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...this.props}/>}/>
                        <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
-                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.timeOut} {...this.props}/>}/>
+                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.expiredNotice} {...this.props}/>}/>
                 </div>
             </div>
         );
