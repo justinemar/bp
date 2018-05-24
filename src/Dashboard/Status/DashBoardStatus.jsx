@@ -20,7 +20,6 @@ class DashBoardStatus extends React.Component{
          credentials: 'same-origin',
       })
       .then(res => {
-        console.log('THIS IS THE RES CODE: ', res.code)
         if(res.code === 401){
             this.props.timeOut(res);
             return;
