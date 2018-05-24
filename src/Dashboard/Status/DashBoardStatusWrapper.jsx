@@ -70,7 +70,7 @@ const PostComments = ({currentStatus}) =>
         return (
             <div className="main-comment-wrapper">
                 <div className="post-comment">
-                    <div className="comment-user-image">
+                    <div className="comment-user-image" style={{backgroundImage: `url(${i.comment_from.photo_url})`}}>
                     </div>
                     <div className="post-comment-info">
                         <span id="comment-date">{moment(i.comment_posted).fromNow()}</span>
@@ -246,7 +246,7 @@ class DashBoardStatusWrapper extends React.Component{
                         <div className="post-commentBox-wrapper">
                             <PostComments currentStatus={cStatus}/>
                             <div className="post-comment-box">
-                                <div className="user-image">
+                                <div className="user-image" style={{backgroundImage: `url(${user.photoURL})`}}>
                                 </div>
                                 <textarea onChange={this.handleOnChange} onKeyDown={this.handKeyDown} 
                                     className="main-comment-box" type="text" 

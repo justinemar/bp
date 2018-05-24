@@ -73,7 +73,7 @@ module.exports = {
         (req, res) => {
              Post.find({})
              .populate({path: 'post_by', select: ['display_name', 'photo_url']})
-             .populate('post_comments.comment_from', 'display_name')
+             .populate({path: 'post_comments.comment_from', select: 'photo_url display_name'})
              .exec((err, post) => {
                  if(err) {
                      console.log(err)
@@ -136,7 +136,7 @@ module.exports = {
     post_user_owned: (req, res) => {
         Post.find({})
          .populate({path: 'post_by', select: ['display_name', 'photo_url']})
-         .populate('post_comments.comment_from', 'display_name')
+         .populate({path: 'post_comments.comment_from', select: 'photo_url display_name'})
          .exec((err, post) => {
              if(err) {
                  console.log(err)

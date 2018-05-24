@@ -441,8 +441,7 @@ color: #fff;
     height: 35px;
     margin-right: 10px;
     margin-top: 5px;
-    background-image: url(https://www.fakepersongenerator.com/Face/male/male1085599608124.jpg);
-    background-size: contain;
+    background-size: cover;
     border-radius: 50%;
 }
 
