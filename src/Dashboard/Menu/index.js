@@ -40,6 +40,7 @@ class DashBoardMenu extends React.Component{
         );
     }
     
+    // Would love to have a better solution.. 
     toggleClassTab(prevActiveElem, currentTarget, navigate){
        this.setState({
            prevActiveElem: currentTarget
