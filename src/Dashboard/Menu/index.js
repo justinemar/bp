@@ -9,6 +9,7 @@ class DashBoardMenu extends React.Component{
         prevActiveElem: null
     }
     
+    // Retain active tab on mount
     componentDidMount(){
         const { location } = this.props;
         const activeTab = location.pathname.split('/');
@@ -18,6 +19,7 @@ class DashBoardMenu extends React.Component{
         }
     }
     
+    // Add class again
     onMountActiveTab = (e) => {
        e.classList.add('dashboard-active-tab');
        this.setState({
@@ -28,10 +30,7 @@ class DashBoardMenu extends React.Component{
     toggleTab = (e) => {
        const { prevActiveElem } = this.state;
        const { history } = this.props;
-       if(e === null) {
-           return false;
-       }
-        this.toggleClassTab(
+       this.toggleClassTab(
                 prevActiveElem, 
                 e.currentTarget, 
                 () => history.push({
