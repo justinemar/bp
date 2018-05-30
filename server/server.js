@@ -23,7 +23,6 @@ db.once('open', function() {
 server.use(express.static(path.resolve(__dirname, '../public')));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-// server.use(multer({storage}).array('image', 12));
 server.use('/', router);
 
 server.get('*', function(req, res, next) {
