@@ -6,7 +6,8 @@ import './index.css';
 class DashBoardMenu extends React.Component{
     
     state = {
-        prevActiveElem: null
+        prevActiveElem: null,
+        active: ''
     }
     
     // Retain active tab on mount
@@ -66,29 +67,36 @@ class DashBoardMenu extends React.Component{
                         </label>
                         <input type="button" onClick={this.toggleTab} id="/dashboard/me" className="opt-none"/>
                     </div>
-                    <div className="dashboard-tab">
-                        <label htmlFor="/dashboard/setting">
-                            <FontAwesomeIcon className="dashboard-icon" icon="ellipsis-h"/> 
-                            <span className="dashboard-tab-name">
-                                Settings
-                            </span>
-                        </label>
-                        <input type="button" onClick={this.toggleTab} id="/dashboard/setting" className="opt-none"/>
-                    </div>
-                    <div className="dashboard-tab">
-                        <label htmlFor="/dashboard/feed">
-                            <FontAwesomeIcon className="dashboard-icon" icon="newspaper"/> 
-                            <span className="dashboard-tab-name">
-                                Feed
-                            </span>
-                        </label>
-                        <input type="button" onClick={this.toggleTab} id="/dashboard/feed" className="opt-none"/>
-                    </div>
+                    <DashBoardTab
+                    tabText="Settings"
+                    tabIcon="ellipsis-h"
+                    tabFor="/dashboard/setting"
+                    tabToggle={this.toggleTab}
+                    />
+                    <DashBoardTab
+                    tabText="Feed"
+                    tabIcon="newspaper"
+                    tabFor="/dashboard/feed"
+                    tabToggle={this.toggleTab}
+                    />
                 </div>
             </div>
         );
     }
 }
 
+const DashBoardTab = ({...props}) => {
+    return (
+        <div className="dashboard-tab">
+            <label htmlFor={props.tabFor}>
+                <FontAwesomeIcon className="dashboard-icon" icon={props.tabIcon}/> 
+                    <span className="dashboard-tab-name">
+                        {props.tabText}
+                    </span>
+            </label>
+            <input type="button" onClick={props.tabToggle} id={props.tabFor} className="opt-none"/>        
+        </div>
+    )    
+}
 
 export default withRouter(DashBoardMenu);
