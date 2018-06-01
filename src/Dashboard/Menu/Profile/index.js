@@ -2,6 +2,10 @@ import React from 'react';
 import './profile.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import Feed from './Feed.jsx';
+import Images from './Images.jsx';
+import Groups from './Groups.jsx';
+import About from './About.jsx';
+import { NavLink, Route, Switch } from 'react-router-dom';
 
 const EditTrigger = ({edit, forId, textNode, func, awesomeClass, textClass, inputRef}) => {
     return (
@@ -41,8 +45,7 @@ class MenuProfile extends React.Component{
             photo: { 
                 url: props.user.photoURL,
                 data: null
-            },
-            content: <Feed user={props.user} Auth={props.Auth}/>
+            }
         };
     }
 
@@ -158,16 +161,19 @@ class MenuProfile extends React.Component{
                     <div className="profile-menu-wrapper">
                         <div className="profile-menu-general">
                             <ul>
-                                <li className="profile-active-tab">Feed</li>
-                                <li>Images</li>
-                                <li>Groups</li>
-                                <li>About</li>
+                                <li><NavLink exact activeClassName="profile-active-tab" to="/dashboard/me">Feed</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/images">Images</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/groups">Groups</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/about">About</NavLink></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="profile-active-tab-content">
-                    {content}
+                      <Route exact path="/dashboard/me/" render={() => <Feed user={this.props.user} Auth={this.props.Auth}/>}/>
+                      <Route path="/dashboard/me/images" render={() => <Images/>}/>
+                      <Route path="/dashboard/me/groups" render={() => <Groups/>}/>
+                      <Route path="/dashboard/me/about" render={() => <About/>}/>
                 </div>
             </div>
             )
