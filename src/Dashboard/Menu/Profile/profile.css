@@ -94,7 +94,10 @@
     border-left: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-
+.profile-menu-general a {
+    text-decoration: none;
+    color: silver;
+}
 .profile-menu-general ul, .profile-user-stats ul{
     width: 100%;
     list-style-type: none;
@@ -109,7 +112,6 @@
 .profile-menu-general ul li{
     margin-right: 12px;
     cursor: pointer;
-    color: silver;
 }
 
 .profile-user-stats ul li{

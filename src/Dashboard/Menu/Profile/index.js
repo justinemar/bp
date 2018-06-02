@@ -173,7 +173,7 @@ class MenuProfile extends React.Component{
                       <Route exact path="/dashboard/me/" render={() => <Feed user={this.props.user} Auth={this.props.Auth}/>}/>
                       <Route path="/dashboard/me/images" render={() => <Images/>}/>
                       <Route path="/dashboard/me/groups" render={() => <Groups/>}/>
-                      <Route path="/dashboard/me/about" render={() => <About/>}/>
+                      <Route path="/dashboard/me/about"  render={() => <About/>}/>
                 </div>
             </div>
             )
