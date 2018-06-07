@@ -136,7 +136,7 @@ module.exports = {
         },
         
     post_user_owned: (req, res) => {
-        Post.find({})
+        Post.find({post_by: req.params.user})
          .populate({path: 'post_by', select: ['display_name', 'photo_url']})
          .populate({path: 'post_comments.comment_from', select: 'photo_url display_name'})
          .exec((err, post) => {
