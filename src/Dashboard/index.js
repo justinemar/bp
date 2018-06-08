@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
@@ -102,9 +102,11 @@ class DashBoard extends React.Component{
                 <div className="dashboard-main-content">
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
-                       <Route path="/dashboard/me" render={(props) =>  <MenuProfile user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...this.props}/>}/>
-                       <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
-                       <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.expiredNotice} {...this.props}/>}/>
+                        <Switch>
+                           <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
+                           <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.expiredNotice} {...this.props}/>}/>
+                           <Route path="/dashboard/:user_id" render={(props) =>  <MenuProfile user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...props}/>}/>
+                        </Switch>
                 </div>
             </div>
         );

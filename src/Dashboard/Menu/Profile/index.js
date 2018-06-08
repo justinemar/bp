@@ -1,6 +1,7 @@
 import React from 'react';
 import './profile.css';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import AuthService from '../../../utils/authService';
 import Feed from './Feed.jsx';
 import Images from './Images.jsx';
 import Groups from './Groups.jsx';
@@ -38,28 +39,100 @@ class MenuProfile extends React.Component{
                textNode: 'Edit Profile',
                editing: false
             },
-            cover: {
-                url: props.user.coverURL,
-                data: null
-            },
-            photo: { 
-                url: props.user.photoURL,
-                data: null
+            profile: {
+                photo: { 
+                    url: props.user.photoURL,
+                    data: null
+                },
+                cover: {
+                    url: props.user.coverURL,
+                    data: null
+                },
+                displayName: props.user.displayName,
+                id: props.user.id
             }
         };
+       this.authUtil = new AuthService();
     }
-
+    
+    static getDerivedStateFromProps(props, state){
+      if(props.match.params.user_id !== state.profile.id){
+            return {
+              profile: {
+                    cover: {
+                        url: props.user.coverURL,
+                        data: null
+                    },
+                    photo: {
+                        url: props.user.photoURL,
+                        data: null
+                    },
+                    displayName: props.user.displayName,
+                    id: props.user.id
+                }
+            }
+        }
+    }
+    
+    
+    setDataFromClient = () => {
+        const { user } = this.props;
+        this.setState({
+            profile: {
+                cover: {
+                    url: user.coverURL,
+                    data: null
+                },
+                photo: {
+                    url: user.photoURL,
+                    data: null
+                },
+                displayName: user.displayName,
+                id: user.id
+            }
+        })
+    }
+    
+    setDataFromServer = () => {
+        fetch(`/users/${this.props.match.params.user_id}`, {
+            method: 'GET',
+            credentials: 'same-origin',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.authUtil.getToken()
+            }
+        })
+        .then(res => res.json())
+        .then(res => {
+            this.setState({
+                profile: {
+                    cover: {
+                        url: res.cover_url
+                    },
+                    photo: {
+                        url: res.photo_url
+                    },
+                    displayName: res.display_name,
+                    id: res._id
+                }
+            })
+        })
+        .catch(err => console.log(err))    
+    }
+    
     componentDidMount(){
-     
+        if(this.props.match.params.user_id === this.authUtil.getProfile().id){
+            this.setDataFromClient();
+            return;
+        }
+
+        this.setDataFromServer();
     }
+    
     
     toggleEdit = () => {
         const { edit } = this.state;
-        const newState = edit.editing ? 
-        { textNode: 'Edit Profile' , editing: false } 
-            : 
-        { textNode: 'Cancel Edit' , editing: true };
-        
+        const newState = edit.editing ? { textNode: 'Edit Profile' , editing: false } : { textNode: 'Cancel Edit' , editing: true };
         this.setState({
             edit: {
                 textNode: newState.textNode,
@@ -71,19 +144,25 @@ class MenuProfile extends React.Component{
     setImage = () => {
          const image = URL.createObjectURL(this.photo_ref.files[0]);
          this.setState({
-             photo:{
-               url: image,
-               data: this.photo_ref.files[0]
-             } 
+             profile: {
+                ...this.state.profile,
+                photo:{
+                   url: image,
+                   data: this.photo_ref.files[0]
+                 }
+             }
          });
     }
     
     setCover = () => {
          const image = URL.createObjectURL(this.cover_ref.files[0]);
          this.setState({
-             cover: { 
-                 url: image,
-                 data: this.cover_ref.files[0]
+             profile: {
+                ...this.state.profile,
+                cover: { 
+                     url: image,
+                     data: this.cover_ref.files[0]
+                 }
              }
          });
     }
@@ -91,15 +170,15 @@ class MenuProfile extends React.Component{
     
     saveUpdate = () => {
         const formData = new FormData();
-        const { user, Auth, dataChange } = this.props;
-     
-        formData.append('user_id', user.id);
+        const { Auth, dataChange } = this.props;
+        const { profile } = this.state;
+        formData.append('user_id', profile.id);
         formData.append('photo', this.photo_ref.files[0]);
         formData.append('cover', this.cover_ref.files[0]); 
-        formData.append('oldCover', user.coverURL);
-        formData.append('oldPhoto', user.photoURL)
+        formData.append('oldCover', profile.cover.url);
+        formData.append('oldPhoto', profile.photo.url)
         
-        Auth.fetch(`/profile/${user.id}`, {
+        Auth.fetch(`/profile/${profile.id}`, {
             method: "POST",
             credentials: 'same-origin',
             body: formData,
@@ -113,12 +192,12 @@ class MenuProfile extends React.Component{
     }
     
     render(){
-        const { edit, cover, photo, content } = this.state;
-        const { user } = this.props;
+        const { edit, profile } = this.state;
         return (
             <div className="section-selected-tab">
+            {console.log(profile.photo.url)}
                 <div className="profile-head-wrapper">
-                    <div className="profile-cover-image" style={{backgroundImage: `url(${cover.url})`}}>
+                    <div className="profile-cover-image" style={{backgroundImage: `url(${profile.cover.url})`}}>
                         <EditTrigger edit={edit} 
                         forId="change-cover-btn"
                         awesomeClass="profile-cover"
@@ -128,7 +207,7 @@ class MenuProfile extends React.Component{
                         inputRef={i => this.cover_ref = i}/>
                     </div>
                 <div className="profile-photo">
-                        <div className="profile-user-image" style={{backgroundImage: `url(${photo.url})`}}>
+                        <div className="profile-user-image" style={{backgroundImage: `url(${profile.photo.url})`}}>
                             <EditTrigger edit={edit} 
                             forId="change-image-btn"
                             awesomeClass="profile-image"
@@ -140,7 +219,7 @@ class MenuProfile extends React.Component{
                     { !edit.editing ?
                     <div className="profile-name">
                         <div className="profile-user-info">
-                            <h1>{user.displayName}</h1>
+                            <h1>{profile.displayName}</h1>
                             <span id="title">The chosen one</span>
                         </div>
                         <div className="profile-user-stats">
@@ -156,24 +235,26 @@ class MenuProfile extends React.Component{
                             { edit.editing ? 
                             <button onClick={this.saveUpdate}>Save Update</button>
                             : null }
+                            { this.props.match.params.user_id !== this.authUtil.getProfile().id ? null :
                             <button onClick={this.toggleEdit}>{edit.textNode}</button>
+                            }
                     </div>
                     <div className="profile-menu-wrapper">
                         <div className="profile-menu-general">
                             <ul>
-                                <li><NavLink exact activeClassName="profile-active-tab" to="/dashboard/me">Feed</NavLink></li>
-                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/images">Images</NavLink></li>
-                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/groups">Groups</NavLink></li>
-                                <li><NavLink activeClassName="profile-active-tab" to="/dashboard/me/about">About</NavLink></li>
+                                <li><NavLink exact activeClassName="profile-active-tab" to={`/dashboard/${profile.id}`}>Feed</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to={`/dashboard/${profile.id}/images`}>Images</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to={`/dashboard/${profile.id}/groups`}>Groups</NavLink></li>
+                                <li><NavLink activeClassName="profile-active-tab" to={`/dashboard/${profile.id}/about`}>About</NavLink></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div className="profile-active-tab-content">
-                      <Route exact path="/dashboard/me/" render={() => <Feed user={this.props.user} Auth={this.props.Auth}/>}/>
-                      <Route path="/dashboard/me/images" render={() => <Images/>}/>
-                      <Route path="/dashboard/me/groups" render={() => <Groups/>}/>
-                      <Route path="/dashboard/me/about"  render={() => <About/>}/>
+                      <Route exact path="/dashboard/:user_id/" render={() => <Feed Auth={this.props.Auth} {...this.props}/>}/>
+                      <Route path="/dashboard/:user_id/images" render={() => <Images/>}/>
+                      <Route path="/dashboard/:user_id/groups" render={() => <Groups/>}/>
+                      <Route path="/dashboard/:user_id/about"  render={() => <About/>}/>
                 </div>
             </div>
             )

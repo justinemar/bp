@@ -220,8 +220,9 @@ class DashBoardStatusWrapper extends React.Component{
                                 toggleModal={this.toggleModal}
                                 />
                         </div>
+                        {console.log(this.props.match.url)}
                         <div className="post-from-profile-con left">
-                             <Link to={`/${cStatus.post_by._id}`}>
+                             <Link to={`${this.props.match.url}/${cStatus.post_by._id}`}>
                                 <div id="post-from-image" style={{backgroundImage: `url(${cStatus.post_by.photo_url})`}}>
                                 
                                 </div>

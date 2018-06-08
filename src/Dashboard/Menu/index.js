@@ -59,13 +59,13 @@ class DashBoardMenu extends React.Component{
             <div className="dashboard-menu">
                 <div className="dashboard-controls">
                     <div className="dashboard-tab">
-                        <label htmlFor="/dashboard/me">
+                        <label htmlFor={`/dashboard/${user.id}`}>
                             <div className="dashboard-user-icon" style={{backgroundImage: `url(${user.photoURL})`}}></div> 
                             <span className="dashboard-tab-name">
                                 {user.displayName}
                             </span>
                         </label>
-                        <input type="button" onClick={this.toggleTab} id="/dashboard/me" className="opt-none"/>
+                        <input type="button" onClick={this.toggleTab} id={`/dashboard/${user.id}`} className="opt-none"/>
                     </div>
                     <DashBoardTab
                     tabText="Settings"

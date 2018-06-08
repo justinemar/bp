@@ -7,12 +7,24 @@ class Feed extends React.Component{
     constructor(){
         super();
         this.state = {
-            userPosts: null
+            userPosts: null,
         }
     }
     
+    
+    componentDidUpdate(prevProps, prevState, snapshot){
+        if(prevProps.match.params.user_id !== this.props.match.params.user_id){
+            this.fetchPost();
+        }
+    }
+    
+    
     componentDidMount(){
-        fetch(`/profile/${this.props.user.id}`, {
+      this.fetchPost();
+    }
+    
+    fetchPost = () => {
+        fetch(`/profile/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
@@ -22,14 +34,12 @@ class Feed extends React.Component{
         })
         .then(res => res.json())
         .then(res => {
-            console.log(res)
             this.setState({
                 userPosts: res.data
             })
         })
         .catch(err => console.log(err))
     }
-    
     render(){
         const { userPosts } = this.state;
         const owned_post = userPosts ? 
