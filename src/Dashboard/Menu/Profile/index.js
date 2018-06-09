@@ -94,7 +94,7 @@ class MenuProfile extends React.Component{
     }
     
     setDataFromServer = () => {
-        fetch(`/users/${this.props.match.params.user_id}`, {
+        fetch(`/profile/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {

@@ -69,7 +69,7 @@ module.exports = {
     },
 
     user_get: (req, res) => {
-        Account.findOne({_id: req.params.user}, 
+        Account.findOne({_id: req.params.id}, 
             (err, user) => {
                 if(err) throw err;
     
@@ -79,11 +79,11 @@ module.exports = {
             });
         },
     
-    user_update: (req, res) => {
+    user_update_setting: (req, res) => {
         const email = req.body.originalKeyValue.email;
         const name = req.body.originalKeyValue.name;
         if(email){
-            Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {user_email: req.body.entry}})
+            Account.findByIdAndUpdate({_id: req.params.id}, {$set: {user_email: req.body.entry}})
             .exec((err, user) => {
                 if(err){
                     throw err;
@@ -106,7 +106,7 @@ module.exports = {
             });
             
         } else if(name) {
-            Account.findByIdAndUpdate({_id: req.body.user_id}, {$set: {display_name:req.body.entry}})
+            Account.findByIdAndUpdate({_id: req.params.id}, {$set: {display_name:req.body.entry}})
             .exec((err, user) => {
                 if(err){
                     throw err;
@@ -140,7 +140,7 @@ module.exports = {
           const uri = new DataUri();
           const asyncUpload = [];
           const keys = Object.keys(req.files);
-          console.log(req.params.user)
+          console.log(req.params.id)
           for(var key in req.files){
             const buffer = req.files[key][0].buffer;
             uri.format('.png', buffer);
@@ -171,7 +171,7 @@ module.exports = {
                   for(var x=0; x < results.length; x++){
                     constructObj[results[x].field] = results[x].data.url
                   }
-                  Account.findByIdAndUpdate({_id: req.params.user}, {$set: constructObj})
+                  Account.findByIdAndUpdate({_id: req.params.id}, {$set: constructObj})
                   .exec((err, user) => {
                       if(err){
                           throw err;

@@ -1,6 +1,8 @@
 require('dotenv').config();
 const express = require("express");
 const router = require("./routes");
+const status = require("./routes/status");
+const profile = require("./routes/profile");
 const path = require("path");
 const bodyParser = require("body-parser");
 const server = express();
@@ -22,7 +24,8 @@ server.use(express.static(path.resolve(__dirname, '../public')));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use('/', router);
-
+server.use('/status', status);
+server.use('/profile', profile);
 server.get('*', function(req, res, next) {
   var err = new Error();
   err.status = 404;

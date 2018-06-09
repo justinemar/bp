@@ -7,7 +7,7 @@ require("../utils/lib/config");
 
 
 module.exports = {
-    post_new: 
+    new_post: 
     /* Cloudinary doesn't support multiple resource upload on a single POST request */
         (req, res) => {
             
@@ -71,7 +71,7 @@ module.exports = {
               });
         },
         
-    post_get: 
+    get_post: 
         (req, res) => {
              Post.find({})
              .populate({path: 'post_by', select: ['display_name', 'photo_url']})
@@ -83,11 +83,15 @@ module.exports = {
                  res.json({message: 'Success', type: 'success', code: 200, data: post.reverse()});
               });
         },
-        
-    post_delete: 
+    update_post: 
+        (req, res) => {
+            
+        },
+    
+    delete_post: 
         (req, res) => {
             const promises = [];
-            Post.findOne({_id: req.body.statusID})
+            Post.findOne({_id: req.params.id})
             .exec((error, status) => {
                 if(error) throw error;
                 
@@ -135,8 +139,8 @@ module.exports = {
             });
         },
         
-    post_user_owned: (req, res) => {
-        Post.find({post_by: req.params.user})
+    get_owned_posts: (req, res) => {
+        Post.find({post_by: req.params.id})
          .populate({path: 'post_by', select: ['display_name', 'photo_url']})
          .populate({path: 'post_comments.comment_from', select: 'photo_url display_name'})
          .exec((err, post) => {
@@ -145,7 +149,11 @@ module.exports = {
              }
                 res.json({message: 'Success', type: 'success', code: 200, data: post.reverse()});
          }); 
-    }
+    },
+    
+   get_owned_images: (req, res) => {
+
+   }
 };
 
 

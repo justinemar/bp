@@ -24,7 +24,7 @@ class Feed extends React.Component{
     }
     
     fetchPost = () => {
-        fetch(`/profile/${this.props.match.params.user_id}`, {
+        fetch(`/status/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
             headers: {
