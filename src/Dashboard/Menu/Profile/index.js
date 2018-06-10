@@ -72,6 +72,8 @@ class MenuProfile extends React.Component{
                 }
             }
         }
+        
+        return null;
     }
     
     
