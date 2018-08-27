@@ -2,17 +2,52 @@ import React from 'react';
 import DashBoardPostLayout from './DashBoardPostLayout.jsx';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper.jsx';
 import openSocket from 'socket.io-client';
-const socket = openSocket('/');
+const socket = openSocket('http://localhost:8080');
+
 
 
 class DashBoardStatus extends React.Component{
     
-    state = {
-        getStatus: [],
-        recentUpdates: [],
-        error: null
+    constructor(){
+        super();
+        this.state = {
+            getStatus: [],
+            recentUpdates: [],
+            error: null,
+        }
     }
     
+    subscribeStatus(){
+        /* This throws a memory leak error even though the component was unmounted, indication that listener was not remove.
+         Warning: Can't call setState (or forceUpdate) on an unmounted component. 
+        This is a no-op, but it indicates a memory leak in your application. 
+        To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method. */
+        
+        socket.on('statusInit', (data) => {
+            console.log('Handle from dashboard')
+            this.setState(prevState => ({
+                recentUpdates: [...prevState.recentUpdates, data],
+                getStatus:  [data, ...this.state.getStatus]
+            }));
+        });
+    }
+    // subscribeSocket(){
+    //           socket.on('statusDelete', (data) => {
+    //               const state = this.state.getStatus;
+    //               const filtered = state.filter(obj => obj._id !== data[0]._id);
+    //               this.setState({
+    //                   getStatus: filtered
+    //               });
+    //           });
+              
+    //           socket.on('statusComment', (data) => {
+    //               let mutator = [...this.state.getStatus];
+    //               mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
+    //               this.setState({
+    //                   getStatus: mutator
+    //               })  
+    //           });
+    //   }
     
     componentDidMount(){
       this.props.util.fetch('/status', { 
@@ -26,37 +61,16 @@ class DashBoardStatus extends React.Component{
         }
         this.setState({
           getStatus: res.data
-        })
+        }, this.subscribeStatus());
       })
       .catch(err => console.log(err));
-        
-        socket.on('statusInit', (data) => {
-          const newStatuses = [data, ...this.state.getStatus];
-          this.setState({
-              recentUpdates: this.state.recentUpdates.concat(data),
-              getStatus: newStatuses
-          });
-        });
-        
-        socket.on('statusDelete', (data) => {
-            const state = this.state.getStatus;
-            const filtered = state.filter(obj => obj._id !== data[0]._id);
-            this.setState({
-                getStatus: filtered
-            });
-        });
-        
-        socket.on('statusComment', (data) => {
-            let mutator = [...this.state.getStatus];
-            mutator = JSON.parse(JSON.stringify(mutator));
-            const index =  mutator.findIndex(i => i._id === data._id);
-            mutator[index].post_comments = data.post_comments;
-            this.setState({
-                getStatus: mutator
-            })
-        });
     }
-    
+     
+
+     componentWillUnmount(){
+        socket.off("statusInit"); 
+     }
+
     render(){
         const { getStatus, recentUpdates } = this.state;
         const { util, validate } = this.props;

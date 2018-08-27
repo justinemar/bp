@@ -40,6 +40,7 @@ class DashBoardStatusContainer extends React.Component{
                 return;
             }
             socket.emit('statusInit', res.data);
+            socket.emit('notification', res.data);
         })
         .catch(err => console.log(err));
     }

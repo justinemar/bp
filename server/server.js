@@ -8,7 +8,7 @@ const bodyParser = require("body-parser");
 const server = express();
 const mongoose = require("mongoose");
 const database = process.env.DB_URL;
-mongoose.connect(database);
+mongoose.connect(database, { useNewUrlParser: true } );
 const db = mongoose.connection;
 
 db.on('error', function(err) {
@@ -50,13 +50,15 @@ io.on('connection', (socket) => {
          io.emit('statusInit', status);
     })
 
+    socket.on('notification', (notification) => {
+        io.emit('notification', notification);
+    })
+
     socket.on('statusComment', (comment) => {
-        console.log('SERVER:', comment)
          io.emit('statusComment', comment);
     })
     
     socket.on('statusDelete', (status) => {
-        console.log('SERVER:', status)
         io.emit('statusDelete', status);
     })
 

@@ -55,46 +55,13 @@ class MenuProfile extends React.Component{
        this.authUtil = new AuthService();
     }
     
-    static getDerivedStateFromProps(props, state){
-      if(props.match.params.user_id !== state.profile.id){
-            return {
-              profile: {
-                    cover: {
-                        url: props.user.coverURL,
-                        data: null
-                    },
-                    photo: {
-                        url: props.user.photoURL,
-                        data: null
-                    },
-                    displayName: props.user.displayName,
-                    id: props.user.id
-                }
-            }
+    
+    componentDidUpdate(){
+        if(this.props.match.params.user_id !== this.state.profile.id){
+            this.setDataFromServer();
         }
-        
-        return null;
     }
-    
-    
-    setDataFromClient = () => {
-        const { user } = this.props;
-        this.setState({
-            profile: {
-                cover: {
-                    url: user.coverURL,
-                    data: null
-                },
-                photo: {
-                    url: user.photoURL,
-                    data: null
-                },
-                displayName: user.displayName,
-                id: user.id
-            }
-        })
-    }
-    
+
     setDataFromServer = () => {
         fetch(`/profile/${this.props.match.params.user_id}`, {
             method: 'GET',
@@ -123,11 +90,6 @@ class MenuProfile extends React.Component{
     }
     
     componentDidMount(){
-        if(this.props.match.params.user_id === this.authUtil.getProfile().id){
-            this.setDataFromClient();
-            return;
-        }
-
         this.setDataFromServer();
     }
     

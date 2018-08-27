@@ -65,13 +65,17 @@ const PostImage = ({currentStatus}) => {
     return displayImg;
 }
 
-const PostComments = ({currentStatus}) => 
+const PostComments = ({currentStatus, location}) => 
     currentStatus.post_comments !== undefined ? currentStatus.post_comments.map(i => {
+        const splitUrl = location.pathname.split('/'); 
+        splitUrl.splice(-1, 2, i.comment_from._id); 
         return (
             <div className="main-comment-wrapper">
                 <div className="post-comment">
+                <Link replace to={splitUrl.join('/')}>
                     <div className="comment-user-image" style={{backgroundImage: `url(${i.comment_from.photo_url})`}}>
                     </div>
+                </Link>
                     <div className="post-comment-info">
                         <span id="comment-date">{moment(i.comment_posted).fromNow()}</span>
                         <span id="comment-from">{i.comment_from.display_name}</span>
@@ -198,6 +202,8 @@ class DashBoardStatusWrapper extends React.Component{
     render(){
         const { postControlVisible, controlModalVisible } = this.state;
         const { cStatus, util, user } = this.props;
+        const splitUrl = this.props.location.pathname.split('/'); 
+        splitUrl.splice(-1, 2, cStatus.post_by._id); 
         return (
             <div>
                 <DeleteConfirmModal toggleModal={this.toggleModal} 
@@ -220,9 +226,8 @@ class DashBoardStatusWrapper extends React.Component{
                                 toggleModal={this.toggleModal}
                                 />
                         </div>
-                        {console.log(this.props.match.url)}
                         <div className="post-from-profile-con left">
-                             <Link to={`${this.props.match.url}/${cStatus.post_by._id}`}>
+                             <Link to={splitUrl.join('/')}>
                                 <div id="post-from-image" style={{backgroundImage: `url(${cStatus.post_by.photo_url})`}}>
                                 
                                 </div>
@@ -252,7 +257,7 @@ class DashBoardStatusWrapper extends React.Component{
                             </div>
                         </div>
                         <div className="post-commentBox-wrapper">
-                            <PostComments currentStatus={cStatus}/>
+                            <PostComments currentStatus={cStatus} location={this.props.location}/>
                             <div className="post-comment-box">
                                 <div className="user-image" style={{backgroundImage: `url(${user.photoURL})`}}>
                                 </div>
