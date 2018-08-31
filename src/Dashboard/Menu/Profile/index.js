@@ -95,40 +95,62 @@ class MenuProfile extends React.Component{
     
     
     toggleEdit = () => {
-        const { edit } = this.state;
+        const { edit, retainprofile, profile } = this.state;
         const newState = edit.editing ? { textNode: 'Edit Profile' , editing: false } : { textNode: 'Cancel Edit' , editing: true };
-        this.setState({
-            edit: {
-                textNode: newState.textNode,
-                editing: newState.editing
-            }
-        });
-    }
+        const profileUpdate = retainprofile ? retainprofile : profile
+        console.log(profileUpdate)
+        if(edit.editing){
+            this.setState({
+                profile: {
+                    ...profileUpdate,
+                },
+                edit: {
+                    textNode: newState.textNode,
+                    editing: newState.editing
+                },
+            });
+        } else {
+            this.setState({
+                edit: {
+                    textNode: newState.textNode,
+                    editing: newState.editing
+                },
+            })
+        }
+   }
     
     setImage = () => {
          const image = URL.createObjectURL(this.photo_ref.files[0]);
-         this.setState({
+         this.setState(prevState => ({
+             retainprofile: {
+                photo: {...prevState.profile.photo},
+                cover: {...prevState.profile.cover}
+             },
              profile: {
-                ...this.state.profile,
+                ...prevState.profile,
                 photo:{
                    url: image,
                    data: this.photo_ref.files[0]
                  }
              }
-         });
+         }));
     }
     
     setCover = () => {
          const image = URL.createObjectURL(this.cover_ref.files[0]);
-         this.setState({
+         this.setState(prevState => ({
+             retainprofile: {
+                 cover: {...prevState.profile.cover},
+                 photo: {...prevState.profile.photo}
+             },
              profile: {
-                ...this.state.profile,
+                ...prevState.profile,
                 cover: { 
                      url: image,
                      data: this.cover_ref.files[0]
-                 }
-             }
-         });
+                 },
+              }
+         }));
     }
     
     
@@ -159,7 +181,6 @@ class MenuProfile extends React.Component{
         const { edit, profile } = this.state;
         return (
             <div className="section-selected-tab">
-            {console.log(profile.photo.url)}
                 <div className="profile-head-wrapper">
                     <div className="profile-cover-image" style={{backgroundImage: `url(${profile.cover.url})`}}>
                         <EditTrigger edit={edit} 
