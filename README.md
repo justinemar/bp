@@ -1,7 +1,7 @@
 # bida-social
 Gamers hub social network
-https://bida-social.herokuapp.com/#/dashboard
-
+STAGING: https://bida-social.herokuapp.com/#/dashboard
+MASTER: https://bida-social.glitch.me/
 
 ## Setup
 
