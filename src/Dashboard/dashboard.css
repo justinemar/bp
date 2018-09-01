@@ -46,7 +46,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     width: 100%;
-    height: 230px;
+    height: 260px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     background-position: center;
@@ -406,6 +406,7 @@ color: #fff;
     z-index: 10;
     padding: 20px;
     width: 100%;
+    margin: auto;
 }
 
 .modal-wrapper h3{
