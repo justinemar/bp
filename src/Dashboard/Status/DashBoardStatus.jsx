@@ -17,7 +17,7 @@ class DashBoardStatus extends React.Component{
         }
     }
     
-    subscribeStatus(){
+    subscribeEvents(){
         /* This throws a memory leak error even though the component was unmounted, indication that listener was not remove.
          Warning: Can't call setState (or forceUpdate) on an unmounted component. 
         This is a no-op, but it indicates a memory leak in your application. 
@@ -30,7 +30,16 @@ class DashBoardStatus extends React.Component{
                 getStatus:  [data, ...this.state.getStatus]
             }));
         });
+
+        socket.on('statusComment', (data) => {
+            let mutator = [...this.state.getStatus];
+            mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
+            this.setState({
+                getStatus: mutator
+            })  
+        }); 
     }
+
     // subscribeSocket(){
     //           socket.on('statusDelete', (data) => {
     //               const state = this.state.getStatus;
@@ -61,7 +70,7 @@ class DashBoardStatus extends React.Component{
         }
         this.setState({
           getStatus: res.data
-        }, this.subscribeStatus());
+        }, this.subscribeEvents());
       })
       .catch(err => console.log(err));
     }
