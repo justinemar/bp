@@ -18,20 +18,20 @@ class DashBoardStatus extends React.Component{
     }
     
     subscribeEvents(){
-        socket.on('statusComment', (data) => {
-            let mutator = [...this.state.getStatus];
-            mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
-            this.setState({
-                getStatus: mutator
-            })  
-        });
-
         socket.on('statusDelete', (data) => {
             const state = this.state.getStatus;
             const filtered = state.filter(obj => obj._id !== data[0]._id);
             this.setState({
                 getStatus: filtered
             });
+        });
+
+        socket.on('statusComment', (data) => {
+            let mutator = [...this.state.getStatus];
+            mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
+            this.setState({
+                getStatus: mutator
+            })  
         });
 
         socket.on('statusInit', (data) => {
@@ -41,14 +41,7 @@ class DashBoardStatus extends React.Component{
                 getStatus:  [data, ...this.state.getStatus]
             }));
         });
-
-        socket.on('statusComment', (data) => {
-            let mutator = [...this.state.getStatus];
-            mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
-            this.setState({
-                getStatus: mutator
-            })  
-        }); 
+ 
     }
 
     // subscribeSocket(){
@@ -81,7 +74,8 @@ class DashBoardStatus extends React.Component{
      
 
      componentWillUnmount(){
-        socket.off("statusInit"); 
+        socket.off("statusInit");
+        socket.off("statusDelete");  
      }
 
     render(){

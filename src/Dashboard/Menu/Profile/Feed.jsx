@@ -1,7 +1,8 @@
 import React from 'react';
 import DashBoardStatusWrapper from '../../Status/DashBoardStatusWrapper.jsx';
 import DashBoardPostLayout from '../../Status/DashBoardPostLayout.jsx';
-
+import openSocket from 'socket.io-client';
+const socket = openSocket('/');
 
 class Feed extends React.Component{
     constructor(){
@@ -18,11 +19,25 @@ class Feed extends React.Component{
         }
     }
     
-    
+    subscribeEvents(){
+        socket.on('statusDelete', (data) => {
+            const state = this.state.userPosts;
+            const filtered = state.filter(obj => obj._id !== data[0]._id);
+            this.setState({
+                userPosts: filtered
+            });
+        });
+    }
+
     componentDidMount(){
+      this.subscribeEvents();
       this.fetchPost();
     }
-    
+
+    componentWillUnmount(){
+        socket.off("statusDelete");  
+    }
+
     fetchPost = () => {
         fetch(`/status/${this.props.match.params.user_id}`, {
             method: 'GET',
