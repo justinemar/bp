@@ -18,11 +18,7 @@ class DashBoardStatus extends React.Component{
     }
     
     subscribeEvents(){
-        /* This throws a memory leak error even though the component was unmounted, indication that listener was not remove.
-         Warning: Can't call setState (or forceUpdate) on an unmounted component. 
-        This is a no-op, but it indicates a memory leak in your application. 
-        To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method. */
-        
+
         socket.on('statusInit', (data) => {
             console.log('Handle from dashboard')
             this.setState(prevState => ({
