@@ -173,7 +173,7 @@ class DashBoardStatusWrapper extends React.Component{
         // we get the actual id stored in the token.
         const userID = this.props.util.getProfile.id; 
         const statusID = data._id;
-        fetch('/status', {
+        fetch(`/status/${statusID}`, {
             method: "Delete",
             credentials: 'same-origin',
             body: JSON.stringify({userID, statusID}),
