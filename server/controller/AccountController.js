@@ -182,7 +182,7 @@ module.exports = {
                             id: user._id, 
                             email: user.user_email, 
                             photoURL: results[0] === undefined ? req.body.oldPhoto : results[0].data.url,
-                            coverURL: results[1] === undefined ? req.body.oldCover : results[1].data.url
+                            coverURL: user.cover_url
                         };
                         res.json({
                             message: 'Account Updated!', 

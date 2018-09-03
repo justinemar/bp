@@ -172,6 +172,12 @@ class MenuProfile extends React.Component{
         .then(res => {
             if(res.code === 200){
                 dataChange(res)
+                this.setState({
+                    edit: {
+                        textNode: 'Edit Profile',
+                        editing: false
+                     }
+                })
             }
         })
         .catch(err => console.log(err));

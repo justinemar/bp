@@ -4,12 +4,16 @@ import { withRouter } from 'react-router-dom';
 import './index.css';
 
 class DashBoardMenu extends React.Component{
-    
-    state = {
-        prevActiveElem: null,
-        active: ''
+    constructor(props){
+        super()
+        this.state = {
+            prevActiveElem: null,
+            active: ''
+        }
     }
+
     
+
     // Retain active tab on mount
     componentDidMount(){
         const { location } = this.props;
@@ -17,7 +21,7 @@ class DashBoardMenu extends React.Component{
         let elem = document.querySelector(`#\\\/${activeTab[1]}\\/${activeTab[2]}`);
         if(elem){
             this.onMountActiveTab(elem.parentElement);
-        }
+        } 
     }
     
     // Add class again
@@ -30,13 +34,14 @@ class DashBoardMenu extends React.Component{
     
     toggleTab = (e) => {
        const { prevActiveElem } = this.state;
-       const { history } = this.props;
+       const { history, location } = this.props;
        this.toggleClassTab(
                 prevActiveElem, 
                 e.currentTarget, 
                 () => history.push({
                         pathname: e.currentTarget.id,
-                        retainElem: e.currentTarget
+                        retainElem: e.currentTarget,
+                        from: location.pathname
                 })
         );
     }
