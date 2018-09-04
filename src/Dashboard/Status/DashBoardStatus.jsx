@@ -17,6 +17,7 @@ class DashBoardStatus extends React.Component{
         }
     }
     
+    requestController = new AbortController();
     subscribeEvents(){
         socket.on('statusDelete', (data) => {
             const state = this.state.getStatus;
@@ -56,9 +57,11 @@ class DashBoardStatus extends React.Component{
     //   }
     
     componentDidMount(){
-      this.props.util.fetch('/status', { 
+      const { util } = this.props;  
+      util.fetch('/status', { 
          method: 'GET', 
          credentials: 'same-origin',
+         signal: this.requestController.signal
       })
       .then(res => {
         if(res.code === 401){
@@ -74,6 +77,7 @@ class DashBoardStatus extends React.Component{
      
 
      componentWillUnmount(){
+        this.requestController.abort();
         socket.off("statusInit");
         socket.off("statusDelete");  
      }

@@ -55,7 +55,7 @@ class MenuProfile extends React.Component{
        this.authUtil = new AuthService();
     }
     
-    
+    requestController = new AbortController();
     componentDidUpdate(){
         if(this.props.match.params.user_id !== this.state.profile.id){
             this.setDataFromServer();
@@ -66,6 +66,7 @@ class MenuProfile extends React.Component{
         fetch(`/profile/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
+            signal: this.requestController.signal,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + this.authUtil.getToken()
@@ -93,6 +94,11 @@ class MenuProfile extends React.Component{
         this.setDataFromServer();
     }
     
+    
+    componentWillUnmount(){
+        this.requestController.abort();
+    }
+
     
     toggleEdit = () => {
         const { edit, retainprofile, profile } = this.state;

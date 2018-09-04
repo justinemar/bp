@@ -11,8 +11,8 @@ class Feed extends React.Component{
             userPosts: null,
         }
     }
-    
-    
+
+    requestController = new AbortController();
     componentDidUpdate(prevProps, prevState, snapshot){
         if(prevProps.match.params.user_id !== this.props.match.params.user_id){
             this.fetchPost();
@@ -35,6 +35,7 @@ class Feed extends React.Component{
     }
 
     componentWillUnmount(){
+        this.requestController.abort();
         socket.off("statusDelete");  
     }
 
@@ -42,6 +43,7 @@ class Feed extends React.Component{
         fetch(`/status/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
+            signal: this.requestController.signal,
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + this.props.Auth.getToken()
@@ -55,6 +57,8 @@ class Feed extends React.Component{
         })
         .catch(err => console.log(err))
     }
+
+
     render(){
         const { userPosts } = this.state;
         const owned_post = userPosts ? 
