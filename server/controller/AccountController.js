@@ -155,7 +155,7 @@ module.exports = {
                             resolve({ 
                                 field: `${ref}_url`, 
                                 data: {
-                                    identifier: req.files[key][0].fieldname, 
+                                    identifier: ref, 
                                     url: result.url 
                                 }
                             });
@@ -177,13 +177,16 @@ module.exports = {
                           throw err;
                       }
                       if(user){
+                        const p_payload = results.filter(i => i.field === 'photo_url');
+                        const c_payload = results.filter(i => i.field === 'cover_url');
                         const payload = { 
                             displayName: user.display_name, 
                             id: user._id, 
                             email: user.user_email, 
-                            photoURL: results[0] === undefined ? req.body.oldPhoto : results[0].data.url,
-                            coverURL: user.cover_url
+                            photoURL: p_payload.length <= 0  ? req.body.oldPhoto : p_payload[0].data.url,
+                            coverURL: c_payload.length <= 0 ? req.body.oldCover : c_payload[0].data.url,
                         };
+
                         res.json({
                             message: 'Account Updated!', 
                             token: account.setToken(payload),
