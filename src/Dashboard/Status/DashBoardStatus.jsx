@@ -28,15 +28,14 @@ class DashBoardStatus extends React.Component{
         });
 
         socket.on('statusComment', (data) => {
-            let mutator = [...this.state.getStatus];
-            mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
+            let mutator = JSON.parse(JSON.stringify(this.state.getStatus));
+            mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data)
             this.setState({
                 getStatus: mutator
-            })  
+            }) 
         });
 
         socket.on('statusInit', (data) => {
-            console.log('Handle from dashboard')
             this.setState(prevState => ({
                 recentUpdates: [...prevState.recentUpdates, data],
                 getStatus:  [data, ...this.state.getStatus]
@@ -80,6 +79,7 @@ class DashBoardStatus extends React.Component{
         this.requestController.abort();
         socket.off("statusInit");
         socket.off("statusDelete");  
+        socket.off('statusComment');
      }
 
     render(){

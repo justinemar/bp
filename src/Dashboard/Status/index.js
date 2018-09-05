@@ -17,7 +17,7 @@ class DashBoardStatusContainer extends React.Component{
         this.Auth = new AuthService();
     }
     
-    
+    requestController = new AbortController();
     submitPost = (e) => {
         e.preventDefault();
         const imageData = this.state.previewImagesData;
@@ -33,6 +33,7 @@ class DashBoardStatusContainer extends React.Component{
           method: 'POST',
           credentials: 'same-origin',
           body: formData,
+          signal: this.requestController.signal
         })
         .then(res => {
             if(res.code === 401){
@@ -84,7 +85,10 @@ class DashBoardStatusContainer extends React.Component{
             e.currentTarget.classList = '';
         }
     }
-    
+
+    componentWillUnmount(){
+        this.requestController.abort();
+    }
     
     render(){
         const { previewImages } = this.state;

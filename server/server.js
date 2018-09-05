@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
     })
     
     socket.on('statusDelete', (status) => {
-        io.emit('statusDelete', status);
+         io.emit('statusDelete', status);
     })
 
 });

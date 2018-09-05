@@ -11,12 +11,12 @@ class Feed extends React.Component{
             userPosts: null,
         }
     }
-
+    
     requestController = new AbortController();
-    componentDidUpdate(prevProps, prevState, snapshot){
+    componentDidUpdate(prevProps){
         if(prevProps.match.params.user_id !== this.props.match.params.user_id){
             this.fetchPost();
-        }
+        } 
     }
     
     subscribeEvents(){
@@ -27,6 +27,16 @@ class Feed extends React.Component{
                 userPosts: filtered
             });
         });
+
+        
+        socket.on('statusComment', (data) => {
+            let mutator = JSON.parse(JSON.stringify(this.state.userPosts));
+            console.log(mutator.filter(i => i._id === data.status_id)[0].post_comments)
+            mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data)
+            this.setState({
+                userPosts: mutator
+            })  
+        });
     }
 
     componentDidMount(){
@@ -36,7 +46,8 @@ class Feed extends React.Component{
 
     componentWillUnmount(){
         this.requestController.abort();
-        socket.off("statusDelete");  
+        socket.off('statusComment');
+        socket.off('statusDelete');
     }
 
     fetchPost = () => {

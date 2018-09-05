@@ -130,7 +130,9 @@ class DashBoardStatusWrapper extends React.Component{
                     this.props.timeOut(res);
                     return;
                 }
-                socket.emit('statusComment', res.data);
+                const getComment = res.data.post_comments[res.data.post_comments.length-1];
+                getComment['status_id'] = res.data._id;
+                socket.emit('statusComment', getComment);
             })
             .catch(err => console.log(err));
       }
