@@ -286,7 +286,8 @@ color: #fff;
     background: rgba(0, 0, 0, 0.68);
     color: white;
     height: 100%;
-    z-index: 12;
+    width: 100%;
+    z-index: 99;
 }
 
 .dashboard-timeout-content{

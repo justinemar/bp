@@ -44,33 +44,16 @@ class DashBoard extends React.Component{
         super(props);
         this.state = {
             validation: {
-              message: null,
-              type: null,
-              code: null
-            },
+                message: null,
+                type: null,
+                code: null
+              },
             notification_className: 'nonactive-class'
         };
         this.authUtil = new AuthService();
         this.timeOut;
     }
 
-
-    
-    initLogout = () => {
-         this.props.history.push('/', this.authUtil.logout());
-    }
-    
-    
-    expiredNotice = (res) => {
-        this.setState({
-            validation: {
-                message: res.message,
-                type: res.type,
-                code: res.code
-            }
-        });
-    }
-    
     removeChageNotification = () => {
         this.setState({
             notification_className: 'nonactive-class'
@@ -97,15 +80,14 @@ class DashBoard extends React.Component{
         const { validation,  notification_className } = this.state;
         return(
             <div className="dashboard-wrapper">
-            <DashBoardTimeOut validation={validation} initLogout={this.initLogout} {...this.props}/>
             <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
                         <Switch>
                            <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
-                           <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer timeOut={this.expiredNotice} {...this.props}/>}/>
-                           <Route path="/dashboard/:user_id" render={(props) =>  <MenuProfile user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...props}/>}/>
+                           <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer {...this.props}/>}/>
+                           <Route path="/dashboard/:user_id" render={(props) =>  <MenuProfile timeOut={this.props.timeOut} user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...props}/>}/>
                         </Switch>
                 </div>
             </div>

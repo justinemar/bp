@@ -74,6 +74,10 @@ class MenuProfile extends React.Component{
         })
         .then(res => res.json())
         .then(res => {
+            if(res.code === 401){
+                this.props.timeOut(res);
+                return;
+            }
             this.setState({
                 profile: {
                     cover: {

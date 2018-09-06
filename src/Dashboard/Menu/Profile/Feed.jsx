@@ -16,10 +16,13 @@ class Feed extends React.Component{
     componentDidUpdate(prevProps){
         if(prevProps.match.params.user_id !== this.props.match.params.user_id){
             this.fetchPost();
-        } 
+        } else if(prevProps.user.photoURL !== this.props.user.photoURL){
+            this.fetchPost();
+        }
     }
     
-    subscribeEvents(){
+
+     subscribeEvents(){
         socket.on('statusDelete', (data) => {
             const state = this.state.userPosts;
             const filtered = state.filter(obj => obj._id !== data[0]._id);
@@ -62,6 +65,10 @@ class Feed extends React.Component{
         })
         .then(res => res.json())
         .then(res => {
+            if(res.code === 401){
+                this.props.timeOut(res);
+                return;
+            }
             this.setState({
                 userPosts: res.data
             })
