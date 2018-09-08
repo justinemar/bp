@@ -155,7 +155,6 @@ module.exports = {
                             resolve({ 
                                 field: `${ref}_url`, 
                                 data: {
-                                    identifier: ref, 
                                     url: result.url 
                                 }
                             });
@@ -167,10 +166,7 @@ module.exports = {
             Promise.all(asyncUpload)
             .then(results => {
                   // Save data
-                  let constructObj = {};
-                  for(var x=0; x < results.length; x++){
-                    constructObj[results[x].field] = results[x].data.url
-                  }
+                  const constructObj = results.reduce((acc, cur) => Object.assign(acc, {[cur.field]: cur.data.url}), {});
                   Account.findByIdAndUpdate({_id: req.params.id}, {$set: constructObj})
                   .exec((err, user) => {
                       if(err){
