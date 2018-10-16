@@ -4,6 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
+import Home from './Home';
 import MenuSetting from './Menu/Setting';
 import MenuProfile from './Menu/Profile';
 import AuthService from '../utils/authService';
@@ -62,18 +63,18 @@ class DashBoard extends React.Component{
     }
     
     dataChange = (res) => {
-        this.setState({
-            notification_className: 'active-class',
-            validation: {
-                message: res.message,
-                code: res.code,
-                type: res.type
-            }
-        }, this.props.updateUser(res.token));
-        
-        this.timeOut = setTimeout(() => {
-          this.removeChageNotification();
-        }, 3000);
+            this.setState({
+                notification_className: 'active-class',
+                validation: {
+                    message: res.message,
+                    code: res.code,
+                    type: res.type
+                }
+            }, res.code===200 ? this.props.updateUser(res.token) : null);
+            
+            this.timeOut = setTimeout(() => {
+              this.removeChageNotification();
+            }, 3000);
     }
     
     render(){
@@ -85,6 +86,7 @@ class DashBoard extends React.Component{
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
                         <Switch>
+                           <Route path="/dashboard" exact render={(props) => <Home Auth={this.authUtil} {...this.props}/>}/>
                            <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                            <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer {...this.props}/>}/>
                            <Route path="/dashboard/:user_id" render={(props) =>  <MenuProfile timeOut={this.props.timeOut} user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...props}/>}/>
