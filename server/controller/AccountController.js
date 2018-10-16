@@ -109,7 +109,10 @@ module.exports = {
             Account.findByIdAndUpdate({_id: req.params.id}, {$set: {display_name:req.body.entry}})
             .exec((err, user) => {
                 if(err){
-                    throw err;
+                    res.json({
+                        message: 'Username already exists',
+                     });
+                     return;
                 }
                 
                 
@@ -129,7 +132,7 @@ module.exports = {
                 } else {
                     res.json({
                         message: 'Unknown error has occured.',
-                        code: 501
+                        code: 500
                     });
                 }
             });
