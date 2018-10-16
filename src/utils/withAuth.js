@@ -31,7 +31,7 @@ export default function withAuth(AuthComponent) {
                     message: null,
                     type: null,
                     code: null
-                  },
+                  }
             };
         }
         componentWillMount() {
