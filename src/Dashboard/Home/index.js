@@ -54,7 +54,7 @@ const Article = ({key, article}) => {
         </div>
     )
 }    
-const Articles = ({articles, properties, articlesLength}) => {
+const Articles = ({articles, properties}) => {
     const indexOfLastArticle = properties.currentPage * properties.articlesPerPage;
     const indexOfFirstArticle = indexOfLastArticle - properties.articlesPerPage;
         const currentArticles = articles.slice(indexOfFirstArticle, indexOfLastArticle);
@@ -91,7 +91,7 @@ class Home extends React.Component{
         super();
         this.state = {
             stream_list: null,
-            articles: null,
+            articles: [],
             properties: {
                 currentPage: 1,
                 articlesPerPage: 3, 
