@@ -3,7 +3,7 @@ const Post = require("../models/UserPost");
 const DataUri = require("datauri");
 
 /* LOAD CONFIG */
-require("../utils/lib/config");
+require("../utils/lib/config").cloudinary;
 
 
 module.exports = {
