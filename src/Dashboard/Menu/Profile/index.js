@@ -225,22 +225,23 @@ class MenuProfile extends React.Component{
                         </div>
                         <div className="profile-user-stats">
                             <ul>
-                                <li><span className="stats-color">200</span> Followers</li>
-                                <li><span className="stats-color">3</span> Following</li>
+                                <li><span className="stats">200</span> Followers</li>
+                                <li><span className="stats">3</span> Following</li>
                             </ul>
                         </div>
                     </div> : null }
                 </div>
-                    <div className="profile-control">
-                            <button> View as </button>
-                            { edit.editing ? 
-                            <button onClick={this.saveUpdate}>Save Update</button>
-                            : null }
-                            { this.props.match.params.user_id !== this.authUtil.getProfile().id ? null :
-                            <button onClick={this.toggleEdit}>{edit.textNode}</button>
-                            }
-                    </div>
-                    <div className="profile-menu-wrapper">
+                </div>
+                <div className="profile-menu-wrapper">
+                        <div className="profile-control">
+                                <button> View as </button>
+                                { edit.editing ? 
+                                <button onClick={this.saveUpdate}>Save Update</button>
+                                : null }
+                                { this.props.match.params.user_id !== this.authUtil.getProfile().id ? null :
+                                <button onClick={this.toggleEdit}>{edit.textNode}</button>
+                                }
+                        </div>
                         <div className="profile-menu-general">
                             <ul>
                                 <li><NavLink exact activeClassName="profile-active-tab" to={`/dashboard/${profile.id}`}>Feed</NavLink></li>
@@ -250,7 +251,6 @@ class MenuProfile extends React.Component{
                             </ul>
                         </div>
                     </div>
-                </div>
                 <div className="profile-active-tab-content">
                       <Route exact path="/dashboard/:user_id/" render={() => <Feed Auth={this.props.Auth} {...this.props}/>}/>
                       <Route path="/dashboard/:user_id/images" render={() => <Images/>}/>
