@@ -18,6 +18,7 @@ const AccountSchema = new Schema({
     display_name: {
         type: String,
         required: true,
+        unique: true
     },
     photo_url: {
         // Doesn't need to be validated as URL 
