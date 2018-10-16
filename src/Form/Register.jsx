@@ -59,7 +59,7 @@ class Register extends React.Component{
             return;
         }
 
-        console.log('unreachable');        
+       
       fetch('/register', {
             method: 'POST',
             credentials: 'same-origin',
@@ -89,17 +89,20 @@ class Register extends React.Component{
     
     validateInput = (e) => {
        // empty fields error
-      const input_error = this.emptyFields();
+      let input_error = this.emptyFields();
       const refs = [this.email, this.display_name, this.password, this.password_confirm]
       let emailError = this.state.errors.email;
       let passwordError = this.state.errors.password;
       let passwordConfirmError = this.state.errors.passwordConfirm;
       let displayNameError = this.state.errors.displayName;
-     
+      const passwordConfirmValid = this.password_confirm.value === this.password.value;
+      passwordConfirmError = passwordConfirmValid ? null : 'Password do not match.';
+      this.toggleClass(passwordConfirmError, this.password_confirm);
      
       
       // Validate values
       switch(e.target){
+          
           case this.email: 
             const emailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email.value);
             emailError = emailValid ? null : 'Invalid email address.';  
@@ -110,14 +113,10 @@ class Register extends React.Component{
             passwordError = passwordValid ? null : 'Password must be at least 8 characters long and must contain at least 1 digit.';
             this.toggleClass(passwordError, this.password);
             break;
-          case this.password_confirm:
-            const passwordConfirmValid = this.password_confirm.value === this.password.value;
-            passwordConfirmError = passwordConfirmValid ? null : 'Password do not match.';
-            this.toggleClass(passwordConfirmError, this.password_confirm);
-            break;
           case this.display_name:
               displayNameError = /^[a-zA-Z0-9_]*$/.test(this.display_name.value) ? null : 'Usernames may only contain letters, numbers, and _.';
               this.toggleClass(displayNameError, this.display_name);
+              input_error = this.emptyFields();
           default:
             break;
       }

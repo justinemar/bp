@@ -2,14 +2,15 @@
     margin: 0;
     padding:0;
     box-sizing: border-box;
+    font-family: Segoe UI;
 }
+
 html, body, #app, #app>div {
   height: 100%
 }
 
 form > h2{
     color: #828282;
-    font-family: sans-serif;
     font-weight: 100;
     text-decoration: underline;
     font-size: 12px;
@@ -24,28 +25,28 @@ form > h2{
     height: 100%;
     background: #3F95FF;
     color: #ffffff;
+    display: flex;
 }
 
 .root-text-wrapper{
     max-width: 300px;
+    text-shadow: -2px 4px 6px black;
 }
 
 .root-text-wrapper h1{
-    font-size: 45px;
+    font-size: 40px;
 }
 
 .root-content-container{
-    position: absolute;
-    margin-top: 85px;
     width: 100%;
+    align-self: center;
+    position: absolute;
 }
 
 .root-main-content{
-    max-width: 800px;
-    margin: 0 auto;
-    overflow: hidden;
-    width: 100%;
-    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
 }
 
 .root-form-header{
@@ -100,3 +101,8 @@ form > h2{
 }
 
 
+#bg, #bg iframe{
+    overflow: hidden;
+    width: 100%;
+    height: 900px;
+}
