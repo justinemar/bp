@@ -4,9 +4,9 @@ import { Route, Switch } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 const Streams = ({stream_list}) => 
-   stream_list && stream_list.streams.length ? stream_list.streams.map((i, index) => {
+   stream_list && stream_list.streams ? stream_list.streams.map((i, index) => {
         return (
-            <div class="stream">
+            <div class="stream" key={index}>
                 <div class="stream-preview-box">
                     <div class="stream-preview-img" style={{backgroundImage: `url(${i.preview.large})`}}>
                         <div class="stream-head">
@@ -38,9 +38,9 @@ const Streams = ({stream_list}) =>
         )
     }) : <h1>Loading Streams...</h1>
 
-const Article = ({key, article}) => {
+const Article = ({ article}) => {
     return (
-        <div class="news" key={key}>
+        <div class="news">
             <div class="news-img-cover" style={{backgroundImage: `url(${article.media.image.original})`}}></div>
             {/* <div class="news-author front">
                 {article.author}
