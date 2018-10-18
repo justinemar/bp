@@ -1,12 +1,12 @@
 import React from 'react';
 import fontawesome from '@fortawesome/fontawesome';
 import brands from '@fortawesome/fontawesome-free-brands';
-import { faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faEllipsisH, faBell  } from '@fortawesome/fontawesome-free-solid';
+import { faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faSlidersH, faBell  } from '@fortawesome/fontawesome-free-solid';
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import UserProfile from './UserProfile';
 import { Route, Switch } from 'react-router-dom';
-fontawesome.library.add(faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faEllipsisH, faBell, brands);
+fontawesome.library.add(faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faSlidersH, faBell, brands);
 class App extends React.Component{
     render(){
         return (

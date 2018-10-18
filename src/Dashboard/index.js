@@ -4,7 +4,7 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
-import Home from './Home';
+import Home from './Menu/Home';
 import MenuSetting from './Menu/Setting';
 import MenuProfile from './Menu/Profile';
 import AuthService from '../utils/authService';
