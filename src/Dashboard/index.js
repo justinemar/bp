@@ -38,6 +38,16 @@ const DashBoardDataChange = ({validation, notification_className}) => {
 };
 
 
+const LogoutButton = ({initLogout}) => {
+    return (
+        <div class="logout-wrapper">
+            <div className="logout-icon">
+                <FontAwesomeIcon onClick={initLogout} icon="sign-out-alt"/>
+            </div>
+        </div>
+    )
+}
+
 
 class DashBoard extends React.Component{
     
@@ -81,6 +91,7 @@ class DashBoard extends React.Component{
         const { validation,  notification_className } = this.state;
         return(
             <div className="dashboard-wrapper">
+            <LogoutButton initLogout={this.props.logout}/>
             <DashBoardDataChange notification_className={notification_className} validation={validation}/>
                 <div className="dashboard-main-content">
                     <DashBoardMenu {...this.props}/>

@@ -475,3 +475,23 @@ color: #fff;
 .main-comment-wrapper{
     border: 1px solid rgba(226, 225, 225, 0.24);
 }
+
+.logout-wrapper{
+    background: black;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    bottom: 40px;
+    margin-left: 20px;
+    border-radius: 100%;
+    text-align: center;
+    z-index: 10;
+}
+
+.logout-icon{
+    font-size: 20px;
+    position: relative;
+    color: #3f95ff;
+    line-height: 40px;
+    cursor: pointer;
+}

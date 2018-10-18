@@ -80,7 +80,13 @@ export default function withAuth(AuthComponent) {
                 return (
                     <React.Fragment>
                         <DashBoardTimeOut validation={this.state.validation} initLogout={this.initLogout} {...this.props}/>
-                        <AuthComponent timeOut={this.expiredNotice} updateUser={this.updateUser} history={this.props.history} user={this.state.user} {...this.props}/>
+                        <AuthComponent logout={this.initLogout} 
+                            timeOut={this.expiredNotice} 
+                            updateUser={this.updateUser} 
+                            history={this.props.history} 
+                            user={this.state.user} 
+                            {...this.props}
+                            />
                     </React.Fragment>
                 );
             }
