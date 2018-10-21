@@ -1,4 +1,5 @@
 import React from 'react';
+import { matchPath } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 
 
@@ -41,7 +42,7 @@ class Tab extends React.Component{
 export default Tab;
 
 const DashBoardTab = ({...props}) => {
-    const isActiveTab = props.location.pathname === props.tabFor;
+    const isActiveTab = matchPath(props.location.pathname, props.tabFor);
     const activeClass = isActiveTab ? 'dashboard-active-tab' : '';
     return (
         <div className={`dashboard-tab ${activeClass}`}>

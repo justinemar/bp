@@ -138,6 +138,9 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .profile-cover-image label{
@@ -146,6 +149,9 @@
     width: 100%;
     height: 100%;
     cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .profile-user-image label:hover {
@@ -153,7 +159,8 @@
 }
 
 .profile-image{
-    margin: 30px;
+    display: block;
+    margin: auto;
 }
 
 .profile-cover{
@@ -166,7 +173,6 @@
 
 
 .change-cover-text{
-    position: absolute;
     font-size: 11px;
     text-align: center;
     font-family: 'Segoe UI';
