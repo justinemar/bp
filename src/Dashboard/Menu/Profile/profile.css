@@ -48,9 +48,13 @@
 }
 
 .profile-name #title{
-    color: #fb5d00;
+    color: #ff3715;
     font-family: 'Segoe UI';
-    font-size: 17px;
+    font-size: 20px;
+    letter-spacing: 7px;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px #252522;
 }
 
 .profile-user-image{

@@ -49,7 +49,8 @@ class MenuProfile extends React.Component{
                     data: null
                 },
                 displayName: props.user.displayName,
-                id: props.user.id
+                id: props.user.id,
+                title: 'Unranked'
             }
         };
        this.authUtil = new AuthService();
@@ -87,7 +88,8 @@ class MenuProfile extends React.Component{
                         url: res.photo_url
                     },
                     displayName: res.display_name,
-                    id: res._id
+                    id: res._id,
+                    title: res.title
                 }
             })
         })
@@ -221,7 +223,7 @@ class MenuProfile extends React.Component{
                     <div className="profile-name">
                         <div className="profile-user-info">
                             <h1>{profile.displayName}</h1>
-                            <span id="title">The chosen one</span>
+                            <span id="title">{profile.title}</span>
                         </div>
                         <div className="profile-user-stats">
                             <ul>
