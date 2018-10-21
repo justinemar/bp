@@ -22,7 +22,7 @@
     cursor:pointer;
 }
 .dashboard-tab:first-child{
-    box-shadow: inset 4px -6px 0px 0px #fafcff !important;
+    box-shadow: inset 6px 1px 0px 0px #fafcff !important;
 }
 .dashboard-tab label{
     cursor: pointer;
