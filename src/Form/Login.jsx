@@ -10,9 +10,9 @@ class Login extends React.Component{
         super(props);
         this.state = {
             validation: {
-                response: null,
-                type: null,
-                code: null
+                response: '',
+                type: '',
+                code: ''
             }   
         };
         this.Auth = new AuthService;
@@ -30,7 +30,8 @@ class Login extends React.Component{
             this.setState({
                 validation: {
                     response: err.message,
-                    type: err.type
+                    type: err.type,
+                    code: err.code
                 }
             });
         });
@@ -46,8 +47,9 @@ class Login extends React.Component{
                             <h2> Login </h2>
                         </div>
                         <div class="root-form-inputs">
-                          { validation.response ? 
-                            <span class={validation.type}>{validation.response}</span> : null }
+                        {validation.code === 403 ?  
+         <span class={validation.type}>{validation.response} <button onClick={() => this.props.history.push(`/resend/${this.email.value}`)}>Resend</button></span> :
+         <span class={validation.type}>{validation.response}</span> }
                             <input type="email" ref={(input) => this.email = input} name="email" placeholder="Email address"/>
                             <input type="password" ref={(input) => this.password = input} name="password" placeholder="Password"/>
                         </div>
@@ -61,5 +63,14 @@ class Login extends React.Component{
     }
 }
 
+const Validation = (validation, resend) => {
+  return (
+      <React.Fragment>
+         {validation.code === 403 ?  
+         <span class={validation.type}>{validation.response} Resend</span> :
+         <span class={validation.type}>{validation.response}</span> }
+      </React.Fragment>
+  )
+}
 
 export default Login;
