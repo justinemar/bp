@@ -1,7 +1,7 @@
 .profile-head-wrapper{
     position: relative;
-    max-height: 205px;
-    height: 205px;
+    max-height: 420px;
+    height: 100%;
 }
 
 .profile-cover-image{
@@ -32,13 +32,13 @@
 }
 
 .profile-photo{
-    position: relative;
-    top: 95px;
+    position: absolute;
+    bottom: 0;
     display: flex;
     width: 100%;
     color: #ffffff;
     z-index: 12;
-    height: 205px;
+    height: 159px;
     flex-direction: row;
 }
 
@@ -50,12 +50,12 @@
 .profile-name #title{
     color: #fb5d00;
     font-family: 'Segoe UI';
-    font-size: 14px;
+    font-size: 17px;
 }
 
 .profile-user-image{
-    width: 80px;
-    height: 80px;
+    width: 125px;
+    height: 125px;
     min-width: 80px;
     min-height: 80px;
     background: black;
@@ -90,11 +90,10 @@
 }
 .profile-user-stats{
     display: flex;
+    font-size: 20px;
     width: 100%;
     margin-top: 8px;
-    border-left: 1px solid #ffffff;
-    border-left: 1px solid white;
-    border-left: 1px solid rgba(255, 255, 255, 0.05);
+
 }
 
 .profile-menu-general a {
