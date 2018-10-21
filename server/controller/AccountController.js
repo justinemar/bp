@@ -1,12 +1,12 @@
 const Account       = require("../models/Account");
-const account       = require("../utils/lib/account");
+const AccountHelper       = require("../utils/lib/account");
 const cloudinary    = require("cloudinary");
 const DataUri       = require("datauri");
 require("../utils/lib/config");
 
 
 module.exports = {
-    user_register: (req, res) => {
+    user_register: (req, res, next) => {
         const member = new Account({
             user_email: req.body.email,
             password: req.body.password,
@@ -20,10 +20,7 @@ module.exports = {
             }
             
             if(data){
-                res.json({
-                    message: 'Account successfully created.',
-                    type: 'success'
-                });
+                next()
             } 
         });
     },
@@ -49,7 +46,7 @@ module.exports = {
                         res.json({
                             message: 'Login successfully',
                             type: 'success',
-                            token: account.setToken(payload),
+                            token: AccountHelper.setToken(payload),
                         });
                     } else {
                         res.json({
@@ -99,7 +96,7 @@ module.exports = {
                     };
                      res.json({
                         message: 'Account Updated!', 
-                        token: account.setToken(payload),
+                        token: AccountHelper.setToken(payload),
                         code: 200
                     });
                 }
@@ -126,7 +123,7 @@ module.exports = {
                     };
                     res.json({
                         message: 'Account Updated!', 
-                        token: account.setToken(payload), 
+                        token: AccountHelper.setToken(payload), 
                         code: 200
                     });
                 } else {
@@ -188,7 +185,7 @@ module.exports = {
 
                         res.json({
                             message: 'Account Updated!', 
-                            token: account.setToken(payload),
+                            token: AccountHelper.setToken(payload),
                             code: 200
                         });
                       }

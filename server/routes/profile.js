@@ -1,12 +1,12 @@
 const express = require('express');
 const profile = express.Router();
 const account = require("../controller/AccountController");
-const helper = require("../utils/lib/account");
+const Middleware = require("../utils/middlewares");
 
 
 profile.route('/:id')
-  .all(helper.verifyToken)
-  .all(helper.upload)
+  .all(Middleware.verifyToken)
+  .all(Middleware.upload)
   .get(account.user_get)
   .put(account.user_update_setting)  
   .post(account.user_update_profile)

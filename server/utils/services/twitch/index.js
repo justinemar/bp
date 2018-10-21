@@ -1,10 +1,11 @@
 const express = require('express');
 const twitch = express.Router();
 const TwitchControl = require('./TwitchController.js')
-const helper = require("../../lib/account.js");
+const Middleware = require("../../middlewares");
+
 
 twitch.route('/')
-  .all(helper.verifyToken)
+  .all(Middleware.verifyToken)
   .get(TwitchControl.getStreams)
 
 
