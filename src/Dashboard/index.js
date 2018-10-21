@@ -97,7 +97,7 @@ class DashBoard extends React.Component{
                     <DashBoardMenu {...this.props}/>
                     <DashBoardNotification/>
                         <Switch>
-                           <Route path="/dashboard" exact render={(props) => <Home Auth={this.authUtil} {...this.props}/>}/>
+                           <Route exact path="/dashboard" exact render={(props) => <Home Auth={this.authUtil} {...this.props}/>}/>
                            <Route path="/dashboard/setting" render={(props) => <MenuSetting dataChange={this.dataChange} {...this.props}/>}/>
                            <Route path="/dashboard/feed" render={(props) =>  <DashBoardStatusContainer {...this.props}/>}/>
                            <Route path="/dashboard/:user_id" render={(props) =>  <MenuProfile timeOut={this.props.timeOut} user={this.props.user} Auth={this.authUtil} dataChange={this.dataChange} {...props}/>}/>

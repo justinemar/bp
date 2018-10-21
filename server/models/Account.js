@@ -36,6 +36,10 @@ const AccountSchema = new Schema({
     verified: {
         type: Boolean,
         default: false
+    },
+    title: {
+        type: String,
+        default: 'Unranked'
     }
 });
 

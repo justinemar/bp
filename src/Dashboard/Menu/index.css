@@ -21,7 +21,9 @@
     width: 100%;
     cursor:pointer;
 }
-
+.dashboard-tab:first-child{
+    box-shadow: inset 4px -6px 0px 0px #fafcff !important;
+}
 .dashboard-tab label{
     cursor: pointer;
     width: 100%;
