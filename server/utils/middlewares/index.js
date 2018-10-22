@@ -130,14 +130,19 @@ module.exports = {
                 res.status(500).json({message: 'Internal Server Error', type: 'error'});
             }
 
-            if(!user.verified){
+            if(user && !user.verified){
                 res.json({
                     message: 'Please confirm your email',
                     type: 'error',
                     code: 403
                 });
-            } else {
+            } else if(user) {
                 next()
+            } else {
+                res.json({
+                    message: "We can't find an account associated with this email",
+                    type: 'error'
+                });
             }
             
         })

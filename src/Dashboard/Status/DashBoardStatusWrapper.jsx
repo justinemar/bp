@@ -44,10 +44,11 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) =>
 
 const PostImage = ({currentStatus}) => {
     let displayImg;
-    if(currentStatus.post_img.length === 1){
-         displayImg = <div className="post-image" style={{backgroundImage: `url(${currentStatus.post_img[0]})`}}></div>  
+    let imageArray = currentStatus.post_img.imageArray;
+    if(imageArray.length === 1){
+         displayImg = <div className="post-image" style={{backgroundImage: `url(${imageArray[0]})`}}></div>  
     } else {
-        displayImg = currentStatus.post_img.map((i, index) => {
+        displayImg = imageArray.map((i, index) => {
             if(index > 2){
                 return (
                     <div className="post-image-more">
