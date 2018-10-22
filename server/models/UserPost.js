@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 
 const UserPostSchema = new Schema({
     post_img: {
-        type: Array,
+        type: Schema.Types.ObjectId, ref: 'Photo',
         required: true
     },
     post_description: {
