@@ -55,12 +55,6 @@ module.exports = {
                         });
                     }
                 });
-            
-            } else {
-                res.json({
-                    message: "We can't find an account associated with this email",
-                    type: 'error'
-                });
             }
         });
     },
