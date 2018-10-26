@@ -45,25 +45,24 @@ const PostControl = ({isVisible, currentStatus, util, toggleModal, ...props}) =>
 const PostImage = ({currentStatus}) => {
     let displayImg;
     let imageArray = currentStatus.post_img.imageArray;
-    if(imageArray.length === 1){
-         displayImg = <div className="post-image" style={{backgroundImage: `url(${imageArray[0]})`}}></div>  
-    } else {
-        displayImg = imageArray.map((i, index) => {
-            if(index > 2){
-                return (
-                    <div className="post-image-more">
-                        <Link to={`/${currentStatus.post_by._id}/status/${currentStatus._id}`}><h4> Show more </h4></Link>
-                    </div>
-                );
-            }
-            
-            return (
-                <div className="post-image-small" style={{backgroundImage: `url(${i})`}}></div>
-            );
-        })
-    }
-    
-    return displayImg;
+        if(imageArray.length === 1){
+            displayImg = <div className="post-image" style={{backgroundImage: `url(${imageArray[0]})`}}></div>  
+       } else {
+            displayImg = imageArray.slice(0, 4).map((i, index) => {
+               if(index === 3){
+                   return (
+                       <div className="post-image-more">
+                           <Link to={`/${currentStatus.post_by._id}/status/${currentStatus._id}`}><h4> Show more </h4></Link>
+                       </div>
+                   );
+               }
+               return (
+                   <div className="post-image-small" style={{backgroundImage: `url(${i})`}}></div>
+               );
+           })
+       }
+       
+       return displayImg;
 }
 
 const PostComments = ({currentStatus, location}) => 
@@ -244,7 +243,7 @@ class DashBoardStatusWrapper extends React.Component{
                     <div className="clear-both"></div>
                     <div className="post-details">
                         <div className="post-image-wrapper">
-                            <PostImage currentStatus={cStatus}/>
+                            {cStatus.post_img && cStatus.post_img.imageArray !== undefined ? <PostImage currentStatus={cStatus}/> : null }
                         </div>
                         <div className="post-status-wrapper">
                             <p> {cStatus.post_description} </p>

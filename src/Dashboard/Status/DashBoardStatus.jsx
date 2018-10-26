@@ -20,8 +20,10 @@ class DashBoardStatus extends React.Component{
     requestController = new AbortController();
     subscribeEvents(){
         socket.on('statusDelete', (data) => {
+            console.log(data)
             const state = this.state.getStatus;
-            const filtered = state.filter(obj => obj._id !== data[0]._id);
+            const filtered = state.filter(obj => obj._id !== data._id);
+            console.log(filtered)
             this.setState({
                 getStatus: filtered
             });
