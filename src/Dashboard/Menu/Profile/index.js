@@ -255,7 +255,7 @@ class MenuProfile extends React.Component{
                     </div>
                 <div className="profile-active-tab-content">
                       <Route exact path="/dashboard/:user_id/" render={() => <Feed Auth={this.props.Auth} {...this.props}/>}/>
-                      <Route path="/dashboard/:user_id/images" render={() => <Images/>}/>
+                      <Route path="/dashboard/:user_id/images" render={() => <Images {...this.props} {...this.state}/>}/>
                       <Route path="/dashboard/:user_id/groups" render={() => <Groups/>}/>
                       <Route path="/dashboard/:user_id/about"  render={() => <About/>}/>
                 </div>

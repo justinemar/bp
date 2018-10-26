@@ -15,6 +15,7 @@ class DashBoardNotification extends React.Component {
     
     subscribeStatus(){
         socket.on('notification', (data) => {
+            console.log(data)
             this.setState(prevState => ({
                 notifications: [data, ...prevState.notifications]
             }));
@@ -30,8 +31,9 @@ class DashBoardNotification extends React.Component {
     render(){
         const { notifications } = this.state;
         let dataToRender = notifications  ? notifications.map(i => {
+            const background = i.post_img && i.post_img.imageArray !== undefined ? i.post_img.imageArray[0] : null;
             return (
-                <div className="a-notification" style={{backgroundImage: `url(${i.post_img[0]})`}}>
+                <div className="a-notification" style={{backgroundImage: `url(${background})`}}>
                                <div className="notification-detail">
                         <p><span>{`A new update from ${i.post_by.display_name}`}</span></p>
                         <p>{`${i.post_description}`}</p>
