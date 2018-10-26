@@ -4,6 +4,7 @@ const router = require("./routes");
 const status = require("./routes/status");
 const profile = require("./routes/profile");
 const register = require("./routes/register");
+const photo = require("./routes/photo");
 const login = require("./routes/login");
 const twitch = require("./utils/services/twitch");
 const path = require("path");
@@ -30,6 +31,7 @@ server.use('/', router);
 server.use('/stream', twitch);
 server.use('/status', status);
 server.use('/profile', profile);
+server.use('/photos', photo)
 server.use('/register', register);
 server.use('/login', login);
 server.get('*', function(req, res, next) {
