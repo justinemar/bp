@@ -15,8 +15,9 @@ class DashBoardStatusContainer extends React.Component{
             previewImagesData: [],
         };
         this.Auth = new AuthService();
+        this.scroller = React.createRef();
     }
-    
+
     requestController = new AbortController();
     submitPost = (e) => {
         e.preventDefault();
@@ -102,7 +103,7 @@ class DashBoardStatusContainer extends React.Component{
                 );
         }) : null;
         return (
-            <div className="section-selected-tab">
+            <div className="section-selected-tab" ref={this.scroller}>
                 <div className="dashboard-post-status-main">
                     <form onSubmit={this.submitPost} method="post">
                         <textarea name="description" ref={(txt) => this.status = txt} id="post-status" placeholder={`You know what this is for, ${user.displayName}`}>
@@ -155,7 +156,7 @@ class DashBoardStatusContainer extends React.Component{
                 <DashBoardStatus
                     util={this.Auth}
                     recentUpdates={recentUpdates}
-                    validate={this.props.validate}
+                    scroller={this.scroller}
                     user={this.props.user} {...this.props}/>
                 </div>
             </div>

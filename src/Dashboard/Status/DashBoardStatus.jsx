@@ -13,11 +13,12 @@ class DashBoardStatus extends React.Component{
         this.state = {
             getStatus: [],
             recentUpdates: [],
-            error: null,
+            error: null
         }
+        this.requestController = new AbortController();
     }
     
-    requestController = new AbortController();
+
     subscribeEvents(){
         socket.on('statusDelete', (data) => {
             console.log(data)
@@ -46,36 +47,35 @@ class DashBoardStatus extends React.Component{
  
     }
 
-    // subscribeSocket(){
-
-    //    socket.on('statusComment', (data) => {
-    //               let mutator = [...this.state.getStatus];
-    //               mutator[mutator.findIndex(i => i._id === data._id)].post_comments = data.post_comments
-    //               this.setState({
-    //                   getStatus: mutator
-    //               })  
-    //           });
-    //   }
     
     componentDidMount(){
-      const { util } = this.props;  
-      util.fetch('/status', { 
-         method: 'GET', 
-         credentials: 'same-origin',
-         signal: this.requestController.signal
-      })
-      .then(res => {
-        if(res.code === 401){
-            this.props.timeOut(res);
-            return;
-        }
-        this.setState({
-          getStatus: res.data
-        }, this.subscribeEvents());
-      })
-      .catch(err => console.log(err));
+        console.log(this.props.scroller.current); // NULL 
+        console.log(this.props); // props object scroller is available 
+        console.log(this.props.scroller.current); // null
+        console.log(this.props.scroller); // props object scroller is available 
+       this.getStatus(0);
     }
      
+    getStatus = (offset) => {
+        const { util } = this.props; 
+        console.log(util)
+        util.fetch(`/status?offset=${offset}`, { 
+            method: 'GET', 
+            credentials: 'same-origin',
+            signal: this.requestController.signal
+         })
+         .then(res => {
+           if(res.code === 401){
+               this.props.timeOut(res);
+               return;
+           }
+           this.setState({
+              ...this.state.getStatus,
+             getStatus: res.data
+           }, this.subscribeEvents());
+         })
+         .catch(err => console.log(err));
+    }
 
      componentWillUnmount(){
         this.requestController.abort();
@@ -94,7 +94,7 @@ class DashBoardStatus extends React.Component{
                 );
             }) : <DashBoardPostLayout/>;
         return (
-           <div>
+           <div ref={(container) => this.statusContainer = container}>
             {updates} 
            </div>
         );

@@ -97,12 +97,14 @@ module.exports = {
 
     get_post:
         (req, res) => {
-            Post.find({}).sort({ post_date: -1 })
+            const offset = parseInt(req.query.offset)
+            Post.find({}).sort({ post_date: -1 }).limit(2).skip(offset)
                 .populate({ path: 'post_by', select: ['display_name', 'photo_url'] })
                 .populate({ path: 'post_comments.comment_from', select: 'photo_url display_name' })
                 .populate({ path: 'post_img', select: 'imageArray' })
                 .exec((err, post) => {
                     if (err) {
+                        console.log(err)
                         return res.status(500).json({ message: 'Internal Server Error', type: 'error' });
                     }
                     res.json({ message: 'Success', type: 'success', code: 200, data: post });
