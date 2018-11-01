@@ -3,8 +3,8 @@ import { withRouter } from 'react-router-dom';
 import Tab from './Tab';
 import './index.css';
 
-class DashBoardMenu extends React.Component{
-    constructor(props){
+class DashBoardMenu extends React.Component {
+    constructor(props) {
         super()
         this.state = {
             prevActiveElem: null,
@@ -12,20 +12,20 @@ class DashBoardMenu extends React.Component{
         }
     }
 
-    
+
     toggleTab = (e) => {
-       const { history, location } = this.props;
-       history.push({
-        pathname: e.currentTarget.id,
-        from: location.pathname
-       })
+        const { history, location } = this.props;
+        history.push({
+            pathname: e.currentTarget.id,
+            from: location.pathname
+        })
     }
 
-    render(){
+    render() {
         const { user } = this.props;
         return (
             <div className="dashboard-menu">
-                  <Tab toggleTab={this.toggleTab} {...this.props}/>
+                <Tab toggleTab={this.toggleTab} {...this.props} />
             </div>
         );
     }

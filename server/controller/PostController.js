@@ -2,6 +2,7 @@ const cloudinary = require("cloudinary");
 const Post = require("../models/UserPost");
 const Photo = require("../models/Photo");
 const DataUri = require("datauri");
+const querystring = require('querystring');  
 
 /* LOAD CONFIG */
 require("../utils/lib/config").cloudinary;
@@ -97,7 +98,9 @@ module.exports = {
 
     get_post:
         (req, res) => {
-            Post.find({}).sort({ post_date: -1 })
+            let page = parseInt(req.query.page);
+            let limit = parseInt(req.query.limit);
+            Post.find({}).sort({ post_date: -1 }).skip(page).limit(limit)
                 .populate({ path: 'post_by', select: ['display_name', 'photo_url'] })
                 .populate({ path: 'post_comments.comment_from', select: 'photo_url display_name' })
                 .populate({ path: 'post_img', select: 'imageArray' })
