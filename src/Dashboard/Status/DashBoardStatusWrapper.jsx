@@ -47,7 +47,7 @@ const PostControl = ({
             type="button"
             onClick={() => props.handleStatusTab(currentStatus)}
           >
-            Open in tabOpen in tab
+            Open in tab
         </button>
           {currentStatus.post_by._id === util.getProfile().id ? (
             <button type="button" onClick={toggleModal}>Delete</button>
@@ -69,7 +69,7 @@ const PostImage = ({ currentStatus }) => {
       />
     );
   } else {
-    displayImg = imageArray.slice(0, 4).map((i, index) => {
+    displayImg = imageArray.post_img.imageArray.slice(0, 4).map((i, index) => {
       if (index === 3) {
         return (
           <div className="post-image-more">
@@ -192,14 +192,14 @@ class DashBoardStatusWrapper extends React.Component {
   toggleModal = () => {
     const { controlModalVisible } = this.state;
     this.setState({
-      controlModalVisible,
+      controlModalVisible: !controlModalVisible,
     });
   };
 
   togglePostControl = () => {
     const { postControlVisible } = this.state;
     this.setState({
-      postControlVisible,
+      postControlVisible: !postControlVisible,
     });
   };
 
