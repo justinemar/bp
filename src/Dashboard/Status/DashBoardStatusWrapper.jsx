@@ -18,13 +18,15 @@ const DeleteConfirmModal = ({
       <div className="modal-opt">
         <div className="modal-delete-btn">
           <button type="button" onClick={() => initDelete(data)}>
+
             Delete
-          </button>
+</button>
         </div>
         <div className="modal-cancel-btn">
           <button type="button" onClick={toggleModal}>
+
             Cancel
-          </button>
+</button>
         </div>
       </div>
     </div>
@@ -40,15 +42,16 @@ const PostControl = ({
   toggleModal,
   ...props
 }) => (
-    <div>
+  <div>
       {isVisible ? (
         <div className="control-btn">
           <button
             type="button"
             onClick={() => props.handleStatusTab(currentStatus)}
           >
+
             Open in tab
-        </button>
+</button>
           {currentStatus.post_by._id === util.getProfile().id ? (
             <button type="button" onClick={toggleModal}>Delete</button>
           ) : null}
@@ -65,7 +68,7 @@ const PostImage = ({ currentStatus }) => {
     displayImg = (
       <div
         className="post-image"
-        style={{ backgroundImage: `url(${imageArray[0]})` }}
+        style={{ backgroundImage: `url(${imageArray.post_img.imageArray[0]})` }}
       />
     );
   } else {
@@ -93,8 +96,7 @@ const PostImage = ({ currentStatus }) => {
   return displayImg;
 };
 
-const PostComments = ({ currentStatus, location }) =>
-  currentStatus.post_comments !== undefined
+const PostComments = ({ currentStatus, location }) => (currentStatus.post_comments !== undefined
     ? currentStatus.post_comments.map(i => {
       const splitUrl = location.pathname.split('/');
       splitUrl.splice(-1, 2, i.comment_from._id);
@@ -120,7 +122,7 @@ const PostComments = ({ currentStatus, location }) =>
         </div>
       );
     })
-    : null;
+    : null);
 
 class DashBoardStatusWrapper extends React.Component {
   constructor() {
@@ -132,9 +134,11 @@ class DashBoardStatusWrapper extends React.Component {
     };
   }
 
-  handKeyDown = e => {
+  handKeyDown = (e) => {
     const { commentVal } = this.state;
-    const { user, cStatus, util, timeOut } = this.props;
+    const {
+ user, cStatus, util, timeOut 
+} = this.props;
     const el = e.target;
     // Expand comment box via
     if (e.shiftKey && e.keyCode === 13) {
@@ -163,13 +167,12 @@ class DashBoardStatusWrapper extends React.Component {
         },
       })
         .then(res => res.json())
-        .then(res => {
+        .then((res) => {
           if (res.code === 401) {
             timeOut(res);
             return;
           }
-          const getComment =
-            res.data.post_comments[res.data.post_comments.length - 1];
+          const getComment =            res.data.post_comments[res.data.post_comments.length - 1];
           getComment.status_id = res.data._id;
           socket.emit('statusComment', getComment);
         })
@@ -183,7 +186,7 @@ class DashBoardStatusWrapper extends React.Component {
     }, 0);
   };
 
-  handleOnChange = e => {
+  handleOnChange = (e) => {
     this.setState({
       commentVal: e.target.value,
     });
@@ -203,12 +206,12 @@ class DashBoardStatusWrapper extends React.Component {
     });
   };
 
-  handleStatusTab = status => {
+  handleStatusTab = (status) => {
     const { history } = this.props;
     history.push(`/${status.post_by._id}/status/${status._id}`);
   };
 
-  handleDelete = data => {
+  handleDelete = (data) => {
     const { util, timeOut } = this.props;
     // Instead of getting the id from the user props
     // we get the actual id stored in the token.
@@ -224,7 +227,7 @@ class DashBoardStatusWrapper extends React.Component {
       },
     })
       .then(res => res.json())
-      .then(res => {
+      .then((res) => {
         if (res.code === 401) {
           timeOut(res);
           return;
@@ -239,7 +242,9 @@ class DashBoardStatusWrapper extends React.Component {
 
   render() {
     const { postControlVisible, controlModalVisible, commentVal } = this.state;
-    const { cStatus, util, user, location } = this.props;
+    const {
+ cStatus, util, user, location 
+} = this.props;
     const splitUrl = location.pathname.split('/');
     splitUrl.splice(-1, 2, cStatus.post_by._id);
     return (
@@ -307,8 +312,9 @@ class DashBoardStatusWrapper extends React.Component {
                 <span className="right" id="post-init-react">
 
 
+
                   React
-                </span>
+</span>
               </div>
               <div className="reactions-list">
                 <div className="a-reaction" />
@@ -328,7 +334,7 @@ class DashBoardStatusWrapper extends React.Component {
                   className="main-comment-box"
                   type="text"
                   placeholder="Say something about this human..."
-                  ref={text => {
+                  ref={(text) => {
                     this.commentVal = text;
                   }}
                   value={commentVal}

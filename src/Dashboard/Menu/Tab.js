@@ -34,6 +34,12 @@ class Tab extends React.Component {
                     tabFor="/dashboard/feed"
                     tabToggle={toggleTab}
                     {...this.props} />
+                <DashBoardTab
+                    tabText="Groups"
+                    tabIcon="fist-raised"
+                    tabFor="/dashboard/groups"
+                    tabToggle={toggleTab}
+                    {...this.props} />
             </div>
         )
     }

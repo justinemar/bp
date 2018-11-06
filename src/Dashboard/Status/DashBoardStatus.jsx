@@ -11,7 +11,6 @@ class DashBoardStatus extends React.Component {
     super();
     this.state = {
       getStatus: [],
-      recentUpdates: [],
       more: true,
     };
     this.requestController = new AbortController();
@@ -73,8 +72,7 @@ class DashBoardStatus extends React.Component {
 
     socket.on('statusInit', data => {
       this.setState(prevState => ({
-        recentUpdates: [...prevState.recentUpdates, data],
-        getStatus: [data, ...getStatus],
+        getStatus: [data, ...prevState.getStatus],
       }));
     });
   };
