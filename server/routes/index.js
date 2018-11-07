@@ -1,14 +1,21 @@
-const express = require('express');
-const router = express.Router();
-const root = require("../controller/IndexController");
-const comment = require("../controller/CommentController");
-const Middleware = require("../utils/middlewares");
+const routes = require('express').Router();
+const status = require('./status');
+const profile = require('./profile');
+const register = require('./register');
+const photo = require('./photo');
+const login = require('./login');
+const twitch = require('../utils/services/twitch');
+const group = require('./group');
+const comment = require('./comment');
 
-router.get('/', root.index);
+routes.use('/login', login)
+      .use('/register', register)
+      .use('/profile', profile)
+      .use('/status', status)
+      .use('/photos', photo)
+      .use('/stream', twitch)
+      .use('/comment', comment)
+      .use('/groups', group);
 
 
-
-router.post('/comment', Middleware.verifyToken, comment.new);
-
-
-module.exports = router;
+module.exports = routes;

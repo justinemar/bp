@@ -24,25 +24,21 @@
     width: 100%;
     background: #fafafa;
 }
+.p-text{
+    background: rgba(128, 128, 128, 0.46);
+    height: 10px;
+    margin-bottom: 1px;
+}
 
-#p1{
+.p1{
     width: 88%;
-    background: rgba(128, 128, 128, 0.46);
-    height: 10px;
-    margin-bottom: 1px;
 }
 
-#p2{
+.p2{
     width: 99%;
-    background: rgba(128, 128, 128, 0.46);
-    height: 10px;
-    margin-bottom: 1px;
 }
 
 
-#p3{
+.p3{
     width: 65%;
-    background: rgba(128, 128, 128, 0.46);
-    height: 10px;
-    margin-bottom: 1px;
 }

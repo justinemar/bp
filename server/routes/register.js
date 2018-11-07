@@ -8,12 +8,12 @@ register.route('/')
     .post(Middleware.checkUser)
     .post(account.user_register)
     .post(Middleware.sendVerification)
-    
+
 
 register.route('/verify/:token')
     .get(Middleware.verifyEmail)
 
-    register.route('/resend/:email')    
+register.route('/resend/:email')
     .get(Middleware.sendVerification)
 
 

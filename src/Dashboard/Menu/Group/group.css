@@ -1,0 +1,199 @@
+.groups-menu{
+    height: 100%;
+    background: #272C38;
+    color: #D7DDE8;
+    font-family: 'Segoe UI';
+    padding: 20px;
+    margin: 15px;
+}
+
+
+.a-group{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    border: 1px solid #ffffff17;
+}
+
+.group-logo{
+    width: 110px;
+    height: 110px;
+}
+
+.group-info, .group-join{
+    padding: 20px;
+}
+
+.group-info{
+    max-width: 610px;
+    width: 100%;
+}
+
+.panel-btn{
+    padding: 8px;
+    border: 0;
+    font-weight: 500;
+    font-size: 13px;
+}
+
+
+.leave-btn{
+    background: #151515;
+    color: #ffffff;
+}
+
+.join-btn, .create-btn{
+    background: #0094FF;
+    color: white;
+}
+
+.info-desc p{
+    word-break: break-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.members{
+    color: #3f95ff;
+    margin-right: 5px;
+}
+
+.groups-panel-filter{
+    display: flex;
+    padding: 10px;
+    align-items: baseline;
+}
+
+.groups-panel-filter select{
+    margin: 5px;
+}
+
+.groups-panel-filter span{
+    flex: 0 0 50px;
+}
+
+.group-setting{
+    padding: 20px;
+}
+
+.group-setting input[name="groupName"] {
+    display: block;
+    width: 250px;
+    background: transparent;
+    border: 0;
+    font-size: 25px;
+    color: white;
+}
+
+.create-panel{
+    background: black;
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    height: 100%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+.create-panel *{
+    z-index: 9;
+    position: relative;
+} 
+
+.create-panel h1{
+    text-align: center;
+    padding: 40px;
+}
+
+.create-header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.description-wrapper{
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    max-width: 580px;
+    width: 100%;
+    align-self: center;
+}
+
+.description-wrapper p span{
+    color: grey;
+    padding-left: 40px;
+}
+
+.description-wrapper p{
+    padding-bottom: 10px;
+}
+
+.description-wrapper textarea{
+    min-height: 190px;
+    padding: 10px;
+    background: #000000ab;
+    margin-bottom: 10px;
+    resize: none;
+    color: white;
+}
+
+.create-panel button{
+    max-width: 350px;
+    align-self: center;
+    width: 220px;
+    height: 55px;
+    background: #0094FF;
+    color: white;
+    font-size: 20px;
+}
+
+.logo-wrapper .logo{
+    width: 150px;
+    height: 150px;
+    min-width: 80px;
+    min-height: 80px;
+    background: black;
+    margin-right: 25px;
+    margin-left: 50px;
+    position: relative;
+    border: 1px solid white;
+    background-size: cover;
+    border-radius: 100%;
+    display: flex;
+}
+
+.logo label{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.awesomeLogo{
+    display: block;
+    margin: auto;
+}
+
+.background{
+    position: absolute;
+    background: url(https://res.cloudinary.com/dhwgznjct/image/upload/v1541503446/teambuilder-wallpaper_q7kgzc.jpg);
+    background-size: cover;
+    min-height: 100%;
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.2;
+    max-width: 100%;
+    z-index: 1;
+}

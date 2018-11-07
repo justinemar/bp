@@ -51,3 +51,10 @@
     margin-right: 15px;
     margin-left: 15px;
 }
+
+.panel-head h1{
+    color: black;
+    max-width: 380px;
+    font-size: 35px;
+    word-break: break-all;
+}
