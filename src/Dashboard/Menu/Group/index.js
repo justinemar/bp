@@ -47,6 +47,28 @@ class MenuGroups extends React.Component {
             sort: e.target.value,
           },
         }, this.sort(e.target.value));
+      } else if (e.target.id === 'requirement') {
+        this.setState({
+          filter: {
+            ...this.state.filter,
+            sort: e.target.value,
+          },
+        }, this.requirement(e.target.value));
+      }
+    }
+
+    requirement = (sortBy) => {
+      const { groups } = this.state;
+      if (sortBy === 'public') {
+        const publicFirst = [...groups].sort((a, b) => b.public - a.public);
+        this.setState({
+          groups: publicFirst,
+        });
+      } else if (sortBy === 'private') {
+        const privateFirst = [...groups].sort((a, b) => a.public - b.public);
+        this.setState({
+          groups: privateFirst,
+        });
       }
     }
 
@@ -72,10 +94,10 @@ class MenuGroups extends React.Component {
                     <option value="rank">Ranking</option>
                     <option value="achievements">Achievements</option>
                   </select>
-                  <select>
+                  <select id="requirement" onChange={this.sortGroup} value={filter.requirement}>
                     <option value="requirement">requirement</option>
-                    <option value="auto-join">Auto Join</option>
-                    <option value="request-to-join">Request to join</option>
+                    <option value="public">Auto Join</option>
+                    <option value="private">Request to join</option>
                   </select>
                   <div className="group-create">
                     <button type="button" className="panel-btn create-btn" onClick={() => history.push('/dashboard/groups/create')}>

@@ -16,6 +16,7 @@
       "error",
       "windows"
     ],
+    "no-else-return": 0,
     "jsx-closing-tag-location": 0,
     "class-methods-use-this": 0,
     "import/no-named-as-default": 0,
