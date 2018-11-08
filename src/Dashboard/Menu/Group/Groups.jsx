@@ -26,7 +26,7 @@ class Groups extends React.Component {
               </div>
             </div>
             <div className="group-join">
-              <GroupControl group={group} user={user} />
+              <GroupControl group={group} user={user} {...this.props} />
 
             </div>
           </div>

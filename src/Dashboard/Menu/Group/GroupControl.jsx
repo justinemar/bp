@@ -3,21 +3,19 @@
 import React from 'react';
 
 
-function AdminButton({ callToAction }) {
+function MemberButton({ callToAction, goLounge }) {
     return (
-      <button type="button" className="panel-btn admin-btn" onClick={() => callToAction()}>
-        ADMIN
-      </button>
+      <React.Fragment>
+        <button type="button" className="panel-btn admin-btn" onClick={() => goLounge()}>
+        LOUNGE
+        </button>
+        <button type="button" className="panel-btn leave-btn" onClick={() => callToAction()}>
+        LEAVE GROUP
+        </button>
+      </React.Fragment>
     );
   }
 
-  function LeaveGroup({ callToAction }) {
-    return (
-      <button type="button" className="panel-btn leave-btn" onClick={() => callToAction()}>
-        LEAVE GROUP
-      </button>
-    );
-  }
 
   function JoinGroup({ callToAction }) {
     return (
@@ -66,14 +64,16 @@ function AdminButton({ callToAction }) {
       .catch(err => console.log(err));
     }
 
+    groupLounge = () => {
+      const { history, match } = this.props;
+      history.push(`${match.url}/lounge`);
+    }
 
     render() {
       const { group, user } = this.props;
       let button;
-      if (group.owner._id === user.id) {
-            button = <AdminButton callToAction={this.joinGroup} />;
-      } else if (group.members.filter(member => member._id === user.id).length > 0) {
-            button = <LeaveGroup callToAction={this.leaveGroup} />;
+      if (group.owner._id === user.id || group.members.filter(member => member._id === user.id).length > 0) {
+            button = <MemberButton goLounge={this.groupLounge} callToAction={this.leaveGroup} />;
       } else {
             button = <JoinGroup callToAction={this.joinGroup} />;
       }

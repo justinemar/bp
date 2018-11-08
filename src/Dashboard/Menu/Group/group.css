@@ -45,6 +45,10 @@
     color: #ffffff;
 }
 
+.join-btn{
+    width: 166px;
+}
+
 .join-btn, .create-btn{
     background: #0094FF;
     color: white;
