@@ -2,11 +2,12 @@ const express = require('express');
 
 const route = express.Router();
 const group = require('../controller/GroupController');
-// const Middleware = require("../utils/middlewares");
+const Middleware = require('../utils/middlewares');
 
 
 route.route('/')
     .get(group.getGroups)
+    .post(Middleware.upload)
     .post(group.createGroup);
 
 route.route('/members/:uid')

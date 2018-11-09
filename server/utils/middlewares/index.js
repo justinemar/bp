@@ -5,7 +5,7 @@ const AccountHelper = require('../lib');
 const Account = require('../../models/Account');
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage }).fields([{ name: 'photo', maxCount: 1 }, { name: 'cover', maxCount: 1 }]);
+const upload = multer({ storage }).fields([{ name: 'logo', maxCount: 1 }, { name: 'photo', maxCount: 1 }, { name: 'cover', maxCount: 1 }]);
 const uploadArray = multer({ storage }).array('image', 12);
 require('dotenv').config();
 
