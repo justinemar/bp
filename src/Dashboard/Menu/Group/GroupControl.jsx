@@ -65,8 +65,8 @@ function MemberButton({ callToAction, goLounge }) {
     }
 
     groupLounge = () => {
-      const { history, match } = this.props;
-      history.push(`${match.url}/lounge`);
+      const { history, match, group } = this.props;
+      history.push(`${match.url}/@${group.name}`);
     }
 
     render() {
