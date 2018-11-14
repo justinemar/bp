@@ -1,7 +1,7 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import DashBoardPostLayout from './DashBoardPostLayout';
+import StatusPlaceHolder from '../LoadingPlaceholder/StatusPlaceHolder';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper';
 
 const socket = openSocket('/');
@@ -37,7 +37,7 @@ class DashBoardStatus extends React.Component {
         credentials: 'same-origin',
         signal: this.requestController.signal,
       })
-      .then(res => {
+      .then((res) => {
         if (res.code === 401) {
           timeOut(res);
           return;
@@ -53,7 +53,7 @@ class DashBoardStatus extends React.Component {
 
   subscribeEvents = () => {
     const { getStatus } = this.state;
-    socket.on('statusDelete', data => {
+    socket.on('statusDelete', (data) => {
       console.log(data);
       const state = getStatus;
       const filtered = state.filter(obj => obj._id !== data._id);
@@ -62,7 +62,7 @@ class DashBoardStatus extends React.Component {
       });
     });
 
-    socket.on('statusComment', data => {
+    socket.on('statusComment', (data) => {
       const mutator = JSON.parse(JSON.stringify(getStatus));
       mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data);
       this.setState({
@@ -70,7 +70,7 @@ class DashBoardStatus extends React.Component {
       });
     });
 
-    socket.on('statusInit', data => {
+    socket.on('statusInit', (data) => {
       this.setState(prevState => ({
         getStatus: [data, ...prevState.getStatus],
       }));
@@ -86,7 +86,7 @@ class DashBoardStatus extends React.Component {
           dataLength={getStatus.length}
           next={this.getStatus}
           hasMore={more}
-          loader={<DashBoardPostLayout />}
+          loader={<StatusPlaceHolder />}
           scrollableTarget="scrollable"
         >
           {getStatus.map(cStatus => (
