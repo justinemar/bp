@@ -92,14 +92,9 @@ module.exports = {
 
     get_post:
         (req, res) => {
-<<<<<<< HEAD
-            const offset = parseInt(req.query.offset)
-            Post.find({}).sort({ post_date: -1 }).limit(2).skip(offset)
-=======
             const page = parseInt(req.query.page, 10);
             const limit = parseInt(req.query.limit, 10);
             Post.find({}).sort({ post_date: -1 }).skip(page).limit(limit)
->>>>>>> bp-staging
                 .populate({ path: 'post_by', select: ['display_name', 'photo_url'] })
                 .populate({ path: 'post_comments.comment_from', select: 'photo_url display_name' })
                 .populate({ path: 'post_img', select: 'imageArray' })
