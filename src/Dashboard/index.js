@@ -1,10 +1,10 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import DashBoardStatusContainer from './Status';
 import DashBoardNotification from './Notification';
 import DashBoardMenu from './Menu';
-import Home from './Menu/Home';
+import Discover from './Menu/Discover';
 import MenuSetting from './Menu/Setting';
 import MenuProfile from './Menu/Profile';
 import MenuGroups from './Menu/Group';
@@ -40,7 +40,6 @@ class DashBoard extends React.Component {
         this.authUtil = new AuthService();
     }
 
-
     render() {
         const { notificationClassName, ...prop } = this.props;
         const customProps = {
@@ -59,12 +58,13 @@ class DashBoard extends React.Component {
               <DashBoardMenu {...this.props} />
               <DashBoardNotification />
               <Switch>
-                <Route exact path="/dashboard" render={() => <Home Auth={this.authUtil} {...this.props} />} />
+                <Route exact path="/dashboard" render={() => <Redirect to="/dashboard/discover" /> } />
+                <Route path="/dashboard/discover" render={() => <Discover Auth={this.authUtil} {...this.props} />} />
                 <Route path="/dashboard/setting" render={() => <MenuSetting dataChange={customProps.dataChange} {...this.props} />} />
                 <Route path="/dashboard/feed" render={() => <DashBoardStatusContainer {...this.props} />} />
                 <Route exact path="/dashboard/groups" render={props => <MenuGroups {...customProps} Auth={this.authUtil} {...props} />} />
-                <Route path="/dashboard/groups/lounge" render={props => <GroupLounge {...customProps} Auth={this.authUtil} {...props} />} />
                 <Route path="/dashboard/groups/create" render={props => <GroupWizard {...customProps} Auth={this.authUtil} {...props} />} />
+                <Route path="/dashboard/groups/:group" render={props => <GroupLounge {...customProps} Auth={this.authUtil} {...props} />} />
                 <Route path="/dashboard/:user_id" render={props => <MenuProfile {...customProps} Auth={this.authUtil} {...props} />} />
               </Switch>
             </div>
