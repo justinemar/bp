@@ -19,14 +19,16 @@ const DeleteConfirmModal = ({
         <div className="modal-delete-btn">
           <button type="button" onClick={() => initDelete(data)}>
 
+
             Delete
-</button>
+                    </button>
         </div>
         <div className="modal-cancel-btn">
           <button type="button" onClick={toggleModal}>
 
+
             Cancel
-</button>
+                    </button>
         </div>
       </div>
     </div>
@@ -43,22 +45,23 @@ const PostControl = ({
   ...props
 }) => (
   <div>
-      {isVisible ? (
+    {isVisible ? (
         <div className="control-btn">
           <button
             type="button"
             onClick={() => props.handleStatusTab(currentStatus)}
           >
 
+
             Open in tab
-</button>
+                    </button>
           {currentStatus.post_by._id === util.getProfile().id ? (
             <button type="button" onClick={toggleModal}>Delete</button>
           ) : null}
           <button type="button">Report</button>
         </div>
       ) : null}
-    </div>
+  </div>
   );
 
 const PostImage = ({ currentStatus }) => {
@@ -97,7 +100,7 @@ const PostImage = ({ currentStatus }) => {
 };
 
 const PostComments = ({ currentStatus, location }) => (currentStatus.post_comments !== undefined
-    ? currentStatus.post_comments.map(i => {
+    ? currentStatus.post_comments.map((i) => {
       const splitUrl = location.pathname.split('/');
       splitUrl.splice(-1, 2, i.comment_from._id);
       return (
@@ -137,7 +140,7 @@ class DashBoardStatusWrapper extends React.Component {
   handKeyDown = (e) => {
     const { commentVal } = this.state;
     const {
- user, cStatus, util, timeOut 
+ user, cStatus, util, timeOut,
 } = this.props;
     const el = e.target;
     // Expand comment box via
@@ -172,7 +175,7 @@ class DashBoardStatusWrapper extends React.Component {
             timeOut(res);
             return;
           }
-          const getComment =            res.data.post_comments[res.data.post_comments.length - 1];
+          const getComment = res.data.post_comments[res.data.post_comments.length - 1];
           getComment.status_id = res.data._id;
           socket.emit('statusComment', getComment);
         })
@@ -243,7 +246,7 @@ class DashBoardStatusWrapper extends React.Component {
   render() {
     const { postControlVisible, controlModalVisible, commentVal } = this.state;
     const {
- cStatus, util, user, location 
+ cStatus, util, user, location,
 } = this.props;
     const splitUrl = location.pathname.split('/');
     splitUrl.splice(-1, 2, cStatus.post_by._id);
@@ -255,7 +258,7 @@ class DashBoardStatusWrapper extends React.Component {
           modalVisible={controlModalVisible}
           data={cStatus}
         />
-        <div className="dashboard-post">
+        <div className="dashboard-post scale-up-center">
           <div className="post-from-detail">
             <div className="post-control">
               <label htmlFor={cStatus._id}>
@@ -313,8 +316,9 @@ class DashBoardStatusWrapper extends React.Component {
 
 
 
+
                   React
-</span>
+                                </span>
               </div>
               <div className="reactions-list">
                 <div className="a-reaction" />

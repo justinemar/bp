@@ -1,53 +1,55 @@
 import React from 'react';
-import DashBoardStatusWrapper from '../../Status/DashBoardStatusWrapper.jsx';
-import DashBoardPostLayout from '../../Status/DashBoardPostLayout.jsx';
 import openSocket from 'socket.io-client';
+import DashBoardStatusWrapper from '../../Status/DashBoardStatusWrapper';
+import StatusPlaceHolder from '../../LoadingPlaceholder/StatusPlaceHolder';
+
 const socket = openSocket('/');
 
-class Feed extends React.Component{
-    constructor(){
+class Feed extends React.Component {
+    constructor() {
         super();
         this.state = {
             userPosts: null,
-        }
+        };
     }
-    
-    requestController = new AbortController();
-    componentDidUpdate(prevProps){
-        if(prevProps.match.params.user_id !== this.props.match.params.user_id){
-            this.fetchPost();
-        } else if(prevProps.user.photoURL !== this.props.user.photoURL){
-            this.fetchPost();
-        }
-    }
-    
 
-     subscribeEvents(){
+    requestController = new AbortController();
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.match.params.user_id !== this.props.match.params.user_id) {
+            this.fetchPost();
+        } else if (prevProps.user.photoURL !== this.props.user.photoURL) {
+            this.fetchPost();
+        }
+    }
+
+
+     subscribeEvents() {
         socket.on('statusDelete', (data) => {
             const state = this.state.userPosts;
             const filtered = state.filter(obj => obj._id !== data[0]._id);
             this.setState({
-                userPosts: filtered
+                userPosts: filtered,
             });
         });
 
-        
+
         socket.on('statusComment', (data) => {
-            let mutator = JSON.parse(JSON.stringify(this.state.userPosts));
-            console.log(mutator.filter(i => i._id === data.status_id)[0].post_comments)
-            mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data)
+            const mutator = JSON.parse(JSON.stringify(this.state.userPosts));
+            console.log(mutator.filter(i => i._id === data.status_id)[0].post_comments);
+            mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data);
             this.setState({
-                userPosts: mutator
-            })  
+                userPosts: mutator,
+            });
         });
     }
 
-    componentDidMount(){
+    componentDidMount() {
       this.subscribeEvents();
       this.fetchPost();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.requestController.abort();
         socket.off('statusComment');
         socket.off('statusDelete');
@@ -59,37 +61,35 @@ class Feed extends React.Component{
             credentials: 'same-origin',
             signal: this.requestController.signal,
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.props.Auth.getToken()
-            }
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${this.props.Auth.getToken()}`,
+            },
         })
         .then(res => res.json())
-        .then(res => {
-            if(res.code === 401){
+        .then((res) => {
+            if (res.code === 401) {
                 this.props.timeOut(res);
                 return;
             }
             this.setState({
-                userPosts: res.data
-            })
+                userPosts: res.data,
+            });
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
 
 
-    render(){
+    render() {
         const { userPosts } = this.state;
-        const owned_post = userPosts ? 
-            userPosts.map((cStatus, index) => {
-                return (
-                    <DashBoardStatusWrapper key={cStatus._id} {...this.props} util={this.props.Auth} cStatus={cStatus} user={this.props.user}/>  
-                )  
-            }) : <DashBoardPostLayout/>;
+        const owned_post = userPosts
+            ? userPosts.map((cStatus, index) => (
+              <DashBoardStatusWrapper key={cStatus._id} {...this.props} util={this.props.Auth} cStatus={cStatus} user={this.props.user} />
+                )) : <StatusPlaceHolder />;
         return (
-            <div>
-               {owned_post}
-            </div>
-        )
+          <div>
+            {owned_post}
+          </div>
+        );
     }
 }
 

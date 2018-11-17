@@ -8,6 +8,7 @@ class GroupsWizard extends React.Component {
       super();
       this.state = {
         groupLogo: '',
+        logoData: null,
       };
     }
 
@@ -15,25 +16,23 @@ class GroupsWizard extends React.Component {
       const image = URL.createObjectURL(this.logo.files[0]);
       this.setState({
         groupLogo: image,
+        logoData: this.logo.files[0],
       });
     }
 
    createGroup = () => {
-     const { groupLogo } = this.state;
-     const { Auth, user } = this.props;
+     const { user } = this.props;
+     const { logoData } = this.state;
+     const formData = new FormData();
+     formData.append('uid', user.id);
+     formData.append('logo', logoData);
+     formData.append('description', this.desc.value);
+     formData.append('name', this.name.value);
+     formData.append('public', this.public.checked);
      fetch('/groups', {
         method: 'POST',
         credentials: 'same-origin',
-        body: JSON.stringify({
-          uid: user.id,
-          logo: groupLogo,
-          description: this.desc.value,
-          name: this.name.value,
-          public: this.public.checked,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        body: formData,
       })
       .then((res) => {
           if (res.code === 200) {

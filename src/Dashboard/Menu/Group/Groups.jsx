@@ -9,7 +9,7 @@ class Groups extends React.Component {
     render() {
         const { group, user } = this.props;
         return (
-          <div className="a-group">
+          <div className="a-group scale-up-hor-center">
             <img className="group-logo" src={`${group.logo}`} />
             <div className="group-info">
               <div className="info-basic">
@@ -26,7 +26,7 @@ class Groups extends React.Component {
               </div>
             </div>
             <div className="group-join">
-              <GroupControl group={group} user={user} />
+              <GroupControl group={group} user={user} {...this.props} />
 
             </div>
           </div>

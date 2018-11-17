@@ -74,11 +74,11 @@ class MenuGroups extends React.Component {
 
     render() {
         const { groups, filter } = this.state;
-        const { user, history } = this.props;
+        const { user, history, match } = this.props;
         // eslint-disable-next-line arrow-body-style
         const renderGroups = groups && groups.length > 0 ? groups.map((group) => {
           return (
-            <Groups user={user} group={group} />
+            <Groups user={user} group={group} history={history} match={match} />
           );
         }) : 'Nothing to see here';
         return (

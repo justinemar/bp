@@ -6,6 +6,6 @@ const comment = require('../controller/CommentController');
 const Middleware = require('../utils/middlewares');
 
 
-router.post('/', Middleware.verifyToken, comment.new);
+router.post('/', comment.new);
 
 module.exports = router;

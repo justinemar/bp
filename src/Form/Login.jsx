@@ -1,6 +1,7 @@
 import React from 'react';
 import AuthService from '../utils/authService';
-
+import openSocket from 'socket.io-client';
+const socket = openSocket('/')
 
 
 
@@ -23,7 +24,7 @@ class Login extends React.Component {
         e.preventDefault();
         this.Auth.login(this.email.value, this.password.value)
             .then(res => {
-                console.log(res)
+                socket.emit('authed', this.Auth.getProfile(res));
                 this.props.history.push('/dashboard');
             })
             .catch(err => {

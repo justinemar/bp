@@ -40,6 +40,10 @@ const AccountSchema = new Schema({
     title: {
         type: String,
         default: 'Unranked'
+    },
+    online: {
+        type: Boolean,
+        default: false
     }
 });
 

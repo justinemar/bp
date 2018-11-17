@@ -5,7 +5,7 @@ const AccountHelper = require('../lib');
 const Account = require('../../models/Account');
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage }).fields([{ name: 'photo', maxCount: 1 }, { name: 'cover', maxCount: 1 }]);
+const upload = multer({ storage }).fields([{ name: 'logo', maxCount: 1 }, { name: 'photo', maxCount: 1 }, { name: 'cover', maxCount: 1 }]);
 const uploadArray = multer({ storage }).array('image', 12);
 require('dotenv').config();
 
@@ -100,23 +100,6 @@ module.exports = {
                     type: 'error',
                 });
             } else {
-                next();
-            }
-        });
-    },
-
-    verifyToken: (req, res, next) => {
-        const token = req.headers.authorization.slice(7 - req.headers.authorization.length);
-        jwt.verify(token, process.env.KEY1, (err, decoded) => {
-            if (err) {
-                res.status(401).json({
-                    message: 'Your session has expired, please login to continue where you left off',
-                    type: 'error',
-                    code: 401,
-                });
-            }
-
-            if (decoded) {
                 next();
             }
         });
