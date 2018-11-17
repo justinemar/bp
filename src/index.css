@@ -1,5 +1,6 @@
 html, body{
     overflow: hidden;
+    font-family: Segoe UI,Helvetica Neue,Helvetica,Arial,sans-serif;
 }
 
 * {
@@ -84,4 +85,8 @@ h1{
 
 .input-success{
     box-shadow: 0px 1px 1px 0px #3c763d;
+}
+
+* {
+    font-family: inherit;
 }

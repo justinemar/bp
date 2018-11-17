@@ -14,14 +14,6 @@
 }
 
 
-.panel-head h1{
-    color: black;
-    max-width: 380px;
-    font-size: 18px;
-    word-break: break-all;
-}
-
-
 .panel-head .category-list{
     vertical-align: middle;
     font-family: Segoe UI;

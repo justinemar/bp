@@ -86,7 +86,7 @@ const PageNumbers = ({articles, properties, pageNumbers, handleClick}) => {
     return renderPageNumbers;
 }
 
-class Home extends React.Component{
+class Discover extends React.Component{
     constructor(){
         super();
         this.state = {
@@ -191,4 +191,4 @@ class Home extends React.Component{
 }
 
 
-export default Home;
+export default Discover;

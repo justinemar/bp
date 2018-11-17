@@ -1,99 +1,126 @@
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
 import AuthService from './authService';
 
+const socket = openSocket('/');
 
-
-
-const DashBoardTimeOut = ({validation, initLogout}) => {
-    return (
-        <div>
-        { validation.code === 401 ? 
-                <div className="dashboard-timeout">
-                    <div className="dashboard-timeout-content">
-                            <h1> {validation.message} </h1>
-                            <button onClick={() => initLogout()}> Login to continue </button>
-                    </div>
-                </div> : null }  
-        </div>
+const DashBoardTimeOut = ({ validation, initLogout }) => (
+  <div>
+    { validation.code === 401
+            ? (
+              <div className="dashboard-timeout">
+                <div className="dashboard-timeout-content">
+                  <h1>
+                    {validation.message}
+                  </h1>
+                  <button type="button" onClick={() => initLogout()}> Login to continue </button>
+                </div>
+              </div>
+) : null }
+  </div>
     );
-};
 
 
 export default function withAuth(AuthComponent) {
-
     const Auth = new AuthService();
     return class AuthWrapped extends Component {
         constructor() {
             super();
             this.state = {
+                notificationClassName: 'nonactive-class',
                 user: null,
                 validation: {
                     message: null,
                     type: null,
-                    code: null
-                  }
+                    code: null,
+                  },
             };
+            this.timeOut = null;
         }
+
         componentWillMount() {
+        const { history } = this.props;
         if (!Auth.loggedIn()) {
-            this.props.history.replace('/');
-        }
-        else {
+            history.replace('/');
+        } else {
             try {
                 const profile = Auth.getProfile();
                 this.setState({
-                    user: profile
+                    user: profile,
                 });
-            }
-            catch(err){
+            } catch (err) {
                 Auth.logout();
-                this.props.history.replace('/');
+                history.replace('/');
                 }
             }
         }
-        
+
         updateUser = (token) => {
             Auth.setToken(token);
             const profile = Auth.getProfile();
             this.setState({
-                user: profile
+                user: profile,
             });
         }
-        
+
         expiredNotice = (res) => {
             this.setState({
                 validation: {
                     message: res.message,
                     type: res.type,
-                    code: res.code
-                }
+                    code: res.code,
+                },
             });
         }
 
         initLogout = () => {
-            this.props.history.push('/', Auth.logout());
+            const { history } = this.props;
+            socket.emit('deauthed', Auth.getProfile());
+            history.push('/', Auth.logout());
         }
-    
-       
+
+        removeChageNotification = () => {
+            this.setState({
+                notificationClassName: 'nonactive-class',
+            });
+            clearTimeout(this.timeOut);
+        }
+
+        dataChange = (res) => {
+            this.setState({
+                notificationClassName: 'active-class',
+                validation: {
+                    message: res.message,
+                    code: res.code,
+                    type: res.type,
+                },
+            }, res.code === 200 ? this.updateUser(res.token) : null);
+
+            this.timeOut = setTimeout(() => {
+                this.removeChageNotification();
+            }, 3000);
+        }
+
         render() {
-            if (this.state.user) {
+            const { validation, user, notificationClassName } = this.state;
+            const { history } = this.props;
+            if (user) {
                 return (
-                    <React.Fragment>
-                        <DashBoardTimeOut validation={this.state.validation} initLogout={this.initLogout} {...this.props}/>
-                        <AuthComponent logout={this.initLogout} 
-                            timeOut={this.expiredNotice} 
-                            updateUser={this.updateUser} 
-                            history={this.props.history} 
-                            user={this.state.user} 
-                            {...this.props}
-                            />
-                    </React.Fragment>
+                  <React.Fragment>
+                    <DashBoardTimeOut validation={validation} initLogout={this.initLogout} {...this.props} />
+                    <AuthComponent
+                      notificationClassName={notificationClassName}
+                      validation={validation}
+                      initLogout={this.initLogout}
+                      timeOut={this.expiredNotice}
+                      user={user}
+                      {...this.props}
+                    />
+                  </React.Fragment>
                 );
-            }
-            else {
+            } else {
                 return null;
             }
-        }        
-
+        }
     };
 }

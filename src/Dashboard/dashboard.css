@@ -10,6 +10,7 @@
     overflow-y: auto;
     overflow-x: hidden;
     margin-bottom: 130px;
+    position: relative;
 }
 
 
@@ -144,7 +145,7 @@ color: #fff;
 .dashboard-post-status-opt{
     width: 100%;
     height: 50px;
-    background: #2b303b;
+    background: #2f3541;
 }
 
 .post-details{
@@ -193,8 +194,7 @@ color: #fff;
     height: 40px;
     margin-right: 20px;
     margin-top: 5px;
-    background-image: url(https://www.fakepersongenerator.com/Face/male/male1085599608124.jpg);
-    background-size: contain;
+    background-size: cover;
     border-radius: 50%;
 }
 

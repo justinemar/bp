@@ -6,8 +6,8 @@ const Middleware = require("../utils/middlewares");
 
 
 login.route('/')
-    .post(Middleware.checkUserStatus) 
+    .post(Middleware.checkUserStatus)
     .post(account.user_login)
 
 
-    module.exports = login;
+module.exports = login;
