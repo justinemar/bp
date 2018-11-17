@@ -71,8 +71,9 @@ function MemberButton({ callToAction, goLounge }) {
 
     render() {
       const { group, user } = this.props;
+      console.log(group.members.filter(member => member.identity._id === user.id));
       let button;
-      if (group.owner._id === user.id || group.members.filter(member => member._id === user.id).length > 0) {
+      if (group.members.filter(member => member.identity._id === user.id).length > 0) {
             button = <MemberButton goLounge={this.groupLounge} callToAction={this.leaveGroup} />;
       } else {
             button = <JoinGroup callToAction={this.joinGroup} />;

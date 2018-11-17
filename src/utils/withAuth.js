@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import openSocket from 'socket.io-client';
 import AuthService from './authService';
 
+const socket = openSocket('/');
 
 const DashBoardTimeOut = ({ validation, initLogout }) => (
   <div>
@@ -73,6 +75,7 @@ export default function withAuth(AuthComponent) {
 
         initLogout = () => {
             const { history } = this.props;
+            socket.emit('deauthed', Auth.getProfile());
             history.push('/', Auth.logout());
         }
 
