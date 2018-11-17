@@ -3,6 +3,7 @@
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import openSocket from 'socket.io-client';
+import { Link } from 'react-router-dom';
 import LoungePlaceHolder from '../../LoadingPlaceholder/LoungePlaceHolder';
 import PostForm from '../../PostForm';
 import AuthService from '../../../utils/authService';
@@ -113,7 +114,9 @@ class GroupLounge extends React.Component {
       const members = loungeData && loungeData !== null ? loungeData.members.map(member => (
         <div className="user-info slide-in-fwd-center">
           <div className={member.identity.online ? 'user-status-online' : 'user-status-offline'}>
-            <div className="user-icon" style={{ backgroundImage: `url(${member.identity.photo_url})` }} />
+            <Link to={`/dashboard/${member.identity._id}`} replace>
+              <div className="user-icon" style={{ backgroundImage: `url(${member.identity.photo_url})` }} />
+            </Link>
           </div>
           <span className="user-name">{member.identity.display_name}
             {member.role === 'Owner'
