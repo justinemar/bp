@@ -12,7 +12,7 @@ class Tab extends React.Component {
                   customIcon
                   tabText="Dashboard"
                   tabIcon="https://res.cloudinary.com/dhwgznjct/image/upload/v1539845434/bida_hexo8o.png"
-                  tabFor="/dashboard"
+                  tabFor="/dashboard/discover"
                   tabToggle={toggleTab}
                   {...this.props}
                 />
