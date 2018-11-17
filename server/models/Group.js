@@ -12,14 +12,16 @@ const GroupSchema = new Schema({
         type: String,
         default: 'Tell more about your group..',
     },
-    owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'Account',
-        required: true,
-    },
     members: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Account',
+        identity: {
+            type: Schema.Types.ObjectId,
+            ref: 'Account',
+        },
+        role: {
+            type: String,
+            default: 'Member',
+        },
+        _id: false,
     }],
     logo: {
         default: 'https://res.cloudinary.com/dhwgznjct/image/upload/v1541439035/defaultlogo_ah1zw3.png',
