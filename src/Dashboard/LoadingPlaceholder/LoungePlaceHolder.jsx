@@ -14,6 +14,7 @@ function LoungePlaceHolder() {
           <h2 />
           <span />
           <div className="user-info" />
+          <h2 />
           <span />
           <div className="user-info" />
           <span />
