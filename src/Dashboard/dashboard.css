@@ -453,6 +453,7 @@ color: #fff;
     padding: 5px;
     border-radius: 10px;
     font-family: 'Segoe UI';
+    word-break: break-all;
 }
 
 .post-comment-info p{
