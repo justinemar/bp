@@ -293,6 +293,8 @@
     background: grey;
     border-radius: 100%;
     background-size: cover;
+    cursor: pointer;
+
 }
 
 
