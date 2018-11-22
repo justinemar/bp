@@ -62,7 +62,7 @@ h1{
 }
 
 .error{
-    background: red;
+    background: #ec0f0f;
     width: 100%;
     padding: 5px;
     display: block;
