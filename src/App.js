@@ -9,7 +9,6 @@ import { Route, Switch } from 'react-router-dom';
 import RootPage from './Root';
 import Dashboard from './Dashboard';
 import Verify from './Verify';
-import Resend from './Resend';
 
 fontawesome.library.add(faSearchengin, faTimes, faBars, faAngleDoubleLeft, faCrown, faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faSlidersH, faBell, faFistRaised, faEllipsisH);
 class App extends React.Component {
@@ -19,7 +18,6 @@ class App extends React.Component {
             <Switch>
               <Route exact path="/" render={props => <RootPage {...props} />} />
               <Route path="/verifyEmail/:token" render={props => <Verify {...props} />} />
-              <Route path="/resend/:email" render={props => <Resend {...props} />} />
               <Route path="/dashboard" render={props => <Dashboard {...props} />} />
             </Switch>
           </div>
