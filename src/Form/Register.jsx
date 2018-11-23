@@ -1,14 +1,18 @@
+/* eslint-disable no-param-reassign */
 import React from 'react';
+import Spinner from '../utils/spinner';
 
 
 const Errors = ({ errors }) => Object.values(errors).map((val) => {
-        if (val !== null) {
+    console.log(val);
+        if (val === null || val === undefined) {
+            console.log(val, val === null);
+            return null;
+        }
             return (
               <p className="error">
                 {val}
               </p>);
-        }
-            return null;
     });
 
 
@@ -23,25 +27,28 @@ class Register extends React.Component {
                 password: null,
                 passwordConfirm: null,
             },
+            hasError: false,
             network: {
                 response: null,
                 type: null,
             },
+            loading: false,
         };
     }
 
-    register = (e) => {
+    register = async (e) => {
         e.preventDefault();
-        if (this.emptyFields().length > 0) {
-            this.setState(previousState => ({
-                errors: {
-                    ...previousState.errors,
-                    inputErr: 'Missing informations!',
-                },
-            }));
+        const { hasError } = this.state;
+        this.setState({
+            loading: true,
+        });
+
+        if (this.emptyFields().length > 0 || hasError) {
+            this.setState({
+                loading: false,
+            });
             return;
         }
-
 
         fetch('/register', {
             method: 'POST',
@@ -61,81 +68,112 @@ class Register extends React.Component {
                         response: res.message,
                         type: res.type,
                     },
+                    loading: false,
                 });
             });
     }
 
 
-    toggleClass = (error, target) => {
-        if (error) {
-            target.className = 'input-error';
-            return;
-        }
+    toggleClass = (error, elems) => {
+        elems.map((input) => {
+            if (error !== null) {
+                input.className = 'input-error';
+                this.setState({
+                    hasError: true,
+                });
+                return;
+            }
 
-        target.className = 'input-success';
+            input.className = 'input-success';
+        });
     }
 
 
     validateInput = (e) => {
+        const {
+        errors: {
+                email, password, passwordConfirm, displayName,
+            },
+        } = this.state;
+        // eslint-disable-next-line one-var
+        let emailError = email;
+        let passwordError = password;
+        let passwordConfirmError = passwordConfirm;
+        let displayNameError = displayName;
+        let passwordMatch;
         // empty fields error
-        let input_error = this.emptyFields();
-        const refs = [this.email, this.display_name, this.password, this.password_confirm];
-        let emailError = this.state.errors.email;
-        let passwordError = this.state.errors.password;
-        let passwordConfirmError = this.state.errors.passwordConfirm;
-        let displayNameError = this.state.errors.displayName;
-        const passwordConfirmValid = this.password_confirm.value === this.password.value;
-        passwordConfirmError = passwordConfirmValid ? null : 'Password do not match.';
-        this.toggleClass(passwordConfirmError, this.password_confirm);
-
+        const emptyFieldsError = this.emptyFields();
 
         // Validate values
         switch (e.target) {
-            case this.email:
+            case this.password_confirm: {
+                 passwordMatch = this.password_confirm.value === this.password.value;
+                 passwordConfirmError = passwordMatch ? null : 'Password do not match.';
+                 this.toggleClass(passwordConfirmError, [this.password, this.password_confirm]);
+                 break;
+            }
+            case this.email: {
                 const emailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email.value);
                 emailError = emailValid ? null : 'Invalid email address.';
-                this.toggleClass(emailError, this.email);
+                this.toggleClass(emailError, [this.email]);
                 break;
-            case this.password:
+            }
+            case this.password: {
                 const passwordValid = /^(?=.*\d).{8,}$/.test(this.password.value);
+                passwordMatch = this.password_confirm.value === this.password.value;
                 passwordError = passwordValid ? null : 'Password must be at least 8 characters long and must contain at least 1 digit.';
-                this.toggleClass(passwordError, this.password);
-                break;
-            case this.display_name:
+                passwordConfirmError = passwordMatch ? null : 'Password do not match.';
+                this.toggleClass(passwordConfirmError, [this.password, this.password_confirm]);
+                   break;
+            }
+            case this.display_name: {
                 displayNameError = /^[a-zA-Z0-9_]*$/.test(this.display_name.value) ? null : 'Usernames may only contain letters, numbers, and _.';
-                this.toggleClass(displayNameError, this.display_name);
-                input_error = this.emptyFields();
-            default:
+                this.toggleClass(displayNameError, [this.display_name]);
                 break;
+            }
+            default: {
+                break;
+            }
         }
-
-        this.setState({
+        this.setState(previousState => ({
             errors: {
-                inputErr: input_error.length > 0 ? 'Missing informations!' : null,
+                ...previousState.errors,
+                inputErr: emptyFieldsError.length > 0 ? 'Missing informations!' : null,
                 email: emailError,
                 password: passwordError,
                 passwordConfirm: passwordConfirmError,
                 displayName: displayNameError,
             },
-        });
+        }));
     }
 
     emptyFields() {
         const refs = [this.email, this.display_name, this.password, this.password_confirm];
-        let error = null;
         const empty = refs.filter((input) => {
             if (input.value === '') {
-                error = true;
-                this.toggleClass(error, input);
+                this.setState(
+                prevState => ({
+                    errors: {
+                        ...prevState.errors,
+                        inputErr: 'Missing Informations!',
+                    },
+                    hasError: true,
+                }),
+                );
+                this.toggleClass(true, [input]);
                 return input;
             }
+        });
+
+        this.setState({
+            hasError: false,
         });
         return empty;
     }
 
     render() {
         const { toggleForm, textNode } = this.props;
-        const { network, errors } = this.state;
+        const { network, errors, loading } = this.state;
         return (
           <form onSubmit={this.register}>
             <div className="root-form-actions">
@@ -153,7 +191,7 @@ class Register extends React.Component {
               </div>
               <div className="clear-both" />
             </div>
-            <button>Create Account </button>
+            <button><Spinner fetchInProgress={loading} defaultRender="Register" /></button>
             <h2 onClick={toggleForm}>
               {' '}
               {textNode}

@@ -2,9 +2,9 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
+import Spinner from '../utils/spinner';
 
 const socket = openSocket('/');
-
 
 class Login extends React.Component {
     constructor(props) {
@@ -15,6 +15,7 @@ class Login extends React.Component {
                 type: '',
                 code: '',
             },
+            loading: false,
         };
         this.Auth = new AuthService();
     }
@@ -22,6 +23,9 @@ class Login extends React.Component {
 
     login = (e) => {
         e.preventDefault();
+        this.setState({
+            loading: true,
+        });
         this.Auth.login(this.email.value, this.password.value)
             .then((res) => {
                 socket.emit('authed', this.Auth.getProfile(res));
@@ -35,11 +39,15 @@ class Login extends React.Component {
                         code: err.code,
                         requireVerify: err.requireVerify,
                     },
+                    loading: false,
                 });
             });
     }
 
     sendVerification = () => {
+        this.setState({
+            loading: true,
+        });
          this.Auth.verifyEmail(this.email.value)
         .then((res) => {
             this.setState({
@@ -48,6 +56,7 @@ class Login extends React.Component {
                     type: res.type,
                     code: res.code,
                },
+               loading: false,
             });
         })
         .catch((err) => {
@@ -57,13 +66,14 @@ class Login extends React.Component {
                     type: err.type,
                     code: err.code,
                 },
+                loading: false,
             });
         });
     }
 
     render() {
         const { toggleForm, textNode } = this.props;
-        const { validation } = this.state;
+        const { validation, loading } = this.state;
         return (
           <form onSubmit={this.login}>
             <div className="root-form-actions">
@@ -94,7 +104,7 @@ class Login extends React.Component {
               </div>
               <div className="clear-both" />
             </div>
-            <button>Login</button>
+            <button><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
             <h2 onClick={toggleForm}>
               {' '}
               {textNode}
