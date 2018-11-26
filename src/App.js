@@ -1,25 +1,22 @@
 import React from 'react';
 import fontawesome from '@fortawesome/fontawesome';
-import brands from '@fortawesome/fontawesome-free-brands';
+import { faSearchengin } from '@fortawesome/fontawesome-free-brands';
 import {
  faSignOutAlt, faEllipsisH, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper,
- faSlidersH, faBell, faFistRaised, faCrown, faAngleDoubleLeft,
+ faSlidersH, faBell, faFistRaised, faCrown, faAngleDoubleLeft, faBars, faTimes, faSpinner,
+ faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import { Route, Switch } from 'react-router-dom';
 import RootPage from './Root';
 import Dashboard from './Dashboard';
-import Verify from './Verify';
-import Resend from './Resend';
 
-fontawesome.library.add(faAngleDoubleLeft, faCrown, faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faSlidersH, faBell, faFistRaised, faEllipsisH, brands);
+fontawesome.library.add(faTimesCircle, faSpinner, faSearchengin, faTimes, faBars, faAngleDoubleLeft, faCrown, faSignOutAlt, faPlay, faEye, faSave, faBan, faEdit, faImage, faNewspaper, faSlidersH, faBell, faFistRaised, faEllipsisH);
 class App extends React.Component {
     render() {
         return (
           <div>
             <Switch>
               <Route exact path="/" render={props => <RootPage {...props} />} />
-              <Route path="/verifyEmail/:token" render={props => <Verify {...props} />} />
-              <Route path="/resend/:email" render={props => <Resend {...props} />} />
               <Route path="/dashboard" render={props => <Dashboard {...props} />} />
             </Switch>
           </div>

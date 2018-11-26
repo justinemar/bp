@@ -221,32 +221,3 @@
     background-size: contain;
     background-position: center;
 }
-@media only screen and (max-width: 850px){
-    .dashboard-menu{
-        display: none;
-    }
-    .dashboard-notification{
-        display: none;
-    }
-    .profile-control{
-        justify-content: center;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    /* .profile-cover-image{
-        height: 220px;
-    }
-    .profile-control{
-        justify-content: center;
-    }
-    .profile-menu-general ul li, .profile-user-stats ul li{
-        height: 33px;
-    } */
-    .dashboard-menu{
-        display: none;
-    }
-    .dashboard-notification{
-        display: none;
-    }
-}

@@ -2,11 +2,11 @@
 /* eslint-disable object-curly-newline */
 const DataUri = require('datauri');
 const cloudinary = require('cloudinary');
-const Group = require('../models/Group');
-const Post = require('../models/UserPost');
-const Photo = require('../models/Photo');
+const Group = require('../models/group');
+const Post = require('../models/post');
+const Photo = require('../models/photo');
 
-require('../utils/lib/config');
+require('../helpers/config');
 
 module.exports = {
     createGroup: (req, res) => {

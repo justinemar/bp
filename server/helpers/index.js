@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Account = require('../../models/Account');
+const Account = require('../models/account');
 require('dotenv').config();
 
 

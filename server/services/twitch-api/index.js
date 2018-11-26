@@ -1,11 +1,11 @@
 const express = require('express');
 
 const router = express.Router();
-const user = require('../controller/user');
+const twitch = require('./twitch');
 
 
 router.route('/')
-    .post(user.login);
+.get(twitch.getStreams);
 
 
 module.exports = router;

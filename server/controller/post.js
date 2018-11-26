@@ -2,11 +2,11 @@
 /* eslint-disable guard-for-in */
 const cloudinary = require('cloudinary');
 const DataUri = require('datauri');
-const Post = require('../models/UserPost');
-const Photo = require('../models/Photo');
+const Post = require('../models/post');
+const Photo = require('../models/photo');
 
 /* LOAD CONFIG */
-require('../utils/lib/config').cloudinary;
+require('../helpers/config').cloudinary;
 
 
 module.exports = {

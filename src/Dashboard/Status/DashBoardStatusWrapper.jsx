@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
 import moment from 'moment';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
@@ -18,17 +19,13 @@ const DeleteConfirmModal = ({
       <div className="modal-opt">
         <div className="modal-delete-btn">
           <button type="button" onClick={() => initDelete(data)}>
-
-
             Delete
-                    </button>
+          </button>
         </div>
         <div className="modal-cancel-btn">
           <button type="button" onClick={toggleModal}>
-
-
             Cancel
-                    </button>
+          </button>
         </div>
       </div>
     </div>
@@ -46,20 +43,18 @@ const PostControl = ({
 }) => (
   <div>
     {isVisible ? (
-        <div className="control-btn">
-          <button
-            type="button"
-            onClick={() => props.handleStatusTab(currentStatus)}
-          >
-
-
+      <div className="control-btn">
+        <button
+          type="button"
+          onClick={() => props.handleStatusTab(currentStatus)}
+        >
             Open in tab
-                    </button>
-          {currentStatus.post_by._id === util.getProfile().id ? (
-            <button type="button" onClick={toggleModal}>Delete</button>
+        </button>
+        {currentStatus.post_by._id === util.getProfile().id ? (
+          <button type="button" onClick={toggleModal}>Delete</button>
           ) : null}
-          <button type="button">Report</button>
-        </div>
+        <button type="button">Report</button>
+      </div>
       ) : null}
   </div>
   );
@@ -176,7 +171,7 @@ class DashBoardStatusWrapper extends React.Component {
             return;
           }
           const getComment = res.data.post_comments[res.data.post_comments.length - 1];
-          getComment.status_id = res.data._id;
+          getComment._id = res.data._id;
           socket.emit('statusComment', getComment);
         })
         .catch(err => console.log(err));
@@ -211,7 +206,7 @@ class DashBoardStatusWrapper extends React.Component {
 
   handleStatusTab = (status) => {
     const { history } = this.props;
-    history.push(`/${status.post_by._id}/status/${status._id}`);
+    history.push(`/${status.post_by._id}/post/${status._id}`);
   };
 
   handleDelete = (data) => {
@@ -220,7 +215,7 @@ class DashBoardStatusWrapper extends React.Component {
     // we get the actual id stored in the token.
     const userID = util.getProfile.id;
     const statusID = data._id;
-    fetch(`/status/${statusID}`, {
+    fetch(`/post/${statusID}`, {
       method: 'Delete',
       credentials: 'same-origin',
       body: JSON.stringify({ userID, statusID }),
@@ -315,10 +310,8 @@ class DashBoardStatusWrapper extends React.Component {
                 <span className="right" id="post-init-react">
 
 
-
-
                   React
-                                </span>
+                </span>
               </div>
               <div className="reactions-list">
                 <div className="a-reaction" />

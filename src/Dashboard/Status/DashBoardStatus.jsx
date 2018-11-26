@@ -1,7 +1,8 @@
+/* eslint-disable func-names */
 import React from 'react';
 import openSocket from 'socket.io-client';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import StatusPlaceHolder from '../LoadingPlaceholder/StatusPlaceHolder';
+import StatusPlaceHolder from '../LoadingPlaceholders/StatusPlaceHolder';
 import DashBoardStatusWrapper from './DashBoardStatusWrapper';
 
 const socket = openSocket('/');
@@ -18,7 +19,19 @@ class DashBoardStatus extends React.Component {
 
   componentDidMount() {
     this.getStatus();
-    this.subscribeEvents();
+    socket.on('statusDelete', (data) => {
+      this.setState(
+        prevState => ({
+          getStatus: prevState.getStatus.filter(obj => obj._id !== data._id),
+        }),
+      );
+    });
+
+    socket.on('statusInit', (data) => {
+      this.setState(prevState => ({
+        getStatus: [data, ...prevState.getStatus],
+      }));
+    });
   }
 
   componentWillUnmount() {
@@ -32,7 +45,7 @@ class DashBoardStatus extends React.Component {
     const { getStatus } = this.state;
     const { util, timeOut } = this.props;
     util
-      .fetch(`/status?page=${getStatus.length}&limit=3`, {
+      .fetch(`/post?page=${getStatus.length}&limit=3`, {
         method: 'GET',
         credentials: 'same-origin',
         signal: this.requestController.signal,
@@ -46,34 +59,19 @@ class DashBoardStatus extends React.Component {
         this.setState({
           getStatus: [...getStatus, ...res.data],
           more: res.data.length !== 0,
-        });
+        }, () => this.subscribeEvents());
       })
       .catch(err => console.log(err));
   };
 
   subscribeEvents = () => {
-    const { getStatus } = this.state;
-    socket.on('statusDelete', (data) => {
-      console.log(data);
-      const state = getStatus;
-      const filtered = state.filter(obj => obj._id !== data._id);
-      this.setState({
-        getStatus: filtered,
-      });
-    });
-
     socket.on('statusComment', (data) => {
-      const mutator = JSON.parse(JSON.stringify(getStatus));
-      mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data);
+      const { getStatus } = this.state;
+      const statusCopy = JSON.parse(JSON.stringify(getStatus));
+      statusCopy.filter(status => status._id === data._id)[0].post_comments.push(data);
       this.setState({
-        getStatus: mutator,
+        getStatus: statusCopy,
       });
-    });
-
-    socket.on('statusInit', (data) => {
-      this.setState(prevState => ({
-        getStatus: [data, ...prevState.getStatus],
-      }));
     });
   };
 

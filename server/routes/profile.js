@@ -1,14 +1,14 @@
 const express = require('express');
 
-const profile = express.Router();
-const account = require('../controller/AccountController');
-const Middleware = require('../utils/middlewares');
+const router = express.Router();
+const user = require('../controller/user');
+const middleware = require('../middlewares');
 
 
-profile.route('/:id')
-  .all(Middleware.upload)
-  .get(account.user_get)
-  .put(account.user_update_setting)
-  .post(account.user_update_profile);
+router.route('/:id')
+  .all(middleware.upload)
+  .get(user.getUser)
+  .put(user.updateSetting)
+  .post(user.updateProfile);
 
-module.exports = profile;
+module.exports = router;

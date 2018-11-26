@@ -1,8 +1,8 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 import AuthService from '../../utils/authService';
-import DashBoardStatus from './DashBoardStatus.jsx';
-import PostForm from '../PostForm';
+import DashBoardStatus from './DashBoardStatus';
+import PostForm from '../../Shared/PostForm';
 
 const socket = openSocket('/');
 
@@ -33,7 +33,7 @@ class DashBoardStatusContainer extends React.Component {
         ImagesData.forEach((i) => {
             formData.append('image', i);
         });
-        this.Auth.fetch('/status', {
+        this.Auth.fetch('/post', {
             method: 'POST',
             credentials: 'same-origin',
             body: formData,

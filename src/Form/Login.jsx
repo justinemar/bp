@@ -1,77 +1,100 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React from 'react';
-import AuthService from '../utils/authService';
 import openSocket from 'socket.io-client';
-const socket = openSocket('/')
+import AuthService from '../utils/authService';
+import Spinner from '../Shared/Spinner';
 
-
+const socket = openSocket('/');
 
 class Login extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
             validation: {
                 response: '',
                 type: '',
-                code: ''
-            }
+                code: '',
+            },
+            loading: false,
         };
-        this.Auth = new AuthService;
+        this.Auth = new AuthService();
     }
 
 
     login = (e) => {
         e.preventDefault();
+        this.setState({
+            loading: true,
+        });
         this.Auth.login(this.email.value, this.password.value)
-            .then(res => {
+            .then((res) => {
                 socket.emit('authed', this.Auth.getProfile(res));
                 this.props.history.push('/dashboard');
             })
-            .catch(err => {
+            .catch((err) => {
                 this.setState({
                     validation: {
                         response: err.message,
                         type: err.type,
-                        code: err.code
-                    }
+                        code: err.code,
+                    },
+                    loading: false,
                 });
             });
     }
 
+    sendVerification = () => {
+        this.setState({
+            loading: true,
+        });
+         this.Auth.verifyEmail(this.email.value)
+        .then((res) => {
+            this.setState({
+                validation: {
+                    response: res.message,
+                    type: res.type,
+                    code: res.code,
+               },
+               loading: false,
+            });
+        })
+        .catch((err) => {
+            this.setState({
+                validation: {
+                    response: err.message,
+                    type: err.type,
+                    code: err.code,
+                },
+                loading: false,
+            });
+        });
+    }
+
     render() {
         const { toggleForm, textNode } = this.props;
-        const { validation } = this.state;
+        const { validation, loading } = this.state;
         return (
-            <form onSubmit={this.login}>
-                <div class="root-form-actions">
-                    <div class="root-form-header">
-                        <h2> Login </h2>
-                    </div>
-                    <div class="root-form-inputs">
-                        {validation.code === 403 ?
-                            <span class={validation.type}>{validation.response} <button onClick={() => this.props.history.push(`/resend/${this.email.value}`)}>Resend</button></span> :
-                            <span class={validation.type}>{validation.response}</span>}
-                        <input type="email" ref={(input) => this.email = input} name="email" placeholder="Email address" />
-                        <input type="password" ref={(input) => this.password = input} name="password" placeholder="Password" />
-                    </div>
-                    <div class="clear-both">
-                    </div>
-                </div>
-                <button>Login</button>
-                <h2 onClick={toggleForm}> {textNode} </h2>
-            </form>
+          <form onSubmit={this.login}>
+            <div className="root-form-actions">
+              <div className="root-form-header">
+                <h2> Login </h2>
+              </div>
+              <div className="root-form-inputs">
+                <span className={validation.type}>{validation.response}</span>
+                <input type="email" ref={input => this.email = input} name="email" placeholder="Email address" />
+                <input type="password" ref={input => this.password = input} name="password" placeholder="Password" />
+              </div>
+              <div className="clear-both" />
+            </div>
+            <button><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
+            <h2 onClick={toggleForm}>
+              {' '}
+              {textNode}
+              {' '}
+            </h2>
+          </form>
         );
     }
-}
-
-const Validation = (validation, resend) => {
-    return (
-        <React.Fragment>
-            {validation.code === 403 ?
-                <span class={validation.type}>{validation.response} Resend</span> :
-                <span class={validation.type}>{validation.response}</span>}
-        </React.Fragment>
-    )
 }
 
 export default Login;

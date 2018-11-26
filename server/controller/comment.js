@@ -1,4 +1,4 @@
-const Post = require('../models/UserPost');
+const Post = require('../models/post');
 
 
 module.exports = {

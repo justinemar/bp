@@ -1,20 +1,21 @@
 const express = require('express');
-const register = express.Router();
-const account = require("../controller/AccountController");
-const Middleware = require("../utils/middlewares");
+
+const router = express.Router();
+const user = require('../controller/user');
+const middleware = require('../middlewares');
 
 
-register.route('/')
-    .post(Middleware.checkUser)
-    .post(account.user_register)
-    .post(Middleware.sendVerification)
+router.route('/')
+    .post(middleware.checkUser)
+    .post(user.register)
+    .post(middleware.sendVerification);
 
 
-register.route('/verify/:token')
-    .get(Middleware.verifyEmail)
+router.route('/verify/:token')
+    .get(middleware.verifyEmail);
 
-register.route('/resend/:email')
-    .get(Middleware.sendVerification)
+router.route('/resend/:email')
+    .get(middleware.sendVerification);
 
 
-module.exports = register;
+module.exports = router;

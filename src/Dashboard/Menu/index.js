@@ -4,19 +4,19 @@ import Tab from './Tab';
 import './index.css';
 
 class DashBoardMenu extends React.Component {
-    toggleTab = e => {
+      toggleTab = (e) => {
         const { history, location } = this.props;
         history.push({
             pathname: e.currentTarget.id,
-            from: location.pathname
+            from: location.pathname,
         });
     };
 
     render() {
         return (
-            <div className="dashboard-menu">
-                <Tab toggleTab={this.toggleTab} {...this.props} />
-            </div>
+          <div className="dashboard-menu">
+            <Tab toggleTab={this.toggleTab} {...this.props} />
+          </div>
         );
     }
 }

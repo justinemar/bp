@@ -1,26 +1,26 @@
 const express = require('express');
 
-const route = express.Router();
-const group = require('../controller/GroupController');
-const Middleware = require('../utils/middlewares');
+const router = express.Router();
+const group = require('../controller/group');
+const middleware = require('../middlewares');
 
 
-route.route('/')
+router.route('/')
     .get(group.getGroups)
-    .post(Middleware.upload)
+    .post(middleware.upload)
     .post(group.createGroup);
 
-route.route('/:group')
+router.route('/:group')
     .get(group.getGroup);
 
 
-route.route('/:group/wall')
-    .all(Middleware.uploadArray)
+router.route('/:group/wall')
+    .all(middleware.uploadArray)
     .post(group.addPost);
 
-route.route('/members/:uid')
+router.route('/members/:uid')
     // .get(group.getUserGroups)
     .post(group.joinGroup)
     .delete(group.leaveGroup);
 
-module.exports = route;
+module.exports = router;

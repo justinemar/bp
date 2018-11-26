@@ -3,9 +3,11 @@
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import openSocket from 'socket.io-client';
-import LoungePlaceHolder from '../../LoadingPlaceholder/LoungePlaceHolder';
-import PostForm from '../../PostForm';
+import { Link } from 'react-router-dom';
+import LoungePlaceHolder from '../../LoadingPlaceholders/LoungePlaceHolder';
+import PostForm from '../../../Shared/PostForm';
 import AuthService from '../../../utils/authService';
+import ReturnArrow from '../../../Shared/ReturnArrow';
 
 const socket = openSocket('/');
 
@@ -113,7 +115,9 @@ class GroupLounge extends React.Component {
       const members = loungeData && loungeData !== null ? loungeData.members.map(member => (
         <div className="user-info slide-in-fwd-center">
           <div className={member.identity.online ? 'user-status-online' : 'user-status-offline'}>
-            <div className="user-icon" style={{ backgroundImage: `url(${member.identity.photo_url})` }} />
+            <Link to={`/dashboard/${member.identity._id}`} replace>
+              <div className="user-icon" style={{ backgroundImage: `url(${member.identity.photo_url})` }} />
+            </Link>
           </div>
           <span className="user-name">{member.identity.display_name}
             {member.role === 'Owner'
@@ -129,10 +133,7 @@ class GroupLounge extends React.Component {
       const loungeActive = loungeData && loungeData !== null ? (
         <div className="group-lounge">
           <div className="group-lounge-info">
-            <label htmlFor="return" className="return-label">
-              <FontAwesomeIcon icon="angle-double-left" className="return" />
-            </label>
-            <input onClick={() => history.goBack()} type="button" id="return" className="opt-none" />
+            <ReturnArrow history={history} />
             <div className="group-lounge-logo">
               <div className="logo" style={{ backgroundImage: `url(${loungeData.logo})` }} />
               <h1>{loungeData.name}</h1>

@@ -2,13 +2,13 @@
 /* eslint-disable max-len */
 const cloudinary = require('cloudinary');
 const DataUri = require('datauri');
-const Account = require('../models/Account');
-const AccountHelper = require('../utils/lib');
-require('../utils/lib/config');
+const Account = require('../models/account');
+const AccountHelper = require('../helpers');
+require('../helpers/config');
 
 
 module.exports = {
-    user_register: (req, res, next) => {
+    register: (req, res, next) => {
         const member = new Account({
             user_email: req.body.email,
             password: req.body.password,
@@ -27,7 +27,7 @@ module.exports = {
         });
     },
 
-    user_login: (req, res) => {
+    login: (req, res) => {
         Account.findOne({ user_email: req.body.email })
         .select('+password')
         .exec((err, user) => {
@@ -40,6 +40,7 @@ module.exports = {
                     email: user.user_email,
                     photoURL: user.photo_url,
                     coverURL: user.cover_url,
+                    verified: user.verified,
                 };
                 user.comparePassword(req.body.password, (err, match) => {
                     if (err) throw err;
@@ -48,12 +49,14 @@ module.exports = {
                         res.json({
                             message: 'Login successfully',
                             type: 'success',
+                            code: 200,
                             token: AccountHelper.setToken(payload),
                         });
                     } else {
                         res.json({
                             message: 'Invalid email or password',
                             type: 'error',
+                            code: 403,
                         });
                     }
                 });
@@ -61,7 +64,7 @@ module.exports = {
         });
     },
 
-    user_get: (req, res) => {
+    getUser: (req, res) => {
         Account.findOne({ _id: req.params.id },
             (err, user) => {
                 if (err) throw err;
@@ -72,7 +75,7 @@ module.exports = {
             });
         },
 
-    user_update_setting: (req, res) => {
+    updateSetting: (req, res) => {
         const { email, name } = req.body.originalKeyValue;
         if (email) {
             Account.findByIdAndUpdate({ _id: req.params.id }, { $set: { user_email: req.body.entry } })
@@ -132,7 +135,7 @@ module.exports = {
         }
     },
 
-    user_update_profile: (req, res) => {
+    updateProfile: (req, res) => {
         const uri = new DataUri();
         const asyncUpload = [];
         for (const key in req.files) {

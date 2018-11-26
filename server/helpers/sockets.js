@@ -20,7 +20,6 @@ module.exports.listen = (app) => {
                 }
 
                 if (data) {
-                    console.log(updateUser);
                     io.emit('userConnected', updateUser);
                 }
             });
@@ -41,7 +40,6 @@ module.exports.listen = (app) => {
                 }
 
                 if (data) {
-                    console.log(updateUser);
                     io.emit('userDisconnected', updateUser);
                 }
             });
