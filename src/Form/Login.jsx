@@ -2,7 +2,7 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 import AuthService from '../utils/authService';
-import Spinner from '../utils/spinner';
+import Spinner from '../Shared/Spinner';
 
 const socket = openSocket('/');
 
@@ -37,7 +37,6 @@ class Login extends React.Component {
                         response: err.message,
                         type: err.type,
                         code: err.code,
-                        requireVerify: err.requireVerify,
                     },
                     loading: false,
                 });
@@ -81,24 +80,7 @@ class Login extends React.Component {
                 <h2> Login </h2>
               </div>
               <div className="root-form-inputs">
-                {validation.requireVerify
-                            ? (
-                              <span className={validation.type}>
-                                <p>
-                                  <span>{validation.response}</span>
-                                  <span>Didn't receive your code?</span>
-                                  <button
-                                    style={{
-                                        width: '80px', background: 'transparent', fontSize: '15px', textAlign: 'left',
-                                    }}
-                                    type="button"
-                                    onClick={this.sendVerification}
-                                  ><span style={{ borderBottom: '1px solid whitesmoke' }}>Resend</span>
-                                  </button>
-                                </p>
-                              </span>
-)
-                            : <span className={validation.type}>{validation.response}</span>}
+                <span className={validation.type}>{validation.response}</span>
                 <input type="email" ref={input => this.email = input} name="email" placeholder="Email address" />
                 <input type="password" ref={input => this.password = input} name="password" placeholder="Password" />
               </div>
