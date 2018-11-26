@@ -34,7 +34,7 @@ module.exports = {
 
         res.render('verification', {
             email,
-            link: `${process.env.HOST}verify/${verificationToken}`,
+            link: `${process.env.HOST}dashboard/setting?verifyEmail=${verificationToken}`,
           }, (err, html) => {
             const mailOptions = {
               to: email,
