@@ -2,8 +2,7 @@
 const express = require('express');
 
 const router = express.Router();
-const comment = require('../controller/CommentController');
-const Middleware = require('../utils/middlewares');
+const comment = require('../controller/comment');
 
 
 router.post('/', comment.new);

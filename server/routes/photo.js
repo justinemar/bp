@@ -1,15 +1,13 @@
 const express = require('express');
 
-const photo = express.Router();
-const photoController = require('../controller/PhotoController');
-const Middleware = require('../utils/middlewares');
+const router = express.Router();
+const photo = require('../controller/photo');
 
 
-photo.route('/user/:user_id')
-    .get(photoController.get_photos);
+router.route('/user/:user_id')
+    .get(photo.get_photos);
 
-photo.route('/:photo_id');
-// .get(photoController.user_get)
+router.route('/:photo_id');
 
 
-module.exports = photo;
+module.exports = router;

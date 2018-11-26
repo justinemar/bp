@@ -1,13 +1,11 @@
 const express = require('express');
-const login = express.Router();
-const account = require("../controller/AccountController");
-const Middleware = require("../utils/middlewares");
+
+const router = express.Router();
+const user = require('../controller/user');
 
 
-
-login.route('/')
-    .post(Middleware.checkUserStatus)
-    .post(account.user_login)
+router.route('/')
+    .post(user.login);
 
 
-module.exports = login;
+module.exports = router;
