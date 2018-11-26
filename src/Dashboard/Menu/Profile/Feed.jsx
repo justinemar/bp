@@ -1,7 +1,7 @@
 import React from 'react';
 import openSocket from 'socket.io-client';
 import DashBoardStatusWrapper from '../../Status/DashBoardStatusWrapper';
-import StatusPlaceHolder from '../../LoadingPlaceholder/StatusPlaceHolder';
+import StatusPlaceHolder from '../../LoadingPlaceholders/StatusPlaceHolder';
 
 const socket = openSocket('/');
 
@@ -15,38 +15,17 @@ class Feed extends React.Component {
 
     requestController = new AbortController();
 
+    componentDidMount() {
+      this.subscribeEvents();
+      this.fetchPost();
+    }
+
     componentDidUpdate(prevProps) {
         if (prevProps.match.params.user_id !== this.props.match.params.user_id) {
             this.fetchPost();
         } else if (prevProps.user.photoURL !== this.props.user.photoURL) {
             this.fetchPost();
         }
-    }
-
-
-     subscribeEvents() {
-        socket.on('statusDelete', (data) => {
-            const state = this.state.userPosts;
-            const filtered = state.filter(obj => obj._id !== data[0]._id);
-            this.setState({
-                userPosts: filtered,
-            });
-        });
-
-
-        socket.on('statusComment', (data) => {
-            const mutator = JSON.parse(JSON.stringify(this.state.userPosts));
-            console.log(mutator.filter(i => i._id === data.status_id)[0].post_comments);
-            mutator.filter(i => i._id === data.status_id)[0].post_comments.push(data);
-            this.setState({
-                userPosts: mutator,
-            });
-        });
-    }
-
-    componentDidMount() {
-      this.subscribeEvents();
-      this.fetchPost();
     }
 
     componentWillUnmount() {
@@ -56,7 +35,7 @@ class Feed extends React.Component {
     }
 
     fetchPost = () => {
-        fetch(`/status/${this.props.match.params.user_id}`, {
+        fetch(`/post/${this.props.match.params.user_id}`, {
             method: 'GET',
             credentials: 'same-origin',
             signal: this.requestController.signal,
@@ -78,6 +57,25 @@ class Feed extends React.Component {
         .catch(err => console.log(err));
     }
 
+    subscribeEvents() {
+        socket.on('statusDelete', (data) => {
+            this.setState(
+                prevState => ({
+                    userPosts: prevState.userPosts.filter(obj => obj._id !== data._id),
+                }),
+              );
+        });
+
+
+        socket.on('statusComment', (data) => {
+            const { userPosts } = this.state;
+            const statusCopy = JSON.parse(JSON.stringify(userPosts));
+            statusCopy.filter(status => status._id === data._id)[0].post_comments.push(data);
+            this.setState({
+                userPosts: statusCopy,
+            });
+        });
+    }
 
     render() {
         const { userPosts } = this.state;
