@@ -6,6 +6,7 @@ export default class AuthService {
         this.fetch = this.fetch.bind(this); // React binding stuff
         this.login = this.login.bind(this);
         this.getProfile = this.getProfile.bind(this);
+        this.processResponse = this.processResponse.bind(this);
     }
 
     login(email, password) {
@@ -25,22 +26,6 @@ export default class AuthService {
                 return Promise.reject(res);
             }
         });
-    }
-
-    verifyEmail(email) {
-        return (
-        fetch(`/register/resend/${email}`, {
-            method: 'GET',
-        })
-        .then(res => res.json())
-        .then((res) => {
-            if (res.code === 200) {
-                return Promise.resolve(res);
-            } else {
-                return Promise.reject(res);
-            }
-        })
-        );
     }
 
     loggedIn() {
@@ -80,6 +65,14 @@ export default class AuthService {
         return decode(this.getToken());
     }
 
+    processResponse(response) {
+        const statusCode = response.status;
+        const data = response.json();
+        return Promise.all([statusCode, data]).then(res => ({
+          statusCode: res[0],
+          data: res[1],
+        }));
+      }
 
     fetch(url, options) {
         // performs api calls sending the required authentication headers
@@ -96,16 +89,5 @@ export default class AuthService {
             headers,
             ...options,
         }).then(response => response.json());
-    }
-
-    _checkStatus(response) {
-        // raises an error in case response status is not a success
-        if (response.code >= 200 && response.code < 300) { // Success status lies between 200 to 300
-            return response;
-        } else {
-            const error = new Error(response.statusText);
-            error.response = response;
-            return false;
-        }
     }
 }

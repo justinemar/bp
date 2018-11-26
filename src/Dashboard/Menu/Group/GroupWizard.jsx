@@ -2,6 +2,9 @@
 /* eslint-disable react/prefer-stateless-function */
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import ReturnArrow from '../../../Shared/ReturnArrow';
+import Spinner from '../../../Shared/Spinner';
+import AuthService from '../../../utils/authService';
 
 class GroupsWizard extends React.Component {
     constructor() {
@@ -9,7 +12,9 @@ class GroupsWizard extends React.Component {
       this.state = {
         groupLogo: '',
         logoData: null,
+        loading: false,
       };
+      this.AuthService = new AuthService();
     }
 
     setImage = () => {
@@ -21,8 +26,26 @@ class GroupsWizard extends React.Component {
     }
 
    createGroup = () => {
-     const { user } = this.props;
+     const { user, history, requireVerifiedEmail } = this.props;
      const { logoData } = this.state;
+     this.setState({
+       loading: true,
+     });
+
+     if (!this.AuthService.getProfile().verified) {
+        requireVerifiedEmail({
+          message: 'A valid email is required for this feature',
+          code: 403,
+          type: 'error',
+        });
+
+        this.setState({
+          loading: false,
+        });
+
+        return;
+     }
+
      const formData = new FormData();
      formData.append('uid', user.id);
      formData.append('logo', logoData);
@@ -34,20 +57,28 @@ class GroupsWizard extends React.Component {
         credentials: 'same-origin',
         body: formData,
       })
+      .then(res => this.AuthService.processResponse(res))
       .then((res) => {
-          if (res.code === 200) {
-              console.log(res);
+          const { statusCode, data } = res;
+          if (statusCode === 200) {
+            return history.push(`/dashboard/groups/@${data.name}`);
+          }
+
+          if (statusCode === 403) {
+            return this.AuthService.requireVerifiedEmail(data);
           }
       })
       .catch(err => console.log(err));
    }
 
     render() {
-      const { groupLogo } = this.state;
+      const { groupLogo, loading } = this.state;
+      const { history } = this.props;
         return (
           <div className="section-selected-tab">
             <div className="background" />
             <div className="create-panel">
+              <ReturnArrow history={history} />
               <h1>CREATE YOUR GROUP</h1>
               <div className="create-header">
                 <div className="logo-wrapper">
@@ -82,7 +113,7 @@ class GroupsWizard extends React.Component {
                 <p>Describe what your group is all about. <span>(Max. 150 Characrers)</span></p>
                 <textarea ref={input => this.desc = input} placeholder="Description" />
               </div>
-              <button onClick={this.createGroup} type="button" className="panel-btn">LET'S GO</button>
+              <button onClick={this.createGroup} type="button" className="panel-btn"><Spinner fetchInProgress={loading} defaultRender="LET'S GO" /></button>
             </div>
           </div>
         );

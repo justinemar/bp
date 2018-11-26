@@ -1,16 +1,18 @@
 /* eslint-disable no-param-reassign */
 import React from 'react';
-import Spinner from '../utils/spinner';
+import openSocket from 'socket.io-client';
+import Spinner from '../Shared/Spinner';
+import AuthService from '../utils/authService';
 
+const socket = openSocket('/');
 
-const Errors = ({ errors }) => Object.values(errors).map((val) => {
-    console.log(val);
+const Errors = ({ errors }) => Object.values(errors).map((val, key) => {
         if (val === null || val === undefined) {
-            console.log(val, val === null);
             return null;
         }
             return (
-              <p className="error">
+              // eslint-disable-next-line react/no-array-index-key
+              <p className="error" key={key}>
                 {val}
               </p>);
     });
@@ -33,12 +35,16 @@ class Register extends React.Component {
                 type: null,
             },
             loading: false,
+            email: '',
+            username: '',
         };
+        this.Auth = new AuthService();
     }
 
     register = async (e) => {
         e.preventDefault();
         const { hasError } = this.state;
+        const { history } = this.props;
         this.setState({
             loading: true,
         });
@@ -69,6 +75,14 @@ class Register extends React.Component {
                         type: res.type,
                     },
                     loading: false,
+                }, (okToLogin = res.code) => {
+                    if (okToLogin === 200) {
+                        this.Auth.login(this.email.value, this.password.value)
+                        .then((loginRes) => {
+                            socket.emit('authed', this.Auth.getProfile(loginRes));
+                            history.push('/dashboard');
+                        });
+                    }
                 });
             });
     }
@@ -102,7 +116,6 @@ class Register extends React.Component {
         let displayNameError = displayName;
         let passwordMatch;
         // empty fields error
-        const emptyFieldsError = this.emptyFields();
 
         // Validate values
         switch (e.target) {
@@ -113,6 +126,7 @@ class Register extends React.Component {
                  break;
             }
             case this.email: {
+                this.setState({ email: e.currentTarget.value });
                 const emailValid = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.email.value);
                 emailError = emailValid ? null : 'Invalid email address.';
                 this.toggleClass(emailError, [this.email]);
@@ -127,6 +141,7 @@ class Register extends React.Component {
                    break;
             }
             case this.display_name: {
+                this.setState({ username: e.currentTarget.value });
                 displayNameError = /^[a-zA-Z0-9_]*$/.test(this.display_name.value) ? null : 'Usernames may only contain letters, numbers, and _.';
                 this.toggleClass(displayNameError, [this.display_name]);
                 break;
@@ -138,7 +153,6 @@ class Register extends React.Component {
         this.setState(previousState => ({
             errors: {
                 ...previousState.errors,
-                inputErr: emptyFieldsError.length > 0 ? 'Missing informations!' : null,
                 email: emailError,
                 password: passwordError,
                 passwordConfirm: passwordConfirmError,
@@ -184,14 +198,14 @@ class Register extends React.Component {
                 <Errors errors={errors} />
                 {network.response
                             ? <span className={network.type}>{network.response}</span> : null}
-                <input autoComplete="off" type="email" onChange={this.validateInput} ref={input => this.email = input} name="email" placeholder="Email address" />
-                <input type="text" onChange={this.validateInput} ref={input => this.display_name = input} name="display_name" placeholder="Display name" />
+                <input autoComplete="off" type="email" onChange={this.validateInput} ref={input => this.email = input} name="email" placeholder="Email address" value={this.state.email} />
+                <input type="text" onChange={this.validateInput} ref={input => this.display_name = input} name="display_name" placeholder="Display name" value={this.state.username} />
                 <input type="password" onChange={this.validateInput} ref={input => this.password = input} name="password" placeholder="Password" />
                 <input type="password" onChange={this.validateInput} ref={input => this.password_confirm = input} name="password_confirm" placeholder="Confirm Password" />
               </div>
               <div className="clear-both" />
             </div>
-            <button><Spinner fetchInProgress={loading} defaultRender="Register" /></button>
+            <button id="register"><Spinner fetchInProgress={loading} defaultRender="Register" /></button>
             <h2 onClick={toggleForm}>
               {' '}
               {textNode}
