@@ -18,15 +18,6 @@ import withAuth from '../utils/withAuth';
 import './dashboard.css';
 
 
-const DashBoardDataChange = ({ validation, notification_className }) => (
-  <div className="dashboard-change-notificaiton">
-    <div className={`dashboard-change-content ${notification_className}`}>
-      <FontAwesomeIcon className="change-icon" icon="save" />
-      <h1>{validation.message}</h1>
-    </div>
-  </div>
-    );
-
 const LogoutButton = ({ initLogout }) => (
   <div className="quick-menu-tab scale-up-center tooltip-left">
     <div className="quick-menu-tab-icon">
@@ -173,16 +164,18 @@ class DashBoard extends React.Component {
 
     render() {
         const {
-          notificationClassName, history, location, match, ...prop
+         ...prop
         } = this.props;
         const { quickMenu } = this.state;
         const customProps = {
+          verifyEmail: prop.verifyEmail,
           Auth: this.authUtil,
           timeOut: prop.timeOut,
           dataChange: prop.dataChange,
           user: prop.user,
           initLogout: prop.initLogout,
           validation: prop.validation,
+          requireVerifiedEmail: prop.requireVerifiedEmail,
        };
         return (
           <div className="dashboard-wrapper">
@@ -196,22 +189,18 @@ class DashBoard extends React.Component {
                 toggleQuickTab={this.toggleQuickTab}
               />
             ) : null }
-            <DashBoardDataChange
-              notification_className={notificationClassName}
-              validation={customProps.validation}
-            />
             <div className="dashboard-main-content">
               <DashBoardMenu {...this.props} />
               <DashBoardNotification />
               <Switch>
                 <Route exact path="/dashboard" render={() => <Redirect to="/dashboard/discover" />} />
                 <Route path="/dashboard/discover" render={() => <Discover Auth={this.authUtil} {...this.props} />} />
-                <Route path="/dashboard/setting" render={() => <MenuSetting dataChange={customProps.dataChange} {...this.props} />} />
+                <Route path="/dashboard/setting" render={props => <MenuSetting verifyEmail={customProps.verifyEmail} user={customProps.user} dataChange={customProps.dataChange} {...props} />} />
                 <Route path="/dashboard/feed" render={() => <DashBoardStatusContainer {...this.props} />} />
-                <Route exact path="/dashboard/groups" render={props => <MenuGroups {...customProps} Auth={this.authUtil} {...props} />} />
-                <Route path="/dashboard/groups/create" render={props => <GroupWizard {...customProps} Auth={this.authUtil} {...props} />} />
-                <Route path="/dashboard/groups/:group" render={props => <GroupLounge {...customProps} Auth={this.authUtil} {...props} />} />
-                <Route path="/dashboard/:user_id" render={props => <MenuProfile {...customProps} Auth={this.authUtil} {...props} />} />
+                <Route exact path="/dashboard/groups" render={props => <MenuGroups {...customProps} {...props} />} />
+                <Route path="/dashboard/groups/create" render={props => <GroupWizard {...customProps} {...props} />} />
+                <Route path="/dashboard/groups/:group" render={props => <GroupLounge {...customProps} {...props} />} />
+                <Route path="/dashboard/:user_id" render={props => <MenuProfile {...customProps} {...props} />} />
               </Switch>
             </div>
           </div>
