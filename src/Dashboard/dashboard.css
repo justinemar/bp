@@ -290,8 +290,26 @@ color: #fff;
     z-index: 99;
 }
 
+.dashboard-verifyEmail{
+    background: #2f3541e0;
+    text-align: center;
+    color: white;
+    font-size: 20px;
+}
+
 .dashboard-timeout-content{
     margin: 130px;
+}
+
+.dashboard-verifyEmail-content {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.dashboard-verifyEmail-content h1 {
+    font-size: 20px;
 }
 
 .dashboard-timeout-content button{
@@ -301,6 +319,14 @@ color: #fff;
     color: white;
     background: #3F95FF;
     border-radius: 5px;
+}
+
+.dashboard-verifyEmail-content button {
+    padding: 10px;
+    border: 0;
+    background: #3f95ff;
+    color: white;
+    margin: 10px;
 }
 
 .dashboard-opt{
@@ -439,7 +465,7 @@ color: #fff;
 }
 
 .comment-user-image{
-    width: 44px;
+    width: 35px;
     height: 35px;
     margin-right: 10px;
     margin-top: 5px;
