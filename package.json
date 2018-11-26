@@ -6,7 +6,6 @@
   "scripts": {
     "nodemon": "nodemon server/server.js",
     "start": "node server/server.js",
-    "concurrently": "concurrently \"npm run nodemon\" \"npm run dev\" ",
     "dev": "webpack --watch --config webpack.config.js --mode development",
     "build": "webpack --config webpack.config.js --mode production",
     "postinstall": "npm run build",
@@ -14,7 +13,8 @@
   },
   "keywords": [],
   "engines": {
-    "node": "^6.11.2"
+    "node": "^6.11.2",
+    "npm": "4.2.0" 
   },
   "author": "",
   "license": "ISC",
