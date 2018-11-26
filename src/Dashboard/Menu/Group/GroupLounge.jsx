@@ -4,9 +4,10 @@ import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import openSocket from 'socket.io-client';
 import { Link } from 'react-router-dom';
-import LoungePlaceHolder from '../../LoadingPlaceholder/LoungePlaceHolder';
-import PostForm from '../../PostForm';
+import LoungePlaceHolder from '../../LoadingPlaceholders/LoungePlaceHolder';
+import PostForm from '../../../Shared/PostForm';
 import AuthService from '../../../utils/authService';
+import ReturnArrow from '../../../Shared/ReturnArrow';
 
 const socket = openSocket('/');
 
@@ -132,10 +133,7 @@ class GroupLounge extends React.Component {
       const loungeActive = loungeData && loungeData !== null ? (
         <div className="group-lounge">
           <div className="group-lounge-info">
-            <label htmlFor="return" className="return-label">
-              <FontAwesomeIcon icon="angle-double-left" className="return" />
-            </label>
-            <input onClick={() => history.goBack()} type="button" id="return" className="opt-none" />
+            <ReturnArrow history={history} />
             <div className="group-lounge-logo">
               <div className="logo" style={{ backgroundImage: `url(${loungeData.logo})` }} />
               <h1>{loungeData.name}</h1>
