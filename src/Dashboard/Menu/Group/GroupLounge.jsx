@@ -4,10 +4,12 @@ import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import openSocket from 'socket.io-client';
 import { Link } from 'react-router-dom';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import LoungePlaceHolder from '../../LoadingPlaceholders/LoungePlaceHolder';
 import PostForm from '../../../Shared/PostForm';
 import AuthService from '../../../utils/authService';
 import ReturnArrow from '../../../Shared/ReturnArrow';
+import Spinner from '../../../Shared/Spinner';
 
 const socket = openSocket('/');
 
@@ -17,12 +19,19 @@ class GroupLounge extends React.Component {
       this.state = {
         loungeData: null,
         ImagesData: [],
+        loading: false,
+        groupPosts: [],
+        more: true,
       };
       this.Auth = new AuthService();
       this.requestController = new AbortController();
     }
 
     componentDidMount() {
+      this.getGroup();
+    }
+
+    getGroup = () => {
       const { match: { params } } = this.props;
       const { loungeData } = this.state;
 
@@ -38,7 +47,32 @@ class GroupLounge extends React.Component {
         }, () => this.subscribeEvents());
 
         if (loungeData !== null) return res;
+      })
+      .then(() => {
+        this.getPosts();
       });
+    }
+
+    getPosts = () => {
+      const { groupPosts, loungeData } = this.state;
+      const { Auth, timeOut } = this.props;
+
+       Auth.fetch(`/groups/${loungeData._id}/wall?page=${groupPosts.length}&limit=4`, {
+          method: 'GET',
+          credentials: 'same-origin',
+          signal: this.requestController.signal,
+        })
+        .then((res) => {
+          if (res.code === 401) {
+            timeOut(res);
+            return;
+          }
+
+          this.setState({
+            groupPosts: [...groupPosts, ...res.data],
+          });
+        })
+        .catch(err => console.log(err));
     }
 
     subscribeEvents = () => {
@@ -68,6 +102,9 @@ class GroupLounge extends React.Component {
       e.preventDefault();
       const { ImagesData, loungeData } = this.state;
       const { timeOut } = this.props;
+      this.setState({
+        loading: true,
+      });
       const formData = new FormData();
       formData.append('description', this.status.value);
       formData.append('id', this.Auth.getProfile().id);
@@ -84,8 +121,9 @@ class GroupLounge extends React.Component {
               if (res.code === 401) {
                   return timeOut(res);
               }
-              // socket.emit('statusInit', res.data);
-              // socket.emit('notification', res.data);
+              this.setState({
+                loading: false,
+              });
           })
           .catch(err => console.log(err));
     }
@@ -110,7 +148,9 @@ class GroupLounge extends React.Component {
     }
 
     render() {
-      const { loungeData } = this.state;
+      const {
+ loungeData, loading, groupPosts, more,
+} = this.state;
       const { user, history } = this.props;
       const members = loungeData && loungeData !== null ? loungeData.members.map(member => (
         <div className="user-info slide-in-fwd-center">
@@ -145,9 +185,10 @@ class GroupLounge extends React.Component {
               </div>
             </div>
           </div>
-          <div className="group-wall">
+          <div className="group-wall" id="scrollable">
             {/* undecided contents */}
             <PostForm
+              loading={loading}
               user={user}
               status={i => this.status = i}
               imageUpload={i => this.imageUpload = i}
@@ -156,17 +197,17 @@ class GroupLounge extends React.Component {
               addImageData={this.addImageData}
             />
             <div className="group-posts">
-              <div className="group-post scale-up-center group-pinned">
-                <div className="user-icon" style={{ backgroundImage: `url(${loungeData.logo})` }} />
-                <div className="group-post-details">
-                  <h3>{loungeData.name}</h3>
-                  <span className="light">PINNED POST</span>
-                </div>
-                <div className="group-post-content">
-                  <span>{loungeData.description}</span>
-                  <span className="light" id="timestamp">15 minutes ago</span>
-                </div>
-              </div>
+              <InfiniteScroll
+                dataLength={groupPosts.length}
+                next={this.getPosts}
+                hasMore={more}
+                loader={<Spinner fetchInProgress={more} defaultRender="End of Results" />}
+                scrollableTarget="scrollable"
+              >
+                {groupPosts.map(post => (
+                  <GroupPosts post={post} />
+                ))}
+              </InfiniteScroll>
             </div>
           </div>
         </div>
@@ -179,5 +220,19 @@ class GroupLounge extends React.Component {
     }
 }
 
+
+const GroupPosts = ({ post }) => (
+  <div className="group-post scale-up-center group-pinned">
+    <div className="user-icon" style={{ backgroundImage: `url(${post.post_by.photo_url})` }} />
+    <div className="group-post-details">
+      <h3>{post.post_by.display_name}</h3>
+      <span className="light">PINNED POST</span>
+    </div>
+    <div className="group-post-content">
+      <span>{post.post_description}</span>
+      <span className="light" id="timestamp">15 minutes ago</span>
+    </div>
+  </div>
+  );
 
 export default GroupLounge;
