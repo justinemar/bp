@@ -23,6 +23,7 @@ class Login extends React.Component {
 
     login = (e) => {
         e.preventDefault();
+
         this.setState({
             loading: true,
         });
@@ -34,47 +35,21 @@ class Login extends React.Component {
             .catch((err) => {
                 this.setState({
                     validation: {
-                        response: err.message,
-                        type: err.type,
+                        response: 'Something went wrong..',
+                        type: 'error',
                         code: err.code,
+                        err,
                     },
                     loading: false,
                 });
             });
     }
 
-    sendVerification = () => {
-        this.setState({
-            loading: true,
-        });
-         this.Auth.verifyEmail(this.email.value)
-        .then((res) => {
-            this.setState({
-                validation: {
-                    response: res.message,
-                    type: res.type,
-                    code: res.code,
-               },
-               loading: false,
-            });
-        })
-        .catch((err) => {
-            this.setState({
-                validation: {
-                    response: err.message,
-                    type: err.type,
-                    code: err.code,
-                },
-                loading: false,
-            });
-        });
-    }
-
     render() {
         const { toggleForm, textNode } = this.props;
         const { validation, loading } = this.state;
         return (
-          <form onSubmit={this.login}>
+          <form onSubmit={this.login} autoComplete="on">
             <div className="root-form-actions">
               <div className="root-form-header">
                 <h2> Login </h2>
@@ -86,11 +61,9 @@ class Login extends React.Component {
               </div>
               <div className="clear-both" />
             </div>
-            <button><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
+            <button disabled={!this.state.email}><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
             <h2 onClick={toggleForm}>
-              {' '}
               {textNode}
-              {' '}
             </h2>
           </form>
         );

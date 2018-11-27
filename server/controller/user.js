@@ -46,19 +46,25 @@ module.exports = {
                     if (err) throw err;
 
                     if (match) {
-                        res.json({
+                        return res.json({
                             message: 'Login successfully',
                             type: 'success',
                             code: 200,
                             token: AccountHelper.setToken(payload),
                         });
                     } else {
-                        res.json({
+                        return res.json({
                             message: 'Invalid email or password',
                             type: 'error',
                             code: 403,
                         });
                     }
+                });
+            } else {
+                return res.json({
+                    message: 'why u do that?',
+                    type: 'error',
+                    code: 501,
                 });
             }
         });
