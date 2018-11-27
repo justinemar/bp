@@ -16,6 +16,8 @@ class Login extends React.Component {
                 code: '',
             },
             loading: false,
+            email: null,
+            password: null,
         };
         this.Auth = new AuthService();
     }
@@ -35,19 +37,32 @@ class Login extends React.Component {
             .catch((err) => {
                 this.setState({
                     validation: {
-                        response: 'Something went wrong..',
-                        type: 'error',
+                        response: err.message,
+                        type: err.type,
                         code: err.code,
-                        err,
                     },
                     loading: false,
                 });
             });
     }
 
+    handleEmailChange = (e) => {
+        this.setState({
+            email: e.currentTarget.value,
+        });
+    }
+
+    handlePasswordChange = (e) => {
+        this.setState({
+            password: e.currentTarget.value,
+        });
+    }
+
     render() {
         const { toggleForm, textNode } = this.props;
-        const { validation, loading } = this.state;
+        const {
+            validation, loading, email, password,
+        } = this.state;
         return (
           <form onSubmit={this.login} autoComplete="on">
             <div className="root-form-actions">
@@ -56,12 +71,12 @@ class Login extends React.Component {
               </div>
               <div className="root-form-inputs">
                 <span className={validation.type}>{validation.response}</span>
-                <input type="email" ref={input => this.email = input} name="email" placeholder="Email address" />
-                <input type="password" ref={input => this.password = input} name="password" placeholder="Password" />
+                <input onChange={this.handleEmailChange} type="email" ref={input => this.email = input} name="email" placeholder="Email address" value={email} />
+                <input onChange={this.handlePasswordChange} type="password" ref={input => this.password = input} name="password" placeholder="Password" value={password} />
               </div>
               <div className="clear-both" />
             </div>
-            <button disabled={!this.state.email}><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
+            <button disabled={!email}><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
             <h2 onClick={toggleForm}>
               {textNode}
             </h2>
