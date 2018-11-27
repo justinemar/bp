@@ -94,7 +94,7 @@ module.exports = {
         (req, res) => {
             const page = parseInt(req.query.page, 10);
             const limit = parseInt(req.query.limit, 10);
-            Post.find({}).sort({ post_date: -1 }).skip(page).limit(limit)
+            Post.find({ group_id: { $exists: false } }).sort({ post_date: -1 }).skip(page).limit(limit)
                 .populate({ path: 'post_by', select: ['display_name', 'photo_url'] })
                 .populate({ path: 'post_comments.comment_from', select: 'photo_url display_name' })
                 .populate({ path: 'post_img', select: 'imageArray' })
@@ -177,5 +177,23 @@ module.exports = {
                     message: 'Success', type: 'success', code: 200, data: post,
                 });
             });
+    },
+
+    getGroupPosts: (req, res) => {
+        const wallID = req.params.group;
+        const page = parseInt(req.query.page, 10);
+        const limit = parseInt(req.query.limit, 10);
+        Post.find({ group_id: { $exists: true, $eq: wallID } }).sort({ post_date: -1 }).skip(page).limit(limit)
+        .populate({ path: 'post_by', select: ['display_name', 'photo_url'] })
+        .populate({ path: 'post_comments.comment_from', select: 'photo_url display_name' })
+        .populate({ path: 'post_img', select: 'imageArray' })
+        .exec((err, post) => {
+            if (err) {
+                return res.status(500).json({ message: 'Internal Server Error', type: 'error' });
+            }
+            res.json({
+                message: 'Success', type: 'success', code: 200, data: post,
+            });
+        });
     },
 };
