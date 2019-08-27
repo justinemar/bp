@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const EmailTemplate = require('email-templates').EmailTemplate;
+const { EmailTemplate } = require('email-templates');
 
 const multer = require('multer');
 const AccountHelper = require('../helpers');
