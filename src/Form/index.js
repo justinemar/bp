@@ -4,8 +4,8 @@ import Register from './Register';
 import AuthService from '../utils/authService';
 
 export default class Form extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             defaultForm: true,
             formTextNode: 'Already have an account?',
@@ -15,18 +15,17 @@ export default class Form extends Component {
 
 
     componentDidMount() {
-        if (this.Auth.loggedIn()) {this.props.history.push('/dashboard')};
+    if (this.Auth.loggedIn())
+       {this.props.history.push('/dashboard')};
     }
 
     toggleForm = () => {
-        const state = this.state.defaultForm
-            ? { switchFromDefault: false, text: "Don't have an account?" }
-            : { switchFromDefault: true, text: 'Already have an account?' };
-
-        this.setState({
-            defaultForm: state.switchFromDefault,
-            formTextNode: state.text,
-        });
+       const state = this.state.defaultForm ? { regis: false, text: "Don't have an account?" } : { regis: true, text: 'Already have an account?' };
+       console.log(state);
+       this.setState({
+           defaultForm: state.regis,
+           formTextNode: state.text,
+       });
     }
 
     render() {
@@ -34,9 +33,9 @@ export default class Form extends Component {
         const { defaultForm, formTextNode } = this.state;
         return (
           <div>
-              {defaultForm
+              { defaultForm
                     ? <Register history={history} textNode={formTextNode} toggleForm={this.toggleForm} />
-                    : <Login history={history} textNode={formTextNode} toggleForm={this.toggleForm} />
+                        : <Login history={history} textNode={formTextNode} toggleForm={this.toggleForm} />
                 }
             </div>
 
