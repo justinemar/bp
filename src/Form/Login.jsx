@@ -16,6 +16,8 @@ class Login extends React.Component {
                 code: '',
             },
             loading: false,
+            email: null,
+            password: null,
         };
         this.Auth = new AuthService();
     }
@@ -23,6 +25,7 @@ class Login extends React.Component {
 
     login = (e) => {
         e.preventDefault();
+
         this.setState({
             loading: true,
         });
@@ -43,54 +46,39 @@ class Login extends React.Component {
             });
     }
 
-    sendVerification = () => {
+    handleEmailChange = (e) => {
         this.setState({
-            loading: true,
+            email: e.currentTarget.value,
         });
-         this.Auth.verifyEmail(this.email.value)
-        .then((res) => {
-            this.setState({
-                validation: {
-                    response: res.message,
-                    type: res.type,
-                    code: res.code,
-               },
-               loading: false,
-            });
-        })
-        .catch((err) => {
-            this.setState({
-                validation: {
-                    response: err.message,
-                    type: err.type,
-                    code: err.code,
-                },
-                loading: false,
-            });
+    }
+
+    handlePasswordChange = (e) => {
+        this.setState({
+            password: e.currentTarget.value,
         });
     }
 
     render() {
         const { toggleForm, textNode } = this.props;
-        const { validation, loading } = this.state;
+        const {
+            validation, loading, email, password,
+        } = this.state;
         return (
-          <form onSubmit={this.login}>
+          <form onSubmit={this.login} autoComplete="on">
             <div className="root-form-actions">
               <div className="root-form-header">
                 <h2> Login </h2>
               </div>
               <div className="root-form-inputs">
                 <span className={validation.type}>{validation.response}</span>
-                <input type="email" ref={input => this.email = input} name="email" placeholder="Email address" />
-                <input type="password" ref={input => this.password = input} name="password" placeholder="Password" />
+                <input onChange={this.handleEmailChange} type="email" ref={input => this.email = input} name="email" placeholder="Email address" value={email} />
+                <input onChange={this.handlePasswordChange} type="password" ref={input => this.password = input} name="password" placeholder="Password" value={password} />
               </div>
               <div className="clear-both" />
             </div>
-            <button><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
+            <button disabled={!email}><Spinner fetchInProgress={loading} defaultRender="Login" /></button>
             <h2 onClick={toggleForm}>
-              {' '}
               {textNode}
-              {' '}
             </h2>
           </form>
         );

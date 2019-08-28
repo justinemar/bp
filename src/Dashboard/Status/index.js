@@ -12,6 +12,7 @@ class DashBoardStatusContainer extends React.Component {
         super(props);
         this.state = {
             ImagesData: [],
+            loading: false,
         };
         this.Auth = new AuthService();
         this.requestController = new AbortController();
@@ -25,6 +26,9 @@ class DashBoardStatusContainer extends React.Component {
         e.preventDefault();
         const { ImagesData } = this.state;
         const { timeOut } = this.props;
+        this.setState({
+            loading: true,
+        });
         const formData = new FormData();
         formData.append('description', this.status.value);
         formData.append('user', this.Auth.getProfile().displayName);
@@ -45,6 +49,9 @@ class DashBoardStatusContainer extends React.Component {
                 }
                 socket.emit('statusInit', res.data);
                 socket.emit('notification', res.data);
+                this.setState({
+                    loading: false,
+                });
             })
             .catch(err => console.log(err));
     }
@@ -69,10 +76,12 @@ class DashBoardStatusContainer extends React.Component {
 
     render() {
         const { user, recentUpdates, validate } = this.props;
+        const { loading } = this.state;
         return (
           <div className="section-selected-tab" id="scrollable">
             <div className="dashboard-post-status-main">
               <PostForm
+                loading={loading}
                 user={user}
                 status={i => this.status = i}
                 imageUpload={i => this.imageUpload = i}

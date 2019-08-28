@@ -2,7 +2,7 @@
 
 import React from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-
+import Spinner from './Spinner';
 
 const FilePreview = ({ previewImages, removePreview }) => {
     if (previewImages.length > 0) {
@@ -56,7 +56,7 @@ class PostForm extends React.Component {
     }
 
     render() {
-        const { user, ...formRefs } = this.props;
+        const { user, loading, ...formRefs } = this.props;
         const { previewImages } = this.state;
         return (
           <form onSubmit={formRefs.submitPost} method="post">
@@ -103,7 +103,9 @@ class PostForm extends React.Component {
                 </div>
                 <div className="dashboard-opt">
                   <label htmlFor="opt-submit" className="opt-cta">
-                    <div id="opt-share" className="dashboard-icon dashboard-opt-icon">Share</div>
+                    <div id="opt-share" className="dashboard-icon dashboard-opt-icon">
+                      <Spinner fetchInProgress={loading} defaultRender="Share" />
+                    </div>
                   </label>
                   <input className="opt-none" id="opt-submit" type="submit" />
                 </div>

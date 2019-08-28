@@ -19,17 +19,12 @@ module.exports = {
         const email = req.params.email ? req.params.email : req.body.email;
         const verificationToken = AccountHelper.setToken({ email });
         const transporter = nodemailer.createTransport({
+            service: 'gmail',
             host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
             auth: {
-                type: 'OAuth2',
-                user: process.env.EMAIL,
-                clientId: process.env.OauthClientID,
-                clientSecret: process.env.OauthClientSecret,
-                refreshToken: process.env.refreshToken,
-                accessToken: process.env.accessToken,
-            },
+              user: process.env.EMAIL,
+              pass: process.env.PASSWORD
+            }
         });
 
         res.render('verification', {
