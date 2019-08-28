@@ -9,7 +9,7 @@ module.exports = {
                 console.log(err);
             }
 
-            if (photo && photo[0].imageArray) {
+            if (photo) {
                 return res.status(200).json({
                         data: photo,
                         code: 200,
