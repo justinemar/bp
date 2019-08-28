@@ -44,3 +44,11 @@
     font-family: 'Segoe UI';
     font-weight: 600;
 }
+
+
+.dashboard-notification-title button{
+    padding: 4px;
+    border: 0;
+    color: #3f95ff;
+    background: #2f3541;
+}
