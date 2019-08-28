@@ -198,6 +198,17 @@ li input{
     flex-direction: column-reverse;
 }
 
+.news-box ul li{
+    background: #fdfdfd;
+    height: 20px;
+    width: 20px;
+    border-radius: 100px;
+    border: 1px solid #2b303b;
+    cursor: pointer;
+    margin: 13px;
+    list-style: none;
+
+}
 
 .news-img-cover{
     position: absolute;
