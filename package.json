@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "nodemon": "nodemon server/server.js",
-    "start": "node server/server.js",
+    "start": "nodemon server/server.js",
     "concurrently": "concurrently \"npm run nodemon\" \"npm run dev\" ",
     "dev": "webpack --watch --config webpack.config.js --mode development",
     "build": "webpack --config webpack.config.js --mode production",

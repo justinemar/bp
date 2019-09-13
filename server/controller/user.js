@@ -28,12 +28,15 @@ module.exports = {
     },
 
     login: (req, res) => {
+        console.log(req.body.email);
+
         Account.findOne({ user_email: req.body.email })
         .select('+password')
         .exec((err, user) => {
             if (err) throw err;
 
             if (user) {
+                console.log(user, req.body.email);
                 const payload = {
                     displayName: user.display_name,
                     id: user._id,
@@ -61,10 +64,11 @@ module.exports = {
                     }
                 });
             } else {
+                // No user is found
                 return res.json({
-                    message: 'why u do that?',
+                    message: 'Invalid email or password',
                     type: 'error',
-                    code: 501,
+                    code: 403,
                 });
             }
         });
@@ -145,7 +149,7 @@ module.exports = {
         const uri = new DataUri();
         const asyncUpload = [];
         for (const key in req.files) {
-          const buffer = req.files[key][0].buffer;
+          const { buffer } = req.files[key][0];
           uri.format('.png', buffer);
           const uriContent = uri.content;
           const ref = key;
