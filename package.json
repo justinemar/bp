@@ -60,7 +60,7 @@
     "@fortawesome/fontawesome-free-brands": "^5.0.9",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
     "@fortawesome/react-fontawesome": "0.0.18",
-    "bcrypt": "^1.0.3",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.18.2",
     "cloudinary": "^1.11.0",
     "concurrently": "^4.1.0",
